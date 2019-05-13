@@ -23,3 +23,15 @@ $ npm start
 # generate static project
 $ npm run generate
 ```
+
+### 環境変数
+設定が必要な環境変数は `.envrc_sample` を参照してください。
+
+direnv を利用して環境変数を設定する場合は [こちら](https://github.com/direnv/direnv "direnv") 
+を参照してインストールしてください。
+
+`.envrc`は
+```bash
+cp .envrc_sample .envrv
+```
+としてファイルをcopyし `.envrv` の内容を編集してください。
