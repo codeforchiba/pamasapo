@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 
 export const search = gql`
   query {
-    search {
+    search(limit:50) {
       items {
         id
         name
@@ -14,7 +14,9 @@ export const search = gql`
         address
         nursery {
           facility {
+            ownership
             nurseryType
+            nurserySubType
             openingTime
             closingTime
             hasParkingLot
