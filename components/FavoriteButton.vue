@@ -1,29 +1,45 @@
 <template>
-  <v-btn color="amber" v-if="can_favorited()" @click="add_favorite">
+  <v-btn
+    v-if="canFavorited"
+    color="amber"
+    @click="addFavorite"
+  >
     <v-icon>favorite</v-icon>
     お気に入りに追加
   </v-btn>
-  <v-btn color="" v-else @click="remove_favorite">
+  <v-btn
+    v-else
+    color=""
+    @click="removeFavorite"
+  >
     <v-icon>favorite</v-icon>
     お気に入りから削除
   </v-btn>
 </template>
+
 <script>
-  export default {
-    name: 'FavoriteButton',
-    props: {
-      id: {type: String, required: true},
+export default {
+  props: {
+    id: {
+      type: String,
+      required: true
     },
-    methods: {
-      can_favorited: function () {
-        return !(this.$store.state.favorite.items.includes(this.id))
-      },
-      add_favorite: function () {
-        this.$store.commit('favorite/add', this.id)
-      },
-      remove_favorite: function () {
-        this.$store.commit('favorite/remove', this.id)
-      }
+  },
+
+  computed: {
+    canFavorited() {
+      return !(this.$store.state.favorite.items.includes(this.id))
     },
-  }
+  },
+
+  methods: {
+    addFavorite() {
+      this.$store.commit('favorite/add', this.id)
+    },
+
+    removeFavorite() {
+      this.$store.commit('favorite/remove', this.id)
+    }
+  },
+}
 </script>

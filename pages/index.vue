@@ -1,16 +1,26 @@
 <template>
   <div class="home-view">
     <v-toolbar dense>
-      <a href="/" class="d-flex ml-2 router-link-active">
-        <img src="logo.png" width="220px" height="32px">
+      <a
+        href="/"
+        class="d-flex ml-2 router-link-active"
+      >
+        <img
+          src="logo.png"
+          width="220px"
+          height="32px"
+        >
       </a>
       <v-text-field
         v-model="searchKeyword"
         type="text"
         name="input-10-1"
         placeholder="住所検索..."
-      ></v-text-field>
-      <v-btn flat v-on:click=keywordSearch()>
+      />
+      <v-btn
+        flat
+        @click="keywordSearch()"
+      >
         <v-icon>search</v-icon>
       </v-btn>
     </v-toolbar>

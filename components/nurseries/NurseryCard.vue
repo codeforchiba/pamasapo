@@ -8,8 +8,10 @@
     ></v-img>
       <span class="subtitle-1">【{{item.nursery.facility.ownership}}:{{item.nursery.facility.nurseryType}}】</span>
     <v-card-title>
-      {{item.name}}
-      <span class="subtitle-1">({{ item.kana }})</span>
+      {{ item.name }}
+      <span class="subtitle-1">
+        ({{ item.kana }})
+      </span>
     </v-card-title>
     <v-card-text>
       <span>住所　{{ item.postalCode + item.prefecture + item.city + item.ward + item.address }}</span><br>
@@ -23,14 +25,16 @@
       <span>24時間({{ item.nursery.service.h24CareService | maru_batsu}})</span><br>
     </v-card-text>
     <v-card-actions>
-      <v-btn :to="{ name: 'nurseries-id', params: { id: item.id }}">詳細表示</v-btn>
-      <FavoriteButton :id="item.id" />
+      <v-btn :to="{ name: 'nurseries-id', params: { id: item.id }}">
+        詳細表示
+      </v-btn>
+      <favorite-button :id="item.id" />
     </v-card-actions>
   </v-card>
 </template>
 <script>
-    import DefaultImage from "~/assets/image.png"
-  import FavoriteButton from "~/components/FavoriteButton"
+import DefaultImage from "~/assets/image.png"
+import FavoriteButton from "~/components/FavoriteButton"
 
   export default {
     name: 'NurseryCard',
@@ -52,5 +56,12 @@
     props: {
       item: {}
     }
-  }
+  },
+
+  data() {
+    return {
+      default_image: DefaultImage
+    }
+  },
+}
 </script>

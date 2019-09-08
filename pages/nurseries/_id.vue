@@ -1,35 +1,42 @@
 <template>
   <div>
-    <NursriesDetail v-if="item" :item="item" :accessToken="accessToken" />
-    <p v-else>保育園のデータが取得できませんでした。</p>
+    <nursery-detail
+      v-if="item"
+      :item="item"
+      :access-token="accessToken"
+    />
+    <p v-else>
+      保育園のデータが取得できませんでした。
+    </p>
   </div>
 </template>
 
 <script>
-  import * as queries from '~/graphql/queries/get'
-  import NursriesDetail from "~/components/nurseries/NursriesDetail";
+import * as queries from '~/graphql/queries/get'
+import NurseryDetail from '~/components/nurseries/NurseryDetail'
 
-  export default {
-    name: "nurseries_id",
-    components: {NursriesDetail},
-    async asyncData({app, params, env}) {
-      const client = app.$apiClient
+export default {
+  components: {
+    NurseryDetail
+  },
 
-      const promise = client.query({
-        query: queries.get,
-        variables: {id: params.id}
-      })
+  async asyncData({app, params, env}) {
+    const client = app.$apiClient
 
-      const get_data = await promise.then((data) => {
-        return data.data.get
-      })
+    const promise = client.query({
+      query: queries.get,
+      variables: {id: params.id}
+    })
 
-      return {
-        accessToken: env.mapbox.accessToken,
-        item: get_data
-      }
-    },
-  }
+    const get_data = await promise.then((data) => {
+      return data.data.get
+    })
 
+    return {
+      accessToken: env.mapbox.accessToken,
+      item: get_data
+    }
+  },
+}
 </script>
 

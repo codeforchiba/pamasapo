@@ -54,7 +54,7 @@ module.exports = {
       config.module.noParse = /(mapbox-gl)\.js$/
     }
   },
-  devModules: [
+  buildModules: [
     '@nuxtjs/vuetify'
   ],
   env:{
