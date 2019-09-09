@@ -60,7 +60,7 @@
       wrap
     >
       <v-flex
-        v-for="item in centers"
+        v-for="item in filtered_centers"
         :key="item.name"
         xs12
       >
