@@ -68,5 +68,8 @@ module.exports = {
         apiKey: process.env.APPSYNC_API_KEY
       }
     },
+    recent: {
+      limitLength:5
+    },
   },
 }

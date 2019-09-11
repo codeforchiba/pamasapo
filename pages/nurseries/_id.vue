@@ -36,6 +36,8 @@ export default {
       accessToken: env.mapbox.accessToken,
       item: get_data
     }
+  },mounted: function() {
+      this.$store.commit("recent/add", this.$data.item["id"]);
   },
 }
 </script>
