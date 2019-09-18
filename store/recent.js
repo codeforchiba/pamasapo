@@ -1,7 +1,8 @@
+const limitLength = process.env.recent.limitLength;
 
 export const state = () => ({
   items: [],
-  limitLength: 5// context.env.recent.limitLength
+  limitLength: limitLength
 })
 
 export const getters = {

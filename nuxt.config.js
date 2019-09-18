@@ -69,7 +69,7 @@ module.exports = {
       }
     },
     recent: {
-      limitLength:5
+      limitLength: 5
     },
   },
 }
