@@ -32,6 +32,7 @@ export const getters = {
 
 export const mutations = {
   add(state, id) {
+    state.items = state.items.filter((item) => { return item.id != id})
     state.items.unshift({ id: id, timestamp: new Date() })
     state.items = state.items.slice(0, state.limitLength)
   },
