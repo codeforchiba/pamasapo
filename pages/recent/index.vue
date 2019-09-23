@@ -10,47 +10,30 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import NurseryCard from "~/components/nurseries/NurseryCard.vue";
+import { mapGetters} from "vuex"
+import NurseryCard from "~/components/nurseries/NurseryCard.vue"
 
 export default {
   components: { NurseryCard },
   data() {
-    return {};
+    return {}
   },
 
   computed: {
     ...mapGetters({
-      nursery_filter_items: "nursery/filter_items",
+      recent_filter_items: "recent/filter_items",
       recent_items: "recent/items",
     })
   },
 
   methods: {
     recent_nursery_items: function() {
-      const items = this.recent_items;
-      const ids = [];
-      items.forEach(function(item) {
-        ids.push(item.id);
-      });
-      const ns = this.nursery_filter_items(ids);
-      const ns_hash = {};
-      ns.forEach((nursery) =>  {
-        ns_hash[nursery.id] = nursery;
-      })
-
-      const nurseries = [];
-      items.forEach(function(item) {
-        let d = new Date(item.timestamp)
-        nurseries.push({item: ns_hash[item.id],timestamp: `${d.toLocaleDateString()} ${`${d.getHours()}時${d.getMinutes()}分`}`});
-      });
-
-      return nurseries;
+      return this.recent_filter_items(this.recent_items);
     }
   },
 
   async fetch({ store }) {
-    await store.dispatch("nursery/search");
+    await store.dispatch("nursery/search")
   }
-};
+}
 </script>
