@@ -21,19 +21,14 @@ export default {
 
   computed: {
     ...mapGetters({
-      recent_filter_items: "recent/filter_items",
-      recent_items: "recent/items",
+      recent_items: "recent/recent_items"
     })
   },
 
   methods: {
     recent_nursery_items: function() {
-      return this.recent_filter_items(this.recent_items);
+      return this.recent_items();
     }
   },
-
-  async fetch({ store }) {
-    await store.dispatch("nursery/search")
-  }
 }
 </script>
