@@ -2,21 +2,34 @@ import gql from 'graphql-tag'
 
 export const search = gql`
   query {
-    search {
+    search(limit:50) {
       items {
         id
-		    name
+        name
         kana
-		    postalCode
+        postalCode
         prefecture
         city
         ward
         address
         nursery {
           facility {
-    	      openingTime
-    	    }
-      	} 
+            ownership
+            nurseryType
+            nurserySubType
+            openingTime
+            closingTime
+            hasParkingLot
+            numberOfParkingLot
+          }
+          service{
+            temporaryCareService
+            spotCareService
+            extendedCareService
+            nightCareService
+            h24CareService
+          }
+        } 
       }
     }
   }
