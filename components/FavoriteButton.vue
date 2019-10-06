@@ -1,17 +1,9 @@
 <template>
-  <v-btn
-    v-if="canFavorited"
-    color="amber"
-    @click="addFavorite"
-  >
+  <v-btn v-if="canFavorited" color="amber" @click="addFavorite">
     <v-icon>favorite</v-icon>
     お気に入りに追加
   </v-btn>
-  <v-btn
-    v-else
-    color=""
-    @click="removeFavorite"
-  >
+  <v-btn v-else color="" @click="removeFavorite">
     <v-icon>favorite</v-icon>
     お気に入りから削除
   </v-btn>
@@ -23,23 +15,23 @@ export default {
     id: {
       type: String,
       required: true
-    },
+    }
   },
 
   computed: {
     canFavorited() {
-      return !(this.$store.state.favorite.items.includes(this.id))
-    },
+      return !this.$store.state.favorite.items.includes(this.id);
+    }
   },
 
   methods: {
     addFavorite() {
-      this.$store.commit('favorite/add', this.id)
+      this.$store.commit("favorite/add", this.id);
     },
 
     removeFavorite() {
-      this.$store.commit('favorite/remove', this.id)
+      this.$store.commit("favorite/remove", this.id);
     }
-  },
-}
+  }
+};
 </script>

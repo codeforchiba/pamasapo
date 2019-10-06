@@ -1,8 +1,8 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 export const search = gql`
   query {
-    search(limit:50) {
+    search(limit: 50) {
       items {
         id
         name
@@ -22,15 +22,15 @@ export const search = gql`
             hasParkingLot
             numberOfParkingLot
           }
-          service{
+          service {
             temporaryCareService
             spotCareService
             extendedCareService
             nightCareService
             h24CareService
           }
-        } 
+        }
       }
     }
   }
-`
+`;

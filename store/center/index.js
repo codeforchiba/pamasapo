@@ -1,11 +1,9 @@
 export const state = () => ({
   items: [],
+  filters: {
+    nurseryTypes: [],
+    ownerships: []
+  },
   error: undefined,
   loading: false
-})
-
-export const getters = {
-  items: state => {
-    return state.items
-  }
-}
+});
