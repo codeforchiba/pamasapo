@@ -25,7 +25,7 @@
     "vuex-persistedstate": "2.5.4"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "1.6.3",
+    "@nuxtjs/vuetify": "1.9.0",
     "babel-eslint": "10.0.3",
     "eslint": "6.5.1",
     "eslint-config-prettier": "6.4.0",
