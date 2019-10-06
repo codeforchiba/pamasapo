@@ -11,6 +11,8 @@ export const getters = {
   items: state => {
     return state.items;
   },
+  // store.dispatch('nursery/search')を呼んだあとでないと使えない。
+  // TOOD: 一覧データの取得方式を考える
   filter_items: state => ids => {
     // idsでフィルタをかける
     return state.items.filter(item => ids.includes(item.id));
