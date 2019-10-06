@@ -1,5 +1,7 @@
 const webpack = require('webpack')
 
+const title = 'ちば保育園マップ powered by Code for Chiba'
+
 module.exports = {
   mode: 'spa',
 
@@ -7,7 +9,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'papamama2',
+    title: title,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
