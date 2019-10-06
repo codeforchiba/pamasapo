@@ -35,6 +35,6 @@ export default {
   },
   mounted: function() {
     this.$store.commit("recent/add", this.$data.item["id"]);
-  },
+  }
 };
 </script>
