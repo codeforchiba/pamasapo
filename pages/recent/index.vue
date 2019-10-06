@@ -25,6 +25,10 @@ export default {
     })
   },
 
+    async fetch({store}) {
+        await store.dispatch('nursery/search')
+    },
+
   methods: {
     recent_nursery_items: function() {
       return this.recent_items();
