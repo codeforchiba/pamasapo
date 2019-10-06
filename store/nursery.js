@@ -1,5 +1,5 @@
 import * as queries from "~/graphql/queries/childcenter";
-import serialize from "serialize-error";
+import { serializeError } from "serialize-error";
 
 export const state = () => ({
   items: [],
@@ -46,7 +46,7 @@ export const mutations = {
   },
 
   SEARCH_CENTER_FAILURE(state, error) {
-    state.error = serialize(error);
+    state.error = serializeError(error);
     state.loading = false;
   }
 };
