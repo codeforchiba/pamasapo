@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Mapbox from 'mapbox-gl-vue';
+import Mapbox from "mapbox-gl-vue";
 import * as mapboxgl from "mapbox-gl";
 
 export default {
@@ -23,55 +23,57 @@ export default {
   },
 
   props: {
-    accessToken: {type: String, required: true},
-    lng: {type: Number, required: true},
-    lat: {type: Number, required: true},
+    accessToken: { type: String, required: true },
+    lng: { type: Number, required: true },
+    lat: { type: Number, required: true }
   },
 
   data() {
     return {
-      navControl: {show: true, position: 'top-right'},
-    }
+      navControl: { show: true, position: "top-right" }
+    };
   },
 
   computed: {
-    mapBoxOptions: function () {
+    mapBoxOptions: function() {
       return {
-        style: 'mapbox://styles/mapbox/streets-v10',
+        style: "mapbox://styles/mapbox/streets-v10",
         center: [this.lng, this.lat],
         zoom: 13
-      }
+      };
     }
   },
 
   methods: {
     mapLoaded(map) {
-      const self = this
+      const self = this;
       const geojson = {
-        type: 'FeatureCollection',
-        features: [{
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [self.lng, self.lat]
-          },
-          properties: {
-            title: '保育園',
-            description: '保育園'
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: [self.lng, self.lat]
+            },
+            properties: {
+              title: "保育園",
+              description: "保育園"
+            }
           }
-        }]
+        ]
       };
 
-      geojson.features.forEach(function (marker) {
-        var el = document.createElement('div');
-        el.className = 'marker';
+      geojson.features.forEach(function(marker) {
+        var el = document.createElement("div");
+        el.className = "marker";
         new mapboxgl.Marker(el)
           .setLngLat(marker.geometry.coordinates)
           .addTo(map);
       });
     }
-  },
-}
+  }
+};
 </script>
 
 <style scoped>
@@ -82,7 +84,7 @@ export default {
 
 .marker {
   /*TODO: 保育園のアイコンを用意して差し替える*/
-  background-image: url('https://docs.mapbox.com/help/demos/custom-markers-gl-js/mapbox-icon.png');
+  background-image: url("https://docs.mapbox.com/help/demos/custom-markers-gl-js/mapbox-icon.png");
   background-size: cover;
   width: 50px;
   height: 50px;

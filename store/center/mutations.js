@@ -1,17 +1,17 @@
-import serialize from 'serialize-error'
+import serialize from "serialize-error";
 
 export default {
   SEARCH_CENTER(state) {
-    state.loading = true
+    state.loading = true;
   },
 
   SEARCH_CENTER_SUCCESS(state, data) {
-    state.items = data.search.items
-    state.loading = false
+    state.items = data.search.items;
+    state.loading = false;
   },
 
   SEARCH_CENTER_FAILURE(state, error) {
-    state.error = serialize(error)
-    state.loading = false
+    state.error = serialize(error);
+    state.loading = false;
   }
-}
+};

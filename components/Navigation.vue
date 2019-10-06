@@ -1,9 +1,5 @@
 <template>
-  <v-bottom-navigation
-    app
-    fixed
-    color="pink lighten-2"
-  >
+  <v-bottom-navigation app fixed color="pink lighten-2">
     <v-btn to="/nurseries/">
       <span>リスト表示</span>
       <v-icon>list</v-icon>
