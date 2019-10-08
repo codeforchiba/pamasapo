@@ -1,11 +1,6 @@
 <template>
-  <v-btn v-if="canFavorited" color="amber" @click="addFavorite">
+  <v-btn icon :color="buttonColor" @click="toggleFavorite">
     <v-icon>favorite</v-icon>
-    お気に入りに追加
-  </v-btn>
-  <v-btn v-else color="" @click="removeFavorite">
-    <v-icon>favorite</v-icon>
-    お気に入りから削除
   </v-btn>
 </template>
 
@@ -19,18 +14,22 @@ export default {
   },
 
   computed: {
+    buttonColor() {
+      return this.canFavorited ? null : "pink";
+    },
+
     canFavorited() {
       return !this.$store.state.favorite.items.includes(this.id);
     }
   },
 
   methods: {
-    addFavorite() {
-      this.$store.commit("favorite/add", this.id);
-    },
-
-    removeFavorite() {
-      this.$store.commit("favorite/remove", this.id);
+    toggleFavorite() {
+      if (this.canFavorited) {
+        this.$store.commit("favorite/add", this.id);
+      } else {
+        this.$store.commit("favorite/remove", this.id);
+      }
     }
   }
 };
