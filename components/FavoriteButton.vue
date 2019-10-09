@@ -5,6 +5,12 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
+import {
+  REGISTER_FAVORITE,
+  UNREGISTER_FAVORITE
+} from "../store/mutation-types";
+
 export default {
   props: {
     id: {
@@ -14,21 +20,26 @@ export default {
   },
 
   computed: {
-    buttonColor() {
-      return this.canFavorited ? null : "pink";
-    },
+    ...mapGetters({
+      favorited: `favorite/included`
+    }),
 
-    canFavorited() {
-      return !this.$store.state.favorite.items.includes(this.id);
+    buttonColor() {
+      return this.favorited(this.id) ? "pink" : null;
     }
   },
 
   methods: {
+    ...mapMutations({
+      register: REGISTER_FAVORITE,
+      unregister: UNREGISTER_FAVORITE
+    }),
+
     toggleFavorite() {
-      if (this.canFavorited) {
-        this.$store.commit("favorite/add", this.id);
+      if (this.favorited(this.id)) {
+        this.unregister(this.id);
       } else {
-        this.$store.commit("favorite/remove", this.id);
+        this.register(this.id);
       }
     }
   }
