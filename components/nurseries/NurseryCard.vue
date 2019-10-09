@@ -21,21 +21,12 @@
             <v-list-item-subtitle>{{ address }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>開園時間</v-list-item-title>
-            <v-list-item-subtitle>{{ openingHours }}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>駐車場</v-list-item-title>
-            <v-list-item-subtitle>{{ parkingLot }}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
       </v-list>
     </v-card-text>
     <v-card-actions>
+      <v-btn text color="deep-purple accent-4" @click="open">
+        詳細を見る...
+      </v-btn>
       <div class="flex-grow-1"></div>
       <favorite-button :id="item.id" />
     </v-card-actions>
@@ -48,12 +39,6 @@ import FavoriteButton from "~/components/FavoriteButton";
 export default {
   components: {
     FavoriteButton
-  },
-
-  filters: {
-    maruBatsu(value) {
-      return value ? "○" : "✕";
-    }
   },
 
   props: {
@@ -98,6 +83,10 @@ export default {
       } else {
         return null;
       }
+    },
+
+    open() {
+      this.$router.push(`/nurseries/${this.item.id}`);
     }
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <v-btn icon :color="buttonColor" @click="toggleFavorite">
+  <v-btn icon large :color="buttonColor" @click.stop="toggleFavorite">
     <v-icon>favorite</v-icon>
   </v-btn>
 </template>
