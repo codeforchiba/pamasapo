@@ -5,14 +5,19 @@ export const state = () => ({
 export const getters = {
   items: state => {
     return state.items;
+  },
+
+  included: state => id => {
+    return state.items.includes(id);
   }
 };
 
 export const mutations = {
-  add(state, id) {
+  REGISTER(state, id) {
     state.items.push(id);
   },
-  remove(state, id) {
+
+  UNREGISTER(state, id) {
     state.items.splice(state.items.indexOf(id), 1);
   }
 };

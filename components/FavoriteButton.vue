@@ -1,15 +1,16 @@
 <template>
-  <v-btn v-if="canFavorited" color="amber" @click="addFavorite">
+  <v-btn icon large :color="buttonColor" @click.stop="toggleFavorite">
     <v-icon>favorite</v-icon>
-    お気に入りに追加
-  </v-btn>
-  <v-btn v-else color="" @click="removeFavorite">
-    <v-icon>favorite</v-icon>
-    お気に入りから削除
   </v-btn>
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
+import {
+  REGISTER_FAVORITE,
+  UNREGISTER_FAVORITE
+} from "../store/mutation-types";
+
 export default {
   props: {
     id: {
@@ -19,18 +20,27 @@ export default {
   },
 
   computed: {
-    canFavorited() {
-      return !this.$store.state.favorite.items.includes(this.id);
+    ...mapGetters({
+      favorited: `favorite/included`
+    }),
+
+    buttonColor() {
+      return this.favorited(this.id) ? "pink" : null;
     }
   },
 
   methods: {
-    addFavorite() {
-      this.$store.commit("favorite/add", this.id);
-    },
+    ...mapMutations({
+      register: REGISTER_FAVORITE,
+      unregister: UNREGISTER_FAVORITE
+    }),
 
-    removeFavorite() {
-      this.$store.commit("favorite/remove", this.id);
+    toggleFavorite() {
+      if (this.favorited(this.id)) {
+        this.unregister(this.id);
+      } else {
+        this.register(this.id);
+      }
     }
   }
 };
