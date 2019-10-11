@@ -14,7 +14,7 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "aws-appsync": "1.8.1",
+    "aws-appsync": "2.0.1",
     "graphql-tag": "2.10.1",
     "lodash": "4.17.15",
     "mapbox-gl": "1.3.1",
