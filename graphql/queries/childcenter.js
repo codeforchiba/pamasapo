@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 export const search = gql`
   query {
-    search(limit: 50) {
+    search {
       items {
         id
         name

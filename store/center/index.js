@@ -1,5 +1,6 @@
 export const state = () => ({
   items: [],
+  filteredItems: [],
   filters: {
     nurseryTypes: [],
     ownerships: []

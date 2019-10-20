@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-md text-xs-center pa-0>
     <v-layout row wrap>
-      <nursery-filter />
+      <nursery-filter @applyFilter="applyFiltertoStore" />
     </v-layout>
     <v-layout row wrap>
       <v-flex v-for="item in filteredCenters" :key="item.name" xs12>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 import NurseryCard from "~/components/nurseries/NurseryCard";
 import NurseryFilter from "~/components/nurseries/Filter";
@@ -59,9 +59,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      centers: "center/items"
+      centers: "center/filteredItems"
     }),
-
     filteredCenters: function() {
       var filter_category = this.filterCategory;
       var data = this.centers;
@@ -162,6 +161,16 @@ export default {
       }
 
       return data;
+    }
+  },
+
+  methods: {
+    ...mapActions({
+      applyFilter: "center/applyFilter"
+    }),
+
+    applyFiltertoStore: function(filters) {
+      this.applyFilter(filters);
     }
   },
 

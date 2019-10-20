@@ -58,5 +58,15 @@ export default {
   SEARCH_CENTER_FAILURE(state, error) {
     state.error = serializeError(error);
     state.loading = false;
+  },
+
+  APPLY_FILTER(state, filter) {
+    state.filters.nurseryTypes = filter.nurseryTypes;
+    state.filters.ownerships = filter.ownerships;
+  },
+
+  APPLY_FILTER_SUCCESS(state, filteredItems, filter) {
+    state.filteredItems = filteredItems;
+    console.log(filter);
   }
 };
