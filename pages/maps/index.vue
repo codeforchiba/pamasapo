@@ -19,6 +19,7 @@
 <script>
 import Mapbox from "mapbox-gl-vue";
 import Dialog from "~/components/maps/Dialog.vue";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -45,13 +46,19 @@ export default {
       }
     };
   },
-
+  computed: {
+    ...mapGetters({
+      centers: "center/items"
+    })
+  },
   asyncData(context) {
     return {
       accessToken: context.env.mapbox.accessToken
     };
   },
-
+  async fetch({ store }) {
+    await store.dispatch("center/search");
+  },
   methods: {
     showDialog() {
       this.dialogData.dialogShow = true;
@@ -61,18 +68,33 @@ export default {
     },
     mapLoaded(map) {
       const self = this;
+      const features = this.centers.map(item => {
+        return {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [item.long, item.lat]
+          },
+          properties: item
+        };
+      });
+      // eslint-disable-next-line no-debugger
+      debugger;
+      const geojson = {
+        type: "FeatureCollection",
+        features: features
+      };
       // nursery
       map.addLayer({
         id: "nursery",
         type: "symbol",
         source: {
           type: "geojson",
-          data:
-            "https://raw.githubusercontent.com/codeforchiba/papamama/develop/data/nurseryFacilities.geojson"
+          data: geojson
         },
         layout: {
           "icon-image": "star-15",
-          "text-field": "{Name}",
+          "text-field": "{name}",
           "text-anchor": "top",
           "text-offset": [0, 0.6]
         }
@@ -97,12 +119,22 @@ export default {
 
       map.on("click", "nursery", function(e) {
         // let coordinates = e.features[0].geometry.coordinates.slice();
+        // eslint-disable-next-line no-debugger
+        debugger;
         let properties = e.features[0].properties;
-        self.setDialog("title", properties.Name);
-        self.setDialog("address", properties.Address);
-        self.setDialog("start_time", properties.Open);
-        self.setDialog("end_time", properties.Close);
-        self.setDialog("type", properties.Type);
+        self.setDialog("title", properties.name);
+        self.setDialog(
+          "address",
+          properties.prefecture +
+            properties.city +
+            properties.ward +
+            properties.address
+        );
+        // TODO
+        // e.features[0].properties.nursery が Stringになってしまう。
+        self.setDialog("start_time", properties.nursery.facility.openingTime);
+        self.setDialog("end_time", properties.nursery.facility.closingTime);
+        self.setDialog("type", properties.nursery.facility.nurseryType);
         self.showDialog();
       });
     }
