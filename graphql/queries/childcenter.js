@@ -19,10 +19,17 @@ export const search = gql`
             nurserySubType
             openingTime
             closingTime
+            ageTo
+            hasYard
+            areaOfYard
+            hasPool
             hasParkingLot
             numberOfParkingLot
           }
           service {
+            supportMaturnityLeave
+            saturdayCareService
+            holidayCareService
             temporaryCareService
             spotCareService
             extendedCareService
