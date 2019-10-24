@@ -24,20 +24,8 @@ export default {
   },
 
   data() {
-    const filterItems = [
-      { key: "nurserySubType", label: "許認可" },
-      { key: "ownershipPublic", label: "公立" },
-      { key: "ownershipPrivate", label: "私立" },
-      { key: "h24CareService", label: "24時間" },
-      { key: "extendedCareService", label: "延長" },
-      { key: "temporaryCareService", label: "一時保育 定期" },
-      { key: "spotCareService", label: "一時保育 不定期" },
-      { key: "nightCareService", label: "夜間・休日" },
-      { key: "numberOfParkingLot", label: "駐車場" }
-    ];
-
     return {
-      filterItems
+      Object
     };
   },
 
