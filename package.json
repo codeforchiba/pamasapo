@@ -17,7 +17,7 @@
     "aws-appsync": "2.0.1",
     "graphql-tag": "2.10.1",
     "lodash": "4.17.15",
-    "mapbox-gl": "1.4.1",
+    "mapbox-gl": "1.5.0",
     "mapbox-gl-vue": "2.0.3",
     "nuxt": "2.10.0",
     "serialize-error": "5.0.0",
