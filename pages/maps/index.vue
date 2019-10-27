@@ -1,6 +1,51 @@
 <template>
   <div>
-    <Dialog :dialog-data="dialogData" />
+    <div>
+      <v-bottom-sheet v-model="displaySheet">
+        <v-card>
+          <v-toolbar dark color="primary">
+            <v-btn icon dark @click="displaySheet = false">
+              <v-icon>close</v-icon>
+            </v-btn>
+            <v-toolbar-title>
+              {{ dialogData.title }} ({{ dialogData.type }})
+            </v-toolbar-title>
+            <v-spacer />
+          </v-toolbar>
+          <v-list three-line subheader>
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>住所</v-list-tile-title>
+                <v-list-tile-sub-title>{{
+                  dialogData.address
+                }}</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>空き情報</v-list-tile-title>
+                <v-list-tile-sub-title>{{
+                  dialogData.aki
+                }}</v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title>時間</v-list-tile-title>
+                <v-list-tile-sub-title
+                  >{{ dialogData.start_time }}〜{{
+                    dialogData.end_time
+                  }}</v-list-tile-sub-title
+                >
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+          <v-card-actions>
+            <v-btn @click="displaySheet = false">閉じる</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-bottom-sheet>
+    </div>
     <no-ssr>
       <mapbox
         v-if="accessToken"
@@ -18,17 +63,16 @@
 
 <script>
 import Mapbox from "mapbox-gl-vue";
-import Dialog from "~/components/maps/Dialog.vue";
 import { mapGetters } from "vuex";
 
 export default {
   components: {
-    Mapbox,
-    Dialog
+    Mapbox
   },
 
   data() {
     return {
+      displaySheet: false,
       mapBoxOptions: {
         style: "mapbox://styles/mapbox/streets-v10",
         center: [140.13217, 35.590360000000004],
@@ -61,7 +105,7 @@ export default {
   },
   methods: {
     showDialog() {
-      this.dialogData.dialogShow = true;
+      this.displaySheet = true;
     },
     setDialog(key, value) {
       this.dialogData[key] = value;
@@ -78,8 +122,6 @@ export default {
           properties: item
         };
       });
-      // eslint-disable-next-line no-debugger
-      debugger;
       const geojson = {
         type: "FeatureCollection",
         features: features
@@ -118,9 +160,6 @@ export default {
       });
 
       map.on("click", "nursery", function(e) {
-        // let coordinates = e.features[0].geometry.coordinates.slice();
-        // eslint-disable-next-line no-debugger
-        debugger;
         let properties = e.features[0].properties;
         self.setDialog("title", properties.name);
         self.setDialog(
@@ -130,11 +169,10 @@ export default {
             properties.ward +
             properties.address
         );
-        // TODO
-        // e.features[0].properties.nursery が Stringになってしまう。
-        self.setDialog("start_time", properties.nursery.facility.openingTime);
-        self.setDialog("end_time", properties.nursery.facility.closingTime);
-        self.setDialog("type", properties.nursery.facility.nurseryType);
+        // TODO: e.features[0].properties.nursery が Stringになってしまう。
+        // self.setDialog("start_time", properties.nursery.facility.openingTime);
+        // self.setDialog("end_time", properties.nursery.facility.closingTime);
+        // self.setDialog("type", properties.nursery.facility.nurseryType);
         self.showDialog();
       });
     }
