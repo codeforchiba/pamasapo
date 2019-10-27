@@ -1,24 +1,16 @@
 <template>
   <v-card flat>
-    <v-img :src="default_image" contain aspect-ratio="1" max-height="300" />
+    <v-img :src="defaultImage" contain aspect-ratio="1" max-height="300" />
     <v-card-title>
       {{ item.name }}
     </v-card-title>
     <v-card-text>
-      <v-chip-group>
-        <v-chip
-          v-for="tag in tags"
-          :key="tag.value"
-          :color="tagColor(tag.type)"
-        >
-          {{ tag.value }}
-        </v-chip>
-      </v-chip-group>
+      <tag-bar :item="item" />
       <v-list>
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>住所</v-list-item-title>
-            <v-list-item-subtitle>{{ address }}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ item.fullAddress }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -35,10 +27,12 @@
 <script>
 import DefaultImage from "~/assets/image.png";
 import FavoriteButton from "~/components/FavoriteButton";
+import TagBar from "~/components/nurseries/TagBar";
 
 export default {
   components: {
-    FavoriteButton
+    FavoriteButton,
+    TagBar
   },
 
   props: {
@@ -50,41 +44,11 @@ export default {
 
   data() {
     return {
-      default_image: DefaultImage
+      defaultImage: DefaultImage
     };
   },
 
-  computed: {
-    tags() {
-      return this.item.tags;
-    },
-
-    address() {
-      return `${this.item.prefecture}${this.item.city}${this.item.ward}${this.item.address}`;
-    },
-
-    openingHours() {
-      return `${this.item.nursery.facility.openingTime} 〜 ${this.item.nursery.facility.closingTime}`;
-    },
-
-    parkingLot() {
-      if (this.item.nursery.facility.hasParkingLot) {
-        return `${this.item.nursery.facility.numberOfParkingLot}台`;
-      } else {
-        return "なし";
-      }
-    }
-  },
-
   methods: {
-    tagColor(type) {
-      if (type === "service") {
-        return "pink lighten-4";
-      } else {
-        return null;
-      }
-    },
-
     open() {
       this.$router.push(`/nurseries/${this.item.id}`);
     }

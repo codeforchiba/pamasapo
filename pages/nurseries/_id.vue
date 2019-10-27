@@ -1,40 +1,45 @@
 <template>
-  <div>
-    <nursery-detail v-if="item" :item="item" :access-token="accessToken" />
-    <p v-else>
-      保育園のデータが取得できませんでした。
-    </p>
-  </div>
+  <v-container>
+    <v-layout>
+      <v-flex xs12>
+        <h1>{{ item.name }}</h1>
+        <p class="subtitle-1 grey--text">{{ item.kana }}</p>
+        <tag-bar :item="item" />
+        <nursery-summary :item="item" />
+        <nursery-detail :item="item" />
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
-import * as queries from "~/graphql/queries/get";
+import { mapGetters } from "vuex";
+
 import NurseryDetail from "~/components/nurseries/NurseryDetail";
+import NurserySummary from "~/components/nurseries/Summary";
+import TagBar from "~/components/nurseries/TagBar";
 
 export default {
   components: {
-    NurseryDetail
+    NurseryDetail,
+    NurserySummary,
+    TagBar
   },
 
-  async asyncData({ app, params, env }) {
-    const client = app.$apiClient;
-
-    const promise = client.query({
-      query: queries.get,
-      variables: { id: params.id }
-    });
-
-    const get_data = await promise.then(data => {
-      return data.data.get;
-    });
-
-    return {
-      accessToken: env.mapbox.accessToken,
-      item: get_data
-    };
+  computed: {
+    ...mapGetters({
+      item: "center/current"
+    })
   },
-  mounted: function() {
-    this.$store.commit("recent/add", this.$data.item["id"]);
+
+  watch: {
+    item(newValue) {
+      this.$store.commit("recent/add", newValue.id);
+    }
+  },
+
+  async fetch({ store, params }) {
+    await store.dispatch("center/load", params.id);
   }
 };
 </script>
