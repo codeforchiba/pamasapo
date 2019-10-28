@@ -19,7 +19,7 @@
       <v-btn text color="deep-purple accent-4" @click="open">
         詳細を見る...
       </v-btn>
-      <div class="flex-grow-1"></div>
+      <div class="flex-grow-1" />
       <favorite-button :id="item.id" />
     </v-card-actions>
   </v-card>

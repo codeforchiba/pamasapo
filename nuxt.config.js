@@ -74,6 +74,7 @@ module.exports = {
   },
   buildModules: ["@nuxtjs/vuetify"],
   env: {
-    ...envConfig
+    ...envConfig,
+    mapboxAccessToken: process.env.MAPBOX_ACCESS_TOKEN
   }
 };

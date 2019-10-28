@@ -1,135 +1,44 @@
 <template>
-  <div>
-    <v-list>
-      <v-list-item>
-        <ShowMap :access-token="accessToken" :lng="item.long" :lat="item.lat" />
-      </v-list-item>
-    </v-list>
-    <v-subheader>施設</v-subheader>
-    <v-list dense>
-      <v-list-item>
-        <v-flex xs6 sm3>
-          <v-list-item-title>時間</v-list-item-title>
-        </v-flex>
-        <v-list-item-content>
-          {{
-            period(
-              item.nursery.facility.openingTime,
-              item.nursery.facility.closingTime
-            )
-          }}
-        </v-list-item-content>
-      </v-list-item>
+  <v-list dense>
+    <v-list-item>
+      <v-list-item-content>
+        <v-list-item-subtitle>定員</v-list-item-subtitle>
+        <v-list-item-title>
+          1号 {{ item.nursery.facility.capacity1 }}名 /
+          2号 {{ item.nursery.facility.capacity2 }}名
+          <template v-if="item.nursery.facility.capacity3">
+            / 3号 {{ item.nursery.facility.capacity3 }}名
+          </template>
+        </v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+    <v-list-item v-if="item.nursery.facility.areaOfNurseryRoom">
+      <v-list-item-content>
+        <v-list-item-subtitle>保育室の広さ</v-list-item-subtitle>
+        <v-list-item-title>{{ item.nursery.facility.areaOfNurseryRoom }}㎡</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+    <v-list-item v-if="item.nursery.facility.hasYard">
+      <v-list-item-content>
+        <v-list-item-subtitle>園庭の広さ</v-list-item-subtitle>
+        <v-list-item-title>{{ item.nursery.facility.areaOfYard }}</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+    <v-list-item v-if="item.nursery.facility.hasParkingLot">
+      <v-list-content>
+        <v-list-item-subtitle>駐車場台数</v-list-item-subtitle>
+        <v-list-item-title>{{ item.nursery.facility.numberOfParkingLot }}台</v-list-item-title>
+      </v-list-content>
+    </v-list-item>
 
-      <v-list-item>
-        <v-flex xs6 sm3>
-          <v-list-item-title>保育短時間</v-list-item-title>
-        </v-flex>
-        <v-list-item-content>
-          {{
-            period(
-              item.nursery.facility.standard_opening_time,
-              item.nursery.facility.standard_closing_time
-            )
-          }}
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item>
-        <v-flex xs6 sm3>
-          <v-list-item-title>保育短時間</v-list-item-title>
-        </v-flex>
-        <v-list-item-content>
-          {{
-            period(
-              item.nursery.facility.short_opening_time,
-              item.nursery.facility.short_closing_time
-            )
-          }}
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item>
-        <v-flex xs6 sm3>
-          <v-list-item-title>保育年齢</v-list-item-title>
-        </v-flex>
-        <v-list-item-content>
-          {{ facilityAge }}
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item>
-        <v-flex xs6 sm3>
-          <v-list-item-title>定員(1号)</v-list-item-title>
-        </v-flex>
-        <v-list-item-content>
-          {{ item.nursery.facility.capacity_1 }}
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item>
-        <v-flex xs6 sm3>
-          <v-list-item-title>定員(2号)</v-list-item-title>
-        </v-flex>
-        <v-list-item-content>
-          {{ item.nursery.facility.capacity_2 }}
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item>
-        <v-flex xs6 sm3>
-          <v-list-item-title>定員(3号)</v-list-item-title>
-        </v-flex>
-        <v-list-item-content>
-          {{ item.nursery.facility.capacity_3 }}
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item>
-        <v-flex xs6 sm3>
-          <v-list-item-title>保育室の広さ</v-list-item-title>
-        </v-flex>
-        <v-list-item-content>
-          {{ item.nursery.facility.area_of_nursery_room }}
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item v-if="item.nursery.facility.has_yard">
-        <v-flex xs6 sm3>
-          <v-list-item-title>園庭の広さ</v-list-item-title>
-        </v-flex>
-        <v-list-item-content>
-          {{ item.nursery.facility.area_of_yard }}
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item>
-        <v-flex xs6 sm3>
-          <v-list-item-title>プール</v-list-item-title>
-        </v-flex>
-        <v-list-item-content>
-          {{ item.nursery.facility.hasPool | ari_nashi }}
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item v-if="item.nursery.facility.hasParkingLot">
-        <v-flex xs6 sm3>
-          <v-list-item-title>駐車場台数</v-list-item-title>
-        </v-flex>
-        <v-list-item-content>
-          {{ item.nursery.facility.numberOfParkingLot }}台
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item>
-        <v-flex xs6 sm3>
-          <v-list-item-title>備考</v-list-item-title>
-        </v-flex>
-        <v-list-item-content>
-          {{ item.nursery.facility.remarks_facility }}
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
+    <v-list-item>
+      <v-flex xs6 sm3>
+        <v-list-item-title>備考</v-list-item-title>
+      </v-flex>
+      <v-list-item-content>
+        {{ item.nursery.facility.remarks_facility }}
+      </v-list-item-content>
+    </v-list-item>
     <v-subheader>サービス</v-subheader>
     <v-list dense>
       <v-list-item>
@@ -253,9 +162,9 @@
         <v-flex xs6 sm3>
           <v-list-item-title>スモック</v-list-item-title>
         </v-flex>
-        <v-list-item-content>{{
-          item.nursery.service.useSmock | maru_batsu
-        }}</v-list-item-content>
+        <v-list-item-content>
+          {{ item.nursery.service.useSmock | maru_batsu }}
+        </v-list-item-content>
       </v-list-item>
       <v-list-item>
         <v-flex xs6 sm3>
@@ -395,17 +304,11 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-  </div>
+  </v-list>
 </template>
 
 <script>
-import ShowMap from "~/components/nurseries/ShowMap";
-
 export default {
-  components: {
-    ShowMap
-  },
-
   filters: {
     ari_nashi: function(value) {
       if (value) {
@@ -427,10 +330,6 @@ export default {
   props: {
     item: {
       type: Object,
-      required: true
-    },
-    accessToken: {
-      type: String,
       required: true
     }
   },

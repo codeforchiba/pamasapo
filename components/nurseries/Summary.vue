@@ -77,21 +77,7 @@
       <v-flex xs6 sm3>
         <v-list-item-title>施設基本情報備考</v-list-item-title>
       </v-flex>
-      <v-list-item-content>{{
-        item.nursery.remarks_basic
-      }}</v-list-item-content>
-    </v-list-item>
-
-    <v-list-item v-if="item.nursery.facility.hasParkingLot">
-      <v-flex xs6 sm3>
-        <v-list-item-title>駐車場台数</v-list-item-title>
-      </v-flex>
-      <v-list-item-content
-        >{{ item.nursery.facility.numberOfParkingLot }}台</v-list-item-content
-      >
-    </v-list-item>
-    <v-list-item>
-      <FavoriteButton :id="item.id" />
+      <v-list-item-content>{{ item.nursery.remarks_basic }}</v-list-item-content>
     </v-list-item>
   </v-list>
 </template>
