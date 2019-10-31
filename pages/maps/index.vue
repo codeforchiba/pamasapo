@@ -1,5 +1,17 @@
 <template>
   <div>
+    <no-ssr>
+      <mapbox
+        v-if="accessToken"
+        :access-token="accessToken"
+        :map-options="mapBoxOptions"
+        :nav-control="navControl"
+        @map-load="mapLoaded"
+      />
+      <p v-else>
+        mapboxのapikeyが設定されていません。
+      </p>
+    </no-ssr>
     <div>
       <v-bottom-sheet v-model="displaySheet">
         <v-card>
@@ -13,61 +25,53 @@
             <v-spacer />
           </v-toolbar>
           <v-list three-line subheader>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>住所</v-list-tile-title>
-                <v-list-tile-sub-title>{{
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>住所</v-list-item-title>
+                <v-list-item-sub-title>{{
                   dialogData.address
-                }}</v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>空き情報</v-list-tile-title>
-                <v-list-tile-sub-title>{{
-                  dialogData.aki
-                }}</v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-              <v-list-tile-content>
-                <v-list-tile-title>時間</v-list-tile-title>
-                <v-list-tile-sub-title
+                }}</v-list-item-sub-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>時間</v-list-item-title>
+                <v-list-item-sub-title
                   >{{ dialogData.start_time }}〜{{
                     dialogData.end_time
-                  }}</v-list-tile-sub-title
+                  }}</v-list-item-sub-title
                 >
-              </v-list-tile-content>
-            </v-list-tile>
+              </v-list-item-content>
+            </v-list-item>
           </v-list>
           <v-card-actions>
+            <v-btn
+              text
+              color="deep-purple accent-4"
+              :to="`/nurseries/${dialogData.id}`"
+              nuxt
+            >
+              詳細を見る...
+            </v-btn>
+            <div class="flex-grow-1"></div>
+            <favorite-button :id="dialogData.id" />
             <v-btn @click="displaySheet = false">閉じる</v-btn>
           </v-card-actions>
         </v-card>
       </v-bottom-sheet>
     </div>
-    <no-ssr>
-      <mapbox
-        v-if="accessToken"
-        :access-token="accessToken"
-        :map-options="mapBoxOptions"
-        :nav-control="navControl"
-        @map-load="mapLoaded"
-      />
-      <p v-else>
-        mapboxのapikeyが設定されていません。
-      </p>
-    </no-ssr>
   </div>
 </template>
 
 <script>
 import Mapbox from "mapbox-gl-vue";
+import FavoriteButton from "~/components/FavoriteButton";
 import { mapGetters } from "vuex";
 
 export default {
   components: {
-    Mapbox
+    Mapbox,
+    FavoriteButton
   },
 
   data() {
@@ -80,7 +84,7 @@ export default {
       },
       navControl: { show: true, position: "top-right" },
       dialogData: {
-        dialogShow: false,
+        id: "",
         title: "開発中の画面です。タイトル",
         address: "千葉県松戸市五香1-1-1",
         aki: "",
@@ -160,7 +164,8 @@ export default {
       });
 
       map.on("click", "nursery", function(e) {
-        let properties = e.features[0].properties;
+        const properties = e.features[0].properties;
+        self.setDialog("id", properties.id);
         self.setDialog("title", properties.name);
         self.setDialog(
           "address",
@@ -169,10 +174,11 @@ export default {
             properties.ward +
             properties.address
         );
-        // TODO: e.features[0].properties.nursery が Stringになってしまう。
-        // self.setDialog("start_time", properties.nursery.facility.openingTime);
-        // self.setDialog("end_time", properties.nursery.facility.closingTime);
-        // self.setDialog("type", properties.nursery.facility.nurseryType);
+
+        const nursery = JSON.parse(properties.nursery);
+        self.setDialog("start_time", nursery.facility.openingTime);
+        self.setDialog("end_time", nursery.facility.closingTime);
+        self.setDialog("type", nursery.facility.nurseryType);
         self.showDialog();
       });
     }
