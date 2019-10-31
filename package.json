@@ -22,7 +22,7 @@
     "nuxt": "2.10.0",
     "serialize-error": "5.0.0",
     "vuetify": "2.1.2",
-    "vuex-persistedstate": "2.5.4"
+    "vuex-persistedstate": "2.7.0"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "1.9.0",
