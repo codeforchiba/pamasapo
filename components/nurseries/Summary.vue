@@ -46,33 +46,6 @@
         <v-list-item-title>{{ targetAge }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item>
-      <v-list-item-content>
-        <v-list-item-subtitle>
-          空き状況({{ item.nursery.status.baseDate }}時点)
-        </v-list-item-subtitle>
-        <v-simple-table dense>
-          <template v-slot:default>
-            <thead>
-              <th
-                v-for="availability of availabilities"
-                :key="availability.age"
-              >
-                {{ availability.age }}歳
-              </th>
-            </thead>
-            <tbody>
-              <td
-                v-for="availability of availabilities"
-                :key="availability.age"
-              >
-                {{ availability.status }}
-              </td>
-            </tbody>
-          </template>
-        </v-simple-table>
-      </v-list-item-content>
-    </v-list-item>
     <v-list-item v-if="item.nursery.remarks_basic">
       <v-flex xs6 sm3>
         <v-list-item-title>施設基本情報備考</v-list-item-title>
@@ -102,21 +75,6 @@ export default {
     targetAge() {
       return `${this.item.nursery.facility.ageFrom} 〜 ${this.item.nursery.facility.ageTo}歳`;
     },
-
-    availabilities() {
-      const from = this.item.nursery.facility.ageFrom;
-      const to = this.item.nursery.facility.ageTo;
-      const availabilities = [];
-
-      for (let i = from; i <= to; i++) {
-        availabilities.push({
-          age: i,
-          status: this.item.nursery.status[`availability${i}`]
-        });
-      }
-
-      return availabilities;
-    }
   },
 
   methods: {

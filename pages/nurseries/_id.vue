@@ -22,6 +22,12 @@
       <v-col cols="12">
         <nursery-detail :item="item" />
       </v-col>
+      <v-col cols="12">
+        <nursery-service :item="item" />
+      </v-col>
+      <v-col cols="12">
+        <nursery-status :item="item" />
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -32,6 +38,8 @@ import { mapGetters } from "vuex";
 import FavoriteButton from "~/components/FavoriteButton";
 import Map from "~/components/nurseries/Map";
 import NurseryDetail from "~/components/nurseries/Detail";
+import NurseryService from "~/components/nurseries/Service";
+import NurseryStatus from "~/components/nurseries/Status";
 import NurserySummary from "~/components/nurseries/Summary";
 import TagBar from "~/components/nurseries/TagBar";
 
@@ -39,6 +47,8 @@ export default {
   components: {
     FavoriteButton,
     NurseryDetail,
+    NurseryService,
+    NurseryStatus,
     NurserySummary,
     TagBar,
     "map-view": Map
