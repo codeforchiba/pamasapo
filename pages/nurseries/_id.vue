@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 import FavoriteButton from "~/components/FavoriteButton";
 import Map from "~/components/nurseries/Map";
@@ -42,6 +42,7 @@ import NurseryService from "~/components/nurseries/Service";
 import NurseryStatus from "~/components/nurseries/Status";
 import NurserySummary from "~/components/nurseries/Summary";
 import TagBar from "~/components/nurseries/TagBar";
+import { ADD_HISTORY } from "../../store/mutation-types";
 
 export default {
   components: {
@@ -64,10 +65,14 @@ export default {
     })
   },
 
-  watch: {
-    item(newValue) {
-      this.$store.commit("recent/add", newValue.id);
-    }
+  mounted() {
+    this.$nextTick(() => this.addHistory(this.item.id))
+  },
+
+  methods: {
+    ...mapMutations({
+      addHistory: ADD_HISTORY
+    })
   }
 };
 </script>

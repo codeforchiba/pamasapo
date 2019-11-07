@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-md text-xs-center>
     <v-layout row wrap>
-      <v-flex v-for="item in recent_nursery_items()" :key="item.name" xs12>
+      <v-flex v-for="item in recentCenters" :key="item.id" xs12>
         <NurseryCard :item="item.item" />
         <p class="grey--text lighten-4 float-right">
           {{ item.timestamp }}に閲覧しました
@@ -13,29 +13,20 @@
 
 <script>
 import { mapGetters } from "vuex";
-import NurseryCard from "~/components/nurseries/NurseryCard.vue";
+
+import NurseryCard from "~/components/nurseries/Card.vue";
 
 export default {
   components: { NurseryCard },
 
   async fetch({ store }) {
-    await store.dispatch("nursery/search");
-  },
-
-  data() {
-    return {};
+    await store.dispatch("center/search");
   },
 
   computed: {
     ...mapGetters({
-      recent_items: "recent/recent_items"
+      recentCenters: "recent/items"
     })
-  },
-
-  methods: {
-    recent_nursery_items: function() {
-      return this.recent_items();
-    }
   }
 };
 </script>
