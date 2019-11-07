@@ -17,32 +17,26 @@
           <v-spacer />
         </v-toolbar>
         <v-list three-line subheader>
-          <v-list-tile>
-            <v-list-tile-content>
-              <v-list-tile-title>住所</v-list-tile-title>
-              <v-list-tile-sub-title>{{
-                dialogData.address
-              }}</v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile>
-            <v-list-tile-content>
-              <v-list-tile-title>空き情報</v-list-tile-title>
-              <v-list-tile-sub-title>{{
-                dialogData.aki
-              }}</v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile>
-            <v-list-tile-content>
-              <v-list-tile-title>時間</v-list-tile-title>
-              <v-list-tile-sub-title
-                >{{ dialogData.start_time }}〜{{
-                  dialogData.end_time
-                }}</v-list-tile-sub-title
-              >
-            </v-list-tile-content>
-          </v-list-tile>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>住所</v-list-item-title>
+              <v-list-item-subtitle>{{ dialogData.address }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>空き情報</v-list-item-title>
+              <v-list-item-subtitle>{{ dialogData.aki }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>時間</v-list-item-title>
+              <v-list-item-subtitle>
+                {{ dialogData.start_time }}〜{{ dialogData.end_time }}
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
         <v-card-actions>
           <v-btn>閉じる</v-btn>

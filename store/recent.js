@@ -1,7 +1,6 @@
-const limitLength = process.env.recent.limitLength;
 export const state = () => ({
   histories: [],
-  limitLength: limitLength
+  limitLength: process.env.historySize
 });
 
 export const getters = {

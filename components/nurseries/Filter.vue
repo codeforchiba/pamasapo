@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar dense flat>
+  <v-toolbar dense text>
     <v-toolbar-title>
       <v-img :src="logoPath" width="220px" height="32px" contain />
     </v-toolbar-title>
