@@ -54,6 +54,10 @@ export default {
     "map-view": Map
   },
 
+  async fetch({ store, params }) {
+    await store.dispatch("center/load", params.id);
+  },
+
   computed: {
     ...mapGetters({
       item: "center/current"
@@ -64,10 +68,6 @@ export default {
     item(newValue) {
       this.$store.commit("recent/add", newValue.id);
     }
-  },
-
-  async fetch({ store, params }) {
-    await store.dispatch("center/load", params.id);
   }
 };
 </script>

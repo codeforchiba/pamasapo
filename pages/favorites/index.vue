@@ -45,6 +45,10 @@ export default {
     NurseryCard
   },
 
+  async fetch({ store }) {
+    await store.dispatch("nursery/search");
+  },
+
   data() {
     return {
       filter_items: [
@@ -77,10 +81,6 @@ export default {
       nursery_filter_items: "nursery/filter_items",
       favorite_items: "favorite/items"
     })
-  },
-
-  async fetch({ store }) {
-    await store.dispatch("nursery/search");
   },
 
   methods: {
