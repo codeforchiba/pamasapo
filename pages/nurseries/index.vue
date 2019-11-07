@@ -23,6 +23,10 @@ export default {
     NurseryFilter
   },
 
+  async fetch({ store }) {
+    await store.dispatch("center/search");
+  },
+
   data() {
     const filterItems = [
       { key: "nurserySubType", label: "許認可" },
@@ -163,10 +167,6 @@ export default {
 
       return data;
     }
-  },
-
-  async fetch({ store }) {
-    await store.dispatch("center/search");
   }
 };
 </script>

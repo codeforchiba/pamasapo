@@ -26,6 +26,12 @@ export default {
     Dialog
   },
 
+  asyncData(context) {
+    return {
+      accessToken: context.env.mapbox.accessToken
+    };
+  },
+
   data() {
     return {
       mapBoxOptions: {
@@ -43,12 +49,6 @@ export default {
         end_time: "00:00",
         type: "type"
       }
-    };
-  },
-
-  asyncData(context) {
-    return {
-      accessToken: context.env.mapbox.accessToken
     };
   },
 
