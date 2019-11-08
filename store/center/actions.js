@@ -10,6 +10,21 @@ function convertFilter(filter) {
 }
 
 export default {
+  async load({ commit }, id) {
+    commit("LOAD_CENTER");
+
+    try {
+      let { data } = await this.$apiClient.query({
+        query: queries.get,
+        variables: { id: id }
+      });
+
+      commit("LOAD_CENTER_SUCCESS", data.get);
+    } catch (e) {
+      commit("LOAD_CENTER_FAILURE", e);
+    }
+  },
+
   async search({ commit }) {
     commit("SEARCH_CENTER");
 

@@ -1,8 +1,8 @@
 const settings = {
   AppSync: {
-    graphqlEndpoint: process.env.aws.appsync.endpoint,
-    region: process.env.aws.region,
-    apiKey: process.env.aws.appsync.apiKey
+    graphqlEndpoint: process.env.apiEndpoint,
+    region: "ap-northeast-1",
+    apiKey: process.env.apiKey
   }
 };
 

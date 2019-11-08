@@ -28,19 +28,21 @@
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>住所</v-list-item-title>
-                <v-list-item-sub-title>{{
-                  dialogData.address
-                }}</v-list-item-sub-title>
+                <v-list-item-sub-title>
+                  {{
+                    dialogData.address
+                  }}
+                </v-list-item-sub-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>時間</v-list-item-title>
-                <v-list-item-sub-title
-                  >{{ dialogData.start_time }}〜{{
+                <v-list-item-sub-title>
+                  {{ dialogData.start_time }}〜{{
                     dialogData.end_time
-                  }}</v-list-item-sub-title
-                >
+                  }}
+                </v-list-item-sub-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -53,9 +55,11 @@
             >
               詳細を見る...
             </v-btn>
-            <div class="flex-grow-1"></div>
+            <div class="flex-grow-1" />
             <favorite-button :id="dialogData.id" />
-            <v-btn @click="displaySheet = false">閉じる</v-btn>
+            <v-btn @click="displaySheet = false">
+              閉じる
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-bottom-sheet>

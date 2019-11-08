@@ -2,7 +2,7 @@
   <div class="home-view">
     <v-toolbar dense>
       <a href="/" class="d-flex ml-2 router-link-active">
-        <img src="logo.png" width="220px" height="32px" />
+        <img src="logo.png" width="220px" height="32px">
       </a>
       <v-text-field
         v-model="searchKeyword"

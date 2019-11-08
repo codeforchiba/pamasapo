@@ -17,6 +17,11 @@ import NurseryCard from "~/components/nurseries/NurseryCard.vue";
 
 export default {
   components: { NurseryCard },
+
+  async fetch({ store }) {
+    await store.dispatch("nursery/search");
+  },
+
   data() {
     return {};
   },
@@ -25,10 +30,6 @@ export default {
     ...mapGetters({
       recent_items: "recent/recent_items"
     })
-  },
-
-  async fetch({ store }) {
-    await store.dispatch("nursery/search");
   },
 
   methods: {
