@@ -1,10 +1,20 @@
 <template>
   <v-container grid-list-md text-xs-center pa-0>
-    <v-layout row wrap>
-      <v-flex v-for="item in favorites" :key="item.id" xs12>
-        <nursery-card :item="item" />
-      </v-flex>
-    </v-layout>
+    <v-list three-line>
+      <template v-for="(item, index) in favorites">
+        <v-divider v-if="index > 0" :key="item.id" />
+        <v-list-item :key="item.id" @click="open(item)">
+          <v-list-item-content>
+            <v-list-item-title>{{ item.name }}</v-list-item-title>
+            <v-list-item-subtitle>{{ item.fullAddress }}</v-list-item-subtitle>
+            <tag-bar :item="item" />
+          </v-list-item-content>
+          <v-list-item-icon>
+            <favorite-button :id="item.id" />
+          </v-list-item-icon>
+        </v-list-item>
+      </template>
+    </v-list>
   </v-container>
 </template>
 
@@ -12,11 +22,13 @@
 import { mapGetters } from "vuex";
 import _ from "lodash";
 
-import NurseryCard from "~/components/nurseries/Card";
+import FavoriteButton from "~/components/FavoriteButton";
+import TagBar from "~/components/nurseries/TagBar";
 
 export default {
   components: {
-    NurseryCard
+    FavoriteButton,
+    TagBar
   },
 
   async fetch({ store }) {
@@ -31,6 +43,12 @@ export default {
 
     favorites() {
       return _.filter(this.centers, (c) => this.favoriteCenters.includes(c.id));
+    }
+  },
+
+  methods: {
+    open(item) {
+      this.$router.push(`/nurseries/${item.id}`);
     }
   }
 };
