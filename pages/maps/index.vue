@@ -1,6 +1,6 @@
 <template>
   <div>
-    <no-ssr>
+    <client-only>
       <mapbox
         v-if="accessToken"
         :access-token="accessToken"
@@ -11,7 +11,7 @@
       <p v-else>
         mapboxのapikeyが設定されていません。
       </p>
-    </no-ssr>
+    </client-only>
     <div>
       <v-bottom-sheet v-model="displaySheet">
         <v-card>
@@ -28,21 +28,17 @@
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>住所</v-list-item-title>
-                <v-list-item-sub-title>
-                  {{
-                    dialogData.address
-                  }}
-                </v-list-item-sub-title>
+                <v-list-item-subtitle>
+                  {{ dialogData.address }}
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>時間</v-list-item-title>
-                <v-list-item-sub-title>
-                  {{ dialogData.start_time }}〜{{
-                    dialogData.end_time
-                  }}
-                </v-list-item-sub-title>
+                <v-list-item-subtitle>
+                  {{ dialogData.start_time }}〜{{ dialogData.end_time }}
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list>
