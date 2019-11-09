@@ -38,7 +38,7 @@ module.exports = {
   plugins: [
     "~/plugins/vuetify",
     "~/plugins/appsync",
-    { src: "~/plugins/localStorage.js", ssr: false }
+    "~/plugins/localStorage.js"
   ],
   /*
    ** Customize the progress bar color
