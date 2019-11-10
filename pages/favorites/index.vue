@@ -19,7 +19,7 @@
     </template>
     <v-row v-else>
       <v-col cols="12">
-        <p>
+        <p class="text-sm-center">
           気になる保育施設は
           <v-icon color="pink">
             favorite
