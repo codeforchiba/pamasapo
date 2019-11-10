@@ -100,6 +100,8 @@ export const search = gql`
         city
         ward
         address
+        lat
+        long
         nursery {
           facility {
             ownership
