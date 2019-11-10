@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 export const state = () => ({
   histories: [],
   limitLength: process.env.historySize
@@ -25,7 +27,7 @@ export const mutations = {
     state.histories = state.histories.filter(history => {
       return history.id != id;
     });
-    state.histories.unshift({ id: id, timestamp: new Date() });
+    state.histories.unshift({ id: id, timestamp: DateTime.local().toISO() });
     state.histories = state.histories.slice(0, state.limitLength);
   }
 };

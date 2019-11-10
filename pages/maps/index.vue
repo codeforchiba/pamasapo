@@ -74,6 +74,16 @@ export default {
     FavoriteButton
   },
 
+  async fetch({ store }) {
+    await store.dispatch("center/search");
+  },
+
+  asyncData(context) {
+    return {
+      accessToken: context.env.mapbox.accessToken
+    };
+  },
+
   data() {
     return {
       displaySheet: false,
@@ -94,26 +104,22 @@ export default {
       }
     };
   },
+
   computed: {
     ...mapGetters({
       centers: "center/items"
     })
   },
-  asyncData(context) {
-    return {
-      accessToken: context.env.mapbox.accessToken
-    };
-  },
-  async fetch({ store }) {
-    await store.dispatch("center/search");
-  },
+
   methods: {
     showDialog() {
       this.displaySheet = true;
     },
+
     setDialog(key, value) {
       this.dialogData[key] = value;
     },
+
     mapLoaded(map) {
       const self = this;
       const features = this.centers.map(item => {
