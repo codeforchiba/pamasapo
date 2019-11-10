@@ -46,6 +46,7 @@ export default {
     console.log("抽出条件");
     console.table(filters);
     console.log("抽出前件数", data.length);
+    console.log(filters.services);
 
     if (oType.length > 0) {
       data = data.filter(row => {
@@ -94,7 +95,7 @@ export default {
           return row;
         }
         if (
-          ~nType.indexOf("E") &&
+          (~nType.indexOf("E1") || ~nType.indexOf("E2")  || ~nType.indexOf("E3") ) &&
           row.nursery.facility.nurseryType == "事業所内保育事業"
         ) {
           return row;
@@ -119,7 +120,7 @@ export default {
     //開園時間:openingTime
     //閉園時間:closingTime
     var selectedOpeningTime = 1000;
-    var selectedClosingTime = 1800;
+    var selectedClosingTime = 1600;
 
     if (selectedOpeningTime || selectedClosingTime) {
       data = data.filter(row => {
@@ -169,26 +170,36 @@ export default {
     console.log("保育終了年齢抽出後", data.length);
     //■保育サービス
     //産休明け保育:supportMaturnityLeave(※データなし)
-    //土曜保育:saturdayCareService
     //休日保育:holidayCareService(※対象データなし)
     //夜間保育:nightCareService(※対象データなし)
     //24時間保育:h24CareService(※対象データなし)
-    var selectedService = [
-      "supportMaturnityLeave",
-      "saturdayCareService",
-      "holidayCareService",
-      "nightCareService",
-      "h24CareService"
+    const serviceProperties = [
+      { key: "supportMaternityLeave"},
+      { key: "saturdayCareService"},
+      { key: "holidayCareService"},
+      { key: "temporaryCareService"},
+      { key: "spotCareService"},
+      { key: "extendedCareService"},
+      { key: "nightCareService"},
+      { key: "h24CareService"}
     ];
 
     data = data.filter(row => {
-      if (
-        ~selectedService.indexOf("saturdayCareService") &&
-        row.nursery.service.saturdayCareService == true
-      ) {
-        return row;
-      }
+      let Sflag = true;
+
+      serviceProperties.forEach(p => {
+        if (row.nursery.service[p.key] == null) return true;
+        if (filters.services[p.key] != row.nursery.service[p.key]) {
+          Sflag = false;
+        }
+    });  
+
+    if(Sflag == true){
+      return row;
+    }
+    else{
       return false;
+    }
     });
 
     console.log("保育サービス抽出後", data.length);
