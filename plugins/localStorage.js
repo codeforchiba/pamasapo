@@ -4,7 +4,10 @@ export default ({ store }) => {
   window.onNuxtReady(() => {
     createPersistedState({
       key: "vuex",
-      paths: ["favorite.items", "recent.histories"]
+      paths: [
+        "favorite.items",
+        "recent.histories"
+      ]
     })(store);
   });
 };

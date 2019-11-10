@@ -1,5 +1,5 @@
 <template>
-  <v-chip-group>
+  <v-chip-group column>
     <v-chip v-for="tag in tags" :key="tag.value" :color="tagColor(tag.type)">
       {{ tag.value }}
     </v-chip>
