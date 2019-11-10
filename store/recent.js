@@ -1,45 +1,33 @@
-const limitLength = process.env.recent.limitLength;
+import { DateTime } from 'luxon';
+
 export const state = () => ({
   histories: [],
-  limitLength: limitLength
+  limitLength: process.env.historySize
 });
 
 export const getters = {
   histories: state => {
     return state.histories;
   },
-  recent_items: (state, getters, rootState, rootGetters) => () => {
-    const ids = [];
-    state.histories.forEach(function(item) {
-      ids.push(item.id);
+
+  items: (state, getters, rootState, rootGetters) => {
+    const items = rootGetters["center/items"];
+
+    return getters.histories.map(h => {
+      return {
+        item: items.find(i => i.id === h.id),
+        timestamp: h.timestamp
+      }
     });
-
-    const ns = rootGetters["nursery/filter_items"](ids);
-
-    const ns_hash = {};
-    ns.forEach(nursery => {
-      ns_hash[nursery.id] = nursery;
-    });
-
-    const nurseries = [];
-    state.histories.forEach(function(item) {
-      let d = new Date(item.timestamp);
-      nurseries.push({
-        item: ns_hash[item.id],
-        timestamp: `${d.toLocaleDateString()} ${`${d.getHours()}時${d.getMinutes()}分`}`
-      });
-    });
-
-    return nurseries;
   }
 };
 
 export const mutations = {
-  add(state, id) {
+  ADD(state, id) {
     state.histories = state.histories.filter(history => {
       return history.id != id;
     });
-    state.histories.unshift({ id: id, timestamp: new Date() });
+    state.histories.unshift({ id: id, timestamp: DateTime.local().toISO() });
     state.histories = state.histories.slice(0, state.limitLength);
   }
 };

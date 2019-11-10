@@ -1,57 +1,64 @@
 import { serializeError } from "serialize-error";
 import _ from "lodash";
 
+const serviceProperties = [
+  { key: "supportMaternityLeave", label: "産休明け" },
+  { key: "saturdayCareService", label: "土曜可" },
+  { key: "holidayCareService", label: "休日可" },
+  { key: "temporaryCareService", label: "一時(定期)" },
+  { key: "spotCareService", label: "一時(不定期)" },
+  { key: "extendedCareService", label: "延長" },
+  { key: "nightCareService", label: "夜間" },
+  { key: "h24CareService", label: "24時間" }
+];
+
 function generateTags(item) {
   let tags = [
     { type: "basic", value: item.nursery.facility.ownership },
     { type: "basic", value: item.nursery.facility.nurseryType }
   ];
 
-  if (item.nursery.service.supportMaternityLeave) {
-    tags.push({ type: "service", value: "産休明け" });
-  }
-
-  if (item.nursery.service.saturdayCareService) {
-    tags.push({ type: "service", value: "土曜可" });
-  }
-
-  if (item.nursery.service.holidayCareService) {
-    tags.push({ type: "service", value: "休日可" });
-  }
-
-  if (item.nursery.service.temporarCareService) {
-    tags.push({ type: "service", value: "一時(定期)" });
-  }
-
-  if (item.nursery.service.spotCareService) {
-    tags.push({ type: "service", value: "一時(不定期)" });
-  }
-
-  if (item.nursery.service.extendedCareService) {
-    tags.push({ type: "service", value: "延長" });
-  }
-
-  if (item.nursery.service.nightCareService) {
-    tags.push({ type: "service", value: "夜間" });
-  }
-
-  if (item.nursery.service.h24CareService) {
-    tags.push({ type: "service", value: "24時間" });
-  }
+  serviceProperties.forEach(p => {
+    if (item.nursery.service[p.key]) {
+      tags.push({ type: "service", value: p.label });
+    }
+  });
 
   return tags;
 }
 
+function fullAddress(item) {
+  return `${item.prefecture}${item.city}${item.ward}${item.address}`;
+}
+
+function extendProps(item) {
+  item.tags = generateTags(item);
+  item.fullAddress = fullAddress(item);
+  return item;
+}
+
 export default {
+  LOAD_CENTER(state) {
+    state.loading = true;
+  },
+
+  LOAD_CENTER_SUCCESS(state, data) {
+    data = extendProps(data);
+    state.current = data;
+    state.loading = false;
+  },
+
+  LOAD_CENTER_FAILURE(state, error) {
+    state.error = serializeError(error);
+    state.loading = false;
+  },
+
   SEARCH_CENTER(state) {
     state.loading = true;
   },
 
   SEARCH_CENTER_SUCCESS(state, data) {
-    state.items = _.map(data.search.items, item => {
-      item.tags = generateTags(item);
-      return item;
-    });
+    state.items = _.map(data.search.items, item => extendProps(item));
     state.loading = false;
   },
 

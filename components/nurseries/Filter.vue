@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar dense flat>
+  <v-toolbar dense text flat>
     <v-toolbar-title>
       <v-img :src="logoPath" width="220px" height="32px" contain />
     </v-toolbar-title>
@@ -15,6 +15,7 @@
           <v-tabs>
             <v-tab>保育施設種別</v-tab>
             <v-tab>保育施設属性</v-tab>
+            <v-tab>保育サービス</v-tab>
             <v-tab-item>
               <v-treeview
                 v-model="selectedNurseryTypes"
@@ -23,17 +24,85 @@
               />
             </v-tab-item>
             <v-tab-item>
-              <v-layout wrap>
-                <v-flex xs12>
+              <v-row dense>
+                <v-col cols="12">
                   <v-subheader>園種別</v-subheader>
-                </v-flex>
-                <v-flex offset-xs1 xs5>
+                </v-col>
+                <v-col offset="1" cols="5">
                   <v-switch v-model="publicOwnership" label="公立" />
-                </v-flex>
-                <v-flex offset-xs1 xs5>
+                </v-col>
+                <v-col offset="1" cols="5">
                   <v-switch v-model="privateOwnership" label="私立" />
-                </v-flex>
-              </v-layout>
+                </v-col>
+              </v-row>
+              <v-row dense>
+                <v-col cols="12">
+                  <v-subheader>開園時間</v-subheader>
+                </v-col>
+                <v-col offset="1" cols="4">
+                  <v-menu ref="startTimeMenu" v-model="startTimePicker"
+                          max-width="290px" min-width="290px"
+                          :close-on-content-click="false"
+                  >
+                    <template #activator="{ on: onStart }">
+                      <v-text-field v-model="startTime" readonly v-on="onStart" />
+                    </template>
+                    <v-time-picker v-if="startTimePicker" v-model="startTime"
+                                   full-width
+                                   @click:minute="$refs.startTimeMenu.save(startTime)"
+                    />
+                  </v-menu>
+                </v-col>
+                <v-col cols="2">
+                  <v-card flat>
+                    <v-card-text class="text-center">
+                      〜
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+                <v-col cols="4">
+                  <v-menu ref="endTimeMenu" v-model="endTimePicker"
+                          max-width="290px" min-width="290px"
+                          :close-on-content-click="false"
+                  >
+                    <template #activator="{ on: onEnd }">
+                      <v-text-field v-model="endTime" readonly v-on="onEnd" />
+                    </template>
+                    <v-time-picker v-if="endTimePicker" v-model="endTime"
+                                   full-width
+                                   @click="$refs.endTimeMenu.save(endTime)"
+                    />
+                  </v-menu>
+                </v-col>
+              </v-row>
+            </v-tab-item>
+            <v-tab-item>
+              <v-row dense>
+                <v-col offset="1" cols="11">
+                  <v-switch v-model="supportMaternityLeave" label="産休明け保育" />
+                </v-col>
+                <v-col offset="1" cols="11">
+                  <v-switch v-model="saturdayCareService" label="土曜日対応" />
+                </v-col>
+                <v-col offset="1" cols="11">
+                  <v-switch v-model="holidayCareService" label="休日対応" />
+                </v-col>
+                <v-col offset="1" cols="11">
+                  <v-switch v-model="temporaryCareService" label="一時利用(定期)" />
+                </v-col>
+                <v-col offset="1" cols="11">
+                  <v-switch v-model="spotCareService" label="一時利用(不定期)" />
+                </v-col>
+                <v-col offset="1" cols="11">
+                  <v-switch v-model="extendedCareService" label="延長保育対応" />
+                </v-col>
+                <v-col offset="1" cols="11">
+                  <v-switch v-model="nightCareService" label="夜間保育対応" />
+                </v-col>
+                <v-col offset="1" cols="11">
+                  <v-switch v-model="h24CareService" label="24時間保育対応" />
+                </v-col>
+              </v-row>
             </v-tab-item>
           </v-tabs>
         </v-card-text>
@@ -63,6 +132,18 @@ export default {
       selectedNurseryTypes: [],
       publicOwnership: false,
       privateOwnership: false,
+      startTime: null,
+      startTimePicker: false,
+      endTime: null,
+      endTimePicker: false,
+      supportMaternityLeave: false,
+      saturdayCareService: false,
+      holidayCareService: false,
+      temporaryCareService: false,
+      spotCareService: false,
+      extendedCareService: false,
+      nightCareService: false,
+      h24CareService: false,
       nurseryTypes: nurseryTypes
     };
   },
@@ -81,6 +162,19 @@ export default {
         this.publicOwnership ? "public" : null,
         this.privateOwnership ? "private" : null
       ]);
+    },
+
+    services() {
+      return {
+        supportMaternityLeave: this.supportMaternityLeave,
+        saturdayCareService: this.saturdayCareService,
+        holidayCareService: this.holidayCareService,
+        temporaryCareService: this.temporaryCareService,
+        spotCareService: this.spotCareService,
+        extendedCareService: this.extendedCareService,
+        nightCareService: this.nightCareService,
+        h24CareService: this.h24CareService
+      }
     }
   },
 
@@ -92,8 +186,12 @@ export default {
     apply() {
       this.$emit("applyFilter", {
         nurseryTypes: this.selectedNurseryTypes,
-        ownerships: this.ownerships
+        ownerships: this.ownerships,
+        startTime: this.startTime,
+        endTime: this.endTime,
+        services: this.services
       });
+
       this.toggleDialog();
     }
   }

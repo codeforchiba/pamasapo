@@ -1,5 +1,5 @@
 <template>
-  <no-ssr>
+  <client-only>
     <mapbox
       v-if="accessToken"
       :access-token="accessToken"
@@ -8,9 +8,9 @@
       @map-load="mapLoaded"
     />
     <p v-else>
-      mapboxのapikeyが設定されていません。
+      地図を表示できません。
     </p>
-  </no-ssr>
+  </client-only>
 </template>
 
 <script>
@@ -23,14 +23,13 @@ export default {
   },
 
   props: {
-    accessToken: { type: String, required: true },
-    lng: { type: Number, required: true },
-    lat: { type: Number, required: true }
+    item: { type: Object, required: true }
   },
 
   data() {
     return {
-      navControl: { show: true, position: "top-right" }
+      navControl: { show: false },
+      accessToken: process.env.mapboxAccessToken
     };
   },
 
@@ -38,8 +37,9 @@ export default {
     mapBoxOptions: function() {
       return {
         style: "mapbox://styles/mapbox/streets-v10",
-        center: [this.lng, this.lat],
-        zoom: 13
+        center: [this.item.long, this.item.lat],
+        zoom: 13,
+        interactive: false
       };
     }
   },
@@ -54,7 +54,7 @@ export default {
             type: "Feature",
             geometry: {
               type: "Point",
-              coordinates: [self.lng, self.lat]
+              coordinates: [self.item.long, self.item.lat]
             },
             properties: {
               title: "保育園",
@@ -64,8 +64,8 @@ export default {
         ]
       };
 
-      geojson.features.forEach(function(marker) {
-        var el = document.createElement("div");
+      geojson.features.forEach(marker => {
+        const el = document.createElement("div");
         el.className = "marker";
         new mapboxgl.Marker(el)
           .setLngLat(marker.geometry.coordinates)
