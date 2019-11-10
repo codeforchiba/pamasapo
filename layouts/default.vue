@@ -3,7 +3,7 @@
     <v-content app>
       <nuxt />
     </v-content>
-    <navigation />
+    <navigation app />
   </v-app>
 </template>
 
