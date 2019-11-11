@@ -29,5 +29,9 @@ export const mutations = {
     });
     state.histories.unshift({ id: id, timestamp: DateTime.local().toISO() });
     state.histories = state.histories.slice(0, state.limitLength);
+  },
+
+  CLEAR(state) {
+    state.histories = []
   }
 };

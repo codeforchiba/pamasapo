@@ -1,6 +1,6 @@
 <template>
-  <v-chip-group column>
-    <v-chip v-for="tag in tags" :key="tag.value" :color="tagColor(tag.type)">
+  <v-chip-group column active-class="">
+    <v-chip v-for="tag in tags" :key="tag.value" :color="tagColor(tag.type)" :small="small">
       {{ tag.value }}
     </v-chip>
   </v-chip-group>
@@ -12,6 +12,11 @@ export default {
     item: {
       type: Object,
       required: true
+    },
+
+    small: {
+      type: Boolean,
+      default: false
     }
   },
 
