@@ -79,12 +79,27 @@ export default {
         //プール:hasPool
         //駐車場:hasParkingLot
         //駐車場:numberOfParkingLot
-        //if (row.nursery.facility.nurseryType != "保育園") {
-        //  return false;
-        //}
         if (
           ~nType.indexOf("A") &&
           row.nursery.facility.nurseryType == "保育園"
+        ) {
+          return row;
+        }
+        if (
+          ~nType.indexOf("B1") &&
+          row.nursery.facility.nurseryType == "幼保連携型認定こども園"
+        ) {
+          return row;
+        }
+        if (
+          ~nType.indexOf("B2") &&
+          row.nursery.facility.nurseryType == "幼稚園型認定こども園"
+        ) {
+          return row;
+        }
+        if (
+          ~nType.indexOf("B3") &&
+          row.nursery.facility.nurseryType == "保育所型認定こども園"
         ) {
           return row;
         }
@@ -128,9 +143,7 @@ export default {
     }
     console.log("保育施設種別抽出後", data.length);
 
-    //保育施設
-    //開園時間:openingTime
-    //閉園時間:closingTime
+    //保育施設(開園時間と終園時間)
     var selectedOpeningTime = filters.startTime;
     if(selectedOpeningTime != null )
       selectedOpeningTime = selectedOpeningTime.replace(/:/g, "");
@@ -164,13 +177,11 @@ export default {
 
     console.log("保育施設開園/閉園時間抽出後", data.length);
 
-    //保育施設
-    //保育開始年齢:ageFrom
-    //保育終了年齢:ageTo
+    //保育施設(保育開始年齢と保育終了年齢)
     var selectedAgeFrom = 1;
     var selectedAgeTo = 2;
 
-    if (selectedAgeTo) {
+    if (selectedAgeTo||selectedAgeFrom) {
       data = data.filter(row => {
         var ageFrom = row.nursery.facility.ageFrom;
 
@@ -187,11 +198,8 @@ export default {
     }
 
     console.log("保育終了年齢抽出後", data.length);
+
     //■保育サービス
-    //産休明け保育:supportMaturnityLeave(※データなし)
-    //休日保育:holidayCareService(※対象データなし)
-    //夜間保育:nightCareService(※対象データなし)
-    //24時間保育:h24CareService(※対象データなし)
     const serviceProperties = [
       { key: "supportMaternityLeave"},
       { key: "saturdayCareService"},
