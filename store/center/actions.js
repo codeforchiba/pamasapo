@@ -95,6 +95,12 @@ export default {
           return row;
         }
         if (
+          (~nType.indexOf("C1") || ~nType.indexOf("C2")  || ~nType.indexOf("C3") ) &&
+          row.nursery.facility.nurseryType == "小規模保育事業"
+        ) {
+          return row;
+        }
+        if (
           ~nType.indexOf("D") &&
           row.nursery.facility.nurseryType == "家庭的保育事業"
         ) {
