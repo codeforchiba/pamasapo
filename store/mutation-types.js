@@ -3,3 +3,6 @@ export const UNREGISTER_FAVORITE = "favorite/UNREGISTER";
 
 export const ADD_HISTORY = "recent/ADD";
 export const CLEAR_HISTORY = "recent/CLEAR";
+
+export const NOTIFY_SYSTEM = "system/NOTIFY";
+export const PROCESS_NOTIFICATION = "system/PROCESS_NOTIFICATION";

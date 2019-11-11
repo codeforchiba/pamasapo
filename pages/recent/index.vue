@@ -47,7 +47,7 @@ import _ from "lodash";
 
 import FavoriteButton from "~/components/FavoriteButton";
 import TagBar from "~/components/nurseries/TagBar";
-import { CLEAR_HISTORY } from "../../store/mutation-types";
+import { CLEAR_HISTORY, NOTIFY_SYSTEM } from "../../store/mutation-types";
 
 export default {
   components: {
@@ -77,11 +77,13 @@ export default {
 
   methods: {
     ...mapMutations({
-      clearHistory: CLEAR_HISTORY
+      clearHistory: CLEAR_HISTORY,
+      notify: NOTIFY_SYSTEM
     }),
 
     clear() {
       this.clearHistory();
+      this.notify({ type: 'info', message: '履歴を削除しました。' })
     }
   }
 };
