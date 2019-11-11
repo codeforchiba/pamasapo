@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-navigation app fixed color="pink lighten-2">
+  <v-bottom-navigation :app="app" fixed color="pink lighten-2">
     <v-btn to="/">
       <span>リスト表示</span>
       <v-icon>list</v-icon>
@@ -18,3 +18,17 @@
     </v-btn>
   </v-bottom-navigation>
 </template>
+
+<script>
+export default {
+  props: {
+    app: Boolean
+  }
+}
+</script>
+
+<style scoped>
+.v-item-group.v-bottom-navigation .v-btn.v-size--default {
+  height: inherit;
+}
+</style>

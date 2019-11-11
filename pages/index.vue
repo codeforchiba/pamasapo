@@ -1,13 +1,13 @@
 <template>
-  <v-container grid-list-md text-xs-center pa-0>
-    <v-layout row wrap>
+  <v-container fluid pa-0>
+    <v-row>
       <nursery-filter @applyFilter="applyFiltertoStore" />
-    </v-layout>
-    <v-layout row wrap>
-      <v-flex v-for="item in filteredCenters" :key="item.name" xs12>
+    </v-row>
+    <v-row>
+      <v-col v-for="item in filteredCenters" :key="item.name" cols="12">
         <nursery-card :item="item" />
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
