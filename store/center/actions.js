@@ -83,6 +83,12 @@ export default {
         //  return false;
         //}
         if (
+          ~nType.indexOf("A") &&
+          row.nursery.facility.nurseryType == "保育園"
+        ) {
+          return row;
+        }
+        if (
           ~nType.indexOf("B4") &&
           row.nursery.facility.nurseryType == "地方裁量型認定こども園"
         ) {
@@ -119,8 +125,15 @@ export default {
     //保育施設
     //開園時間:openingTime
     //閉園時間:closingTime
-    var selectedOpeningTime = 1000;
-    var selectedClosingTime = 1600;
+    var selectedOpeningTime = filters.startTime;
+    if(selectedOpeningTime != null )
+      selectedOpeningTime = selectedOpeningTime.replace(/:/g, "");
+    console.log("startTime",selectedOpeningTime);
+    
+    var selectedClosingTime = filters.endTime;
+    if(selectedClosingTime != null)
+      selectedClosingTime = selectedClosingTime.replace(/:/g, "");
+    console.log("endTime",selectedClosingTime);
 
     if (selectedOpeningTime || selectedClosingTime) {
       data = data.filter(row => {
@@ -128,7 +141,7 @@ export default {
         openingTime = openingTime.replace(/：/g, "");
         openingTime = openingTime.replace(/:/g, "");
 
-        if (parseInt(openingTime) > selectedOpeningTime) {
+        if (parseInt(openingTime) > parseInt(selectedOpeningTime)) {
           return false;
         }
 
@@ -136,7 +149,7 @@ export default {
         closingTime = closingTime.replace(/：/g, "");
         closingTime = closingTime.replace(/:/g, "");
 
-        if (parseInt(closingTime) < selectedClosingTime) {
+        if (parseInt(closingTime) < parseInt(selectedClosingTime)) {
           return false;
         }
         return row;
@@ -146,18 +159,18 @@ export default {
     console.log("保育施設開園/閉園時間抽出後", data.length);
 
     //保育施設
-    //保育開始年齢:ageFrom(なし→追加するとエラー発生)
-    //保育終了年齢:ageTo(取得完了)
-    //var selectedAgeFrom = 1;
+    //保育開始年齢:ageFrom
+    //保育終了年齢:ageTo
+    var selectedAgeFrom = 1;
     var selectedAgeTo = 2;
 
     if (selectedAgeTo) {
       data = data.filter(row => {
-        //var ageFrom = row.nursery.facility.ageFrom;
+        var ageFrom = row.nursery.facility.ageFrom;
 
-        //if (ageFrom != null && ageFrom > selectedAgeFrom) {
-        //  return false;
-        //}
+        if (ageFrom != null && ageFrom > selectedAgeFrom) {
+          return false;
+        }
 
         var ageTo = row.nursery.facility.ageTo;
         if (ageTo != null && ageTo < selectedAgeTo) {
@@ -184,24 +197,33 @@ export default {
       { key: "h24CareService"}
     ];
 
-    data = data.filter(row => {
-      let Sflag = true;
+    let serviceSelectFlag = false;
 
-      serviceProperties.forEach(p => {
-        if (row.nursery.service[p.key] == null) return true;
-        if (filters.services[p.key] != row.nursery.service[p.key]) {
-          Sflag = false;
-        }
-    });  
-
-    if(Sflag == true){
-      return row;
-    }
-    else{
-      return false;
-    }
+    serviceProperties.forEach(p => {
+      if (filters.services[p.key] == true)
+      serviceSelectFlag = true;
     });
 
+    if (serviceSelectFlag == true) {
+
+      data = data.filter(row => {
+        let Sflag = false;
+
+        serviceProperties.forEach(p => {
+          if (filters.services[p.key] == true && 
+            (row.nursery.service[p.key] == null || row.nursery.service[p.key] == true)) {
+            Sflag = true;
+          }
+        });  
+
+        if(Sflag == true){
+          return row;
+        }
+        else{
+          return false;
+        }
+      });
+    }
     console.log("保育サービス抽出後", data.length);
     commit("APPLY_FILTER_SUCCESS", data, convertFilter(filters));
     console.log("actions/applyfilter--end");
