@@ -40,24 +40,21 @@ export default {
 
   applyFilter({ commit, state }, filters) {
     commit("APPLY_FILTER", filters);
-    var data = state.items;
-    var nType = Array.from(filters.nurseryTypes);
-    var oType = Array.from(filters.ownerships);
-    console.log("抽出条件");
-    console.table(filters);
-    console.log("抽出前件数", data.length);
-    console.log(filters.services);
+    let data = state.items;
+    let nurseryTypes = Array.from(filters.nurseryTypes);
+    let ownerships = Array.from(filters.ownerships);
 
-    if (oType.length > 0) {
+    //
+    if (ownerships.length > 0) {
       data = data.filter(row => {
         if (
-          ~oType.indexOf("public") &&
+          ~ownerships.indexOf("public") &&
           row.nursery.facility.ownership == "公立"
         ) {
           return row;
         }
         if (
-          ~oType.indexOf("private") &&
+          ~ownerships.indexOf("private") &&
           row.nursery.facility.ownership == "私立"
         ) {
           return row;
@@ -66,97 +63,88 @@ export default {
       });
     }
 
-    console.table("保育施設属性抽出後", data.length);
-
     //保育施設種別
-    if (nType.length > 0) {
+    if (nurseryTypes.length > 0) {
       data = data.filter(row => {
-        //保育施設種別
-        //未実装
-        //
+        //以下、未実装
         //園庭:hasYard
         //庭園広さ:areaOfYard
         //プール:hasPool
         //駐車場:hasParkingLot
         //駐車場:numberOfParkingLot
         if (
-          ~nType.indexOf("A") &&
+          ~nurseryTypes.indexOf("A") &&
           row.nursery.facility.nurseryType == "保育園"
         ) {
           return row;
         }
         if (
-          ~nType.indexOf("B1") &&
+          ~nurseryTypes.indexOf("B1") &&
           row.nursery.facility.nurseryType == "幼保連携型認定こども園"
         ) {
           return row;
         }
         if (
-          ~nType.indexOf("B2") &&
+          ~nurseryTypes.indexOf("B2") &&
           row.nursery.facility.nurseryType == "幼稚園型認定こども園"
         ) {
           return row;
         }
         if (
-          ~nType.indexOf("B3") &&
+          ~nurseryTypes.indexOf("B3") &&
           row.nursery.facility.nurseryType == "保育所型認定こども園"
         ) {
           return row;
         }
         if (
-          ~nType.indexOf("B4") &&
+          ~nurseryTypes.indexOf("B4") &&
           row.nursery.facility.nurseryType == "地方裁量型認定こども園"
         ) {
           return row;
         }
         if (
-          (~nType.indexOf("C1") || ~nType.indexOf("C2")  || ~nType.indexOf("C3") ) &&
+          (~nurseryTypes.indexOf("C1") || ~nurseryTypes.indexOf("C2")  || ~nurseryTypes.indexOf("C3") ) &&
           row.nursery.facility.nurseryType == "小規模保育事業"
         ) {
           return row;
         }
         if (
-          ~nType.indexOf("D") &&
+          ~nurseryTypes.indexOf("D") &&
           row.nursery.facility.nurseryType == "家庭的保育事業"
         ) {
           return row;
         }
         if (
-          (~nType.indexOf("E1") || ~nType.indexOf("E2")  || ~nType.indexOf("E3") ) &&
+          (~nurseryTypes.indexOf("E1") || ~nurseryTypes.indexOf("E2")  || ~nurseryTypes.indexOf("E3") ) &&
           row.nursery.facility.nurseryType == "事業所内保育事業"
         ) {
           return row;
         }
         if (
-          ~nType.indexOf("G1") &&
+          ~nurseryTypes.indexOf("G1") &&
           row.nursery.facility.nurserySubType == "先取りプロジェクト"
         ) {
           return row;
         }
         if (
-          ~nType.indexOf("G2") &&
+          ~nurseryTypes.indexOf("G2") &&
           row.nursery.facility.nurserySubType == "保育ルーム"
         ) {
           return row;
         }
       });
     }
-    console.log("保育施設種別抽出後", data.length);
 
     //保育施設(開園時間と終園時間)
-    var selectedOpeningTime = filters.startTime;
-    if(selectedOpeningTime != null )
-      selectedOpeningTime = selectedOpeningTime.replace(/:/g, "");
-    console.log("startTime",selectedOpeningTime);
+    let selectedOpeningTime = filters.startTime;
+    if(selectedOpeningTime != null ) selectedOpeningTime = selectedOpeningTime.replace(/:/g, "");
     
-    var selectedClosingTime = filters.endTime;
-    if(selectedClosingTime != null)
-      selectedClosingTime = selectedClosingTime.replace(/:/g, "");
-    console.log("endTime",selectedClosingTime);
+    let selectedClosingTime = filters.endTime;
+    if(selectedClosingTime != null) selectedClosingTime = selectedClosingTime.replace(/:/g, "");
 
     if (selectedOpeningTime || selectedClosingTime) {
       data = data.filter(row => {
-        var openingTime = row.nursery.facility.openingTime;
+        let openingTime = row.nursery.facility.openingTime;
         openingTime = openingTime.replace(/：/g, "");
         openingTime = openingTime.replace(/:/g, "");
 
@@ -164,7 +152,7 @@ export default {
           return false;
         }
 
-        var closingTime = row.nursery.facility.closingTime;
+        let closingTime = row.nursery.facility.closingTime;
         closingTime = closingTime.replace(/：/g, "");
         closingTime = closingTime.replace(/:/g, "");
 
@@ -175,29 +163,25 @@ export default {
       });
     }
 
-    console.log("保育施設開園/閉園時間抽出後", data.length);
-
     //保育施設(保育開始年齢と保育終了年齢)
-    var selectedAgeFrom = 1;
-    var selectedAgeTo = 2;
+    let selectedAgeFrom = 1;
+    let selectedAgeTo = 2;
 
     if (selectedAgeTo||selectedAgeFrom) {
       data = data.filter(row => {
-        var ageFrom = row.nursery.facility.ageFrom;
+        let ageFrom = row.nursery.facility.ageFrom;
 
         if (ageFrom != null && ageFrom > selectedAgeFrom) {
           return false;
         }
 
-        var ageTo = row.nursery.facility.ageTo;
+        let ageTo = row.nursery.facility.ageTo;
         if (ageTo != null && ageTo < selectedAgeTo) {
           return false;
         }
         return row;
       });
     }
-
-    console.log("保育終了年齢抽出後", data.length);
 
     //■保育サービス
     const serviceProperties = [
@@ -221,25 +205,20 @@ export default {
     if (serviceSelectFlag == true) {
 
       data = data.filter(row => {
-        let Sflag = false;
+        let serviceFlag = false;
 
         serviceProperties.forEach(p => {
           if (filters.services[p.key] == true && 
             (row.nursery.service[p.key] == null || row.nursery.service[p.key] == true)) {
-            Sflag = true;
+              serviceFlag = true;
           }
         });  
 
-        if(Sflag == true){
-          return row;
-        }
-        else{
-          return false;
-        }
+        return serviceFlag ? row: false;
+
       });
     }
-    console.log("保育サービス抽出後", data.length);
+
     commit("APPLY_FILTER_SUCCESS", data, convertFilter(filters));
-    console.log("actions/applyfilter--end");
   }
 };
