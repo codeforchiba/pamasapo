@@ -1,6 +1,7 @@
 export const state = () => ({
   current: undefined,
   items: [],
+  filteredItems: [],
   filters: {
     nurseryTypes: [],
     ownerships: []

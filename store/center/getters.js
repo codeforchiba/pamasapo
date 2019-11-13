@@ -8,6 +8,6 @@ export default {
   },
 
   filteredItems: state => {
-    return state.items;
+    return state.filteredItems;
   }
 };

@@ -90,7 +90,7 @@ export const get = gql`
 
 export const search = gql`
   query {
-    search(limit: 50) {
+    search {
       items {
         id
         name
@@ -109,6 +109,10 @@ export const search = gql`
             nurserySubType
             openingTime
             closingTime
+            ageTo
+            hasYard
+            areaOfYard
+            hasPool
             hasParkingLot
             numberOfParkingLot
           }

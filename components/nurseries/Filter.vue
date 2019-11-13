@@ -159,8 +159,8 @@ export default {
 
     ownerships() {
       return _.compact([
-        this.publicOwnership || "public",
-        this.privateOwnership || "private"
+        this.publicOwnership ? "public" : null,
+        this.privateOwnership ? "private" : null
       ]);
     },
 
