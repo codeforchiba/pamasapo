@@ -4,9 +4,7 @@
       <nursery-filter @applyFilter="applyFiltertoStore" />
     </v-row>
     <v-row>
-      <v-col v-for="item in filteredCenters" :key="item.name" cols="12">
-        <nursery-card :item="item" />
-      </v-col>
+      <nursery-card-list :list-data="filteredCenters" cols="12" />
     </v-row>
   </v-container>
 </template>
@@ -14,12 +12,12 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
-import NurseryCard from "~/components/nurseries/Card";
+import NurseryCardList from "~/components/nurseries/CardList";
 import NurseryFilter from "~/components/nurseries/Filter";
 
 export default {
   components: {
-    NurseryCard,
+    NurseryCardList,
     NurseryFilter
   },
 
