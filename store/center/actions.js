@@ -25,7 +25,10 @@ export default {
     }
   },
 
-  async search({ commit }) {
+  async search({ commit , state}) {
+
+    if(state.itemsIsCached) return;
+
     commit("SEARCH_CENTER");
 
     try {
