@@ -4,7 +4,9 @@
       <nursery-filter @applyFilter="applyFiltertoStore" />
     </v-row>
     <v-row>
-      <nursery-card-list :list-data="filteredCenters" cols="12" />
+      <v-col cols="12">
+        <nursery-card-list :list-data="filteredCenters" />
+      </v-col>
     </v-row>
   </v-container>
 </template>
