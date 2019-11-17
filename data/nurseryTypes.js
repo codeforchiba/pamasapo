@@ -1,5 +1,5 @@
 const nurseryTypes = [
-  { id: "A", name: "認可保育所" },
+  { id: "A", name: "保育園" },
   {
     id: "B",
     name: "こども園",
@@ -12,17 +12,17 @@ const nurseryTypes = [
   },
   {
     id: "C",
-    name: "小規模保育",
+    name: "小規模保育事業",
     children: [
       { id: "C1", name: "A型" },
       { id: "C2", name: "B型" },
       { id: "C3", name: "C型" }
     ]
   },
-  { id: "D", name: "家庭的保育" },
+  { id: "D", name: "家庭的保育事業" },
   {
     id: "E",
-    name: "事業所内保育",
+    name: "事業所内保育事業",
     children: [
       { id: "E1", name: "保育所型" },
       { id: "E2", name: "小規模A型" },
@@ -35,7 +35,7 @@ const nurseryTypes = [
   },
   {
     id: "G",
-    name: "認可外保育所",
+    name: "認可外保育施設",
     children: [
       { id: "G1", name: "先取りプロジェクト" },
       { id: "G2", name: "保育ルーム" }
@@ -47,7 +47,7 @@ const nurseryTypes = [
   },
   {
     id: "I",
-    name: "無認可保育所"
+    name: "無認可保育施設"
   }
 ];
 
