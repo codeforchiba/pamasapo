@@ -8,5 +8,4 @@ export const state = () => ({
   },
   error: undefined,
   loading: false,
-  itemsIsCached: false
 });

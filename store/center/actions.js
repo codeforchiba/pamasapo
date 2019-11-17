@@ -25,9 +25,9 @@ export default {
     }
   },
 
-  async search({ commit , state}) {
+  async search({ commit, getters }) {
 
-    if(state.itemsIsCached) return;
+    if(getters['items'].length !=0 ) return;
 
     commit("SEARCH_CENTER");
 

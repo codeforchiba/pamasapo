@@ -60,7 +60,6 @@ export default {
   SEARCH_CENTER_SUCCESS(state, data) {
     state.items = _.map(data.search.items, item => extendProps(item));
     state.loading = false;
-    state.itemsIsCached = true;
   },
 
   SEARCH_CENTER_FAILURE(state, error) {
