@@ -20,7 +20,6 @@
         </div>
       </infinite-loading>
     </div>
-    <div>{{ listData.length }}</div>
   </div>
 </template>
 
@@ -45,27 +44,34 @@ export default {
     return {
       lists: [],
       start: 0,
-      end: 20
+      end: 50,
+      windowSize : 50,
     }
   },
+
+  watch: {
+    listData: function() {
+      this.lists=[];
+      this.start=0;
+      this.end=this.windowSize;
+      this.$refs.infiniteLoading.stateChanger.reset();
+    }
+  },
+  
   methods: {
     infiniteHandler($state) {
-      console.log("infiniteHandler")
-      console.log("listDataLength",this.listData.length)
 
       if (this.end > this.listData.length) {
         $state.complete()
-      console.log("complete")
       } else {
         this.getLists()
         $state.loaded()
-        console.log("loaded")
       }
     },
     getLists() {
       this.lists = this.lists.concat(this.listData.slice(this.start, this.end))
-      this.start = this.start + 20
-      this.end = this.end + 20
+      this.start = this.start + this.windowSize
+      this.end = this.end + this.windowSize
     }
   }
 }
