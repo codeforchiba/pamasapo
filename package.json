@@ -14,7 +14,7 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "aws-appsync": "2.0.2",
+    "aws-appsync": "3.0.2",
     "graphql": "0.13.0",
     "graphql-tag": "2.10.1",
     "lodash": "4.17.15",
@@ -38,7 +38,7 @@
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-standard": "4.0.1",
     "eslint-plugin-vue": "6.0.1",
-    "sass": "1.23.3",
+    "sass": "1.23.6",
     "sass-loader": "7.3.1"
   },
   "engines": {
