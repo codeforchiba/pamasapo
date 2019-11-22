@@ -25,6 +25,13 @@ export default {
 
   async fetch({ store }) {
     await store.dispatch("center/search");
+    await store.dispatch("center/applyFilter",{
+        nurseryTypes: {},
+        ownerships: {},
+        startTime: null,
+        endTime: null,
+        services: {}
+      });
   },
 
   data() {
