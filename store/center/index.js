@@ -7,5 +7,5 @@ export const state = () => ({
     ownerships: []
   },
   error: undefined,
-  loading: false
+  loading: false,
 });

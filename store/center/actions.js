@@ -25,7 +25,11 @@ export default {
     }
   },
 
-  async search({ commit }) {
+  async search({ commit, getters }) {
+    if (getters['items'].length > 0) {
+      return;
+    }
+
     commit("SEARCH_CENTER");
 
     try {
@@ -138,7 +142,7 @@ export default {
     //保育施設(開園時間と終園時間)
     let selectedOpeningTime = filters.startTime;
     if(selectedOpeningTime != null ) selectedOpeningTime = selectedOpeningTime.replace(/:/g, "");
-    
+
     let selectedClosingTime = filters.endTime;
     if(selectedClosingTime != null) selectedClosingTime = selectedClosingTime.replace(/:/g, "");
 
@@ -208,11 +212,11 @@ export default {
         let serviceFlag = false;
 
         serviceProperties.forEach(p => {
-          if (filters.services[p.key] == true && 
+          if (filters.services[p.key] == true &&
             (row.nursery.service[p.key] == null || row.nursery.service[p.key] == true)) {
               serviceFlag = true;
           }
-        });  
+        });
 
         return serviceFlag ? row: false;
 
