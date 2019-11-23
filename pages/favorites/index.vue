@@ -3,7 +3,7 @@
     <template v-if="hasFavorite">
       <v-list three-line>
         <template v-for="(item, index) in favorites">
-          <v-divider v-if="index > 0" :key="item.id" />
+          <v-divider v-if="index > 0" :key="index" />
           <v-list-item :key="item.id" @click="open(item)">
             <v-list-item-content>
               <v-list-item-title>{{ item.name }}</v-list-item-title>
