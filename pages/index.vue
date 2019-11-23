@@ -1,11 +1,13 @@
 <template>
   <v-container fluid pa-0>
     <v-row>
-      <nursery-filter @applyFilter="applyFiltertoStore" />
+      <nursery-filter @applyFilter="runFilter" />
     </v-row>
     <v-row>
-      <v-col v-for="item in filteredCenters" :key="item.name" cols="12">
-        <nursery-card :item="item" />
+      <v-col v-for="item in centers" :key="item.name" cols="12" md="6">
+        <v-lazy :options="{ threshold: .5 }">
+          <nursery-card :item="item" />
+        </v-lazy>
       </v-col>
     </v-row>
   </v-container>
@@ -36,11 +38,7 @@ export default {
   computed: {
     ...mapGetters({
       centers: "center/filteredItems"
-    }),
-    filteredCenters: function() {
-      var data = this.centers;
-      return data;
-    }
+    })
   },
 
   methods: {
@@ -48,7 +46,7 @@ export default {
       applyFilter: "center/applyFilter"
     }),
 
-    applyFiltertoStore: function(filters) {
+    runFilter: function(filters) {
       this.applyFilter(filters);
     }
   }
