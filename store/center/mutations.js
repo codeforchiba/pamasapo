@@ -68,12 +68,6 @@ export default {
   },
 
   APPLY_FILTER(state, filter) {
-    state.filters.nurseryTypes = filter.nurseryTypes;
-    state.filters.ownerships = filter.ownerships;
-  },
-
-  APPLY_FILTER_SUCCESS(state, filteredItems, filter) {
-    state.filteredItems = filteredItems;
-    console.log(filter);
+    state.filters = filter;
   }
 };
