@@ -7,8 +7,8 @@ const ownershipFilter = (item, filters) => {
     return true;
   }
 
-  return (item.nursery.facility.ownership === "公立" && _.include(filters, "public")) ||
-    (item.nursery.facility.ownership === "私立" && _.include(filters, "private"));
+  return (item.nursery.facility.ownership === "公立" && _.includes(filters, "public")) ||
+    (item.nursery.facility.ownership === "私立" && _.includes(filters, "private"));
 };
 
 const typeFilter = (item, filters) => {
@@ -16,9 +16,7 @@ const typeFilter = (item, filters) => {
     return true;
   }
 
-  const strings = filters.map(f => {
-    return _.find(nurseryTypes, { id: f } )
-  });
+  const strings = filters.map(f => _.find(nurseryTypes, { id: f } )).map(f => f.name);
 
   return _.includes(strings, item.nursery.facility.nurseryType);
 };
@@ -29,7 +27,7 @@ const calculateTime = (timeString) => {
   }
 
   const list = timeString.split(":");
-  return list[0] * 60 + list[1]
+  return parseInt(list[0]) * 60 + parseInt(list[1]);
 };
 
 export default {
@@ -58,8 +56,8 @@ export default {
     //駐車場:numberOfParkingLot
 
     //保育施設(開園時間と終園時間)
-    const selectedOpeningTime = calculateTime(state.filters.startTime);
-    const selectedClosingTime = calculateTime(state.filters.endTime);
+    const selectedOpeningTime = calculateTime(state.filters.nursery.startTime);
+    const selectedClosingTime = calculateTime(state.filters.nursery.endTime);
 
     data = data.filter(row => {
       const openingTime = calculateTime(row.nursery.facility.openingTime);
@@ -93,7 +91,7 @@ export default {
     if (hasServiceSelected) {
       data = data.filter(row => {
         return _.some(serviceProperties, p => {
-          return state.filters.nursery.services[p.key] && row.nursery.service[p.key] == null
+          return state.filters.nursery.services[p.key] && row.nursery.service[p.key]
         });
       });
     }
