@@ -4,7 +4,10 @@ function convertFilter(filter) {
   return {
     nursery: {
       types: filter.nurseryTypes,
-      ownerships: filter.ownerships
+      ownerships: filter.ownerships,
+      services: filter.services,
+      startTime: filter.startTime,
+      endTime: filter.endTime
     }
   };
 }
