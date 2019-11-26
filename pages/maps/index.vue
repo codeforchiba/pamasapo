@@ -110,7 +110,7 @@
 
         computed: {
             ...mapGetters({
-                centers: "center/items"
+                centers: "center/filteredItems"
             })
         },
 
