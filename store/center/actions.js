@@ -28,7 +28,11 @@ export default {
     }
   },
 
-  async search({ commit }) {
+  async search({ commit , getters }) {
+    if(getters.items.length > 0 ) {
+      return;
+    }
+      
     commit("SEARCH_CENTER");
 
     try {
