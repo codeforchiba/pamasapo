@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid pa-0>
+  <v-container fluid>
     <v-row>
       <nursery-filter @applyFilter="runFilter" />
     </v-row>
