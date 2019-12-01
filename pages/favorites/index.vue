@@ -48,6 +48,12 @@ export default {
     await store.dispatch("center/search");
   },
 
+  data() {
+    return {
+      title: 'お気に入り'
+    }
+  },
+
   computed: {
     ...mapGetters({
       centers: "center/items",
@@ -66,6 +72,12 @@ export default {
   methods: {
     open(item) {
       this.$router.push(`/nurseries/${item.id}`);
+    }
+  },
+
+  head() {
+    return {
+      title: this.title
     }
   }
 };

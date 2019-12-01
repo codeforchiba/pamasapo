@@ -59,6 +59,12 @@ export default {
     await store.dispatch("center/load", params.id);
   },
 
+  data() {
+    return {
+      title: this.item.name
+    }
+  },
+
   computed: {
     ...mapGetters({
       item: "center/current"
@@ -73,6 +79,12 @@ export default {
     ...mapMutations({
       addHistory: ADD_HISTORY
     })
+  },
+
+  head() {
+    return {
+      title: this.title
+    }
   }
 };
 </script>
