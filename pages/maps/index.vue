@@ -1,5 +1,8 @@
 <template>
   <div>
+    <v-app-bar fixed flat>
+      <nursery-filter @applyFilter="runFilter" />
+    </v-app-bar>
     <client-only>
       <mapbox
         v-if="accessToken"
@@ -66,15 +69,17 @@
 <script>
     import Mapbox from "mapbox-gl-vue";
     import FavoriteButton from "~/components/FavoriteButton";
-    import {mapGetters} from "vuex";
+    import {mapGetters,mapActions} from "vuex";
     import MapIcon1 from "~/assets/map_icons/1.png";
     import MapIcon2 from "~/assets/map_icons/2.png";
     import MapIcon3 from "~/assets/map_icons/3.png";
+    import NurseryFilter from "~/components/nurseries/Filter";
 
     export default {
         components: {
             Mapbox,
-            FavoriteButton
+            FavoriteButton,
+            NurseryFilter
         },
 
         async fetch({store}) {
@@ -106,12 +111,18 @@
                     type: "type"
                 }
             };
-        },
+        },    
 
         computed: {
             ...mapGetters({
                 centers: "center/filteredItems"
             })
+        },
+
+        watch: {
+          centers: function() {
+            console.log("watch");
+          }
         },
 
         methods: {
@@ -247,7 +258,13 @@
                     self.setDialog("type", nursery.facility.nurseryType);
                     self.showDialog();
                 });
+            },
+            ...mapActions({
+              applyFilter: "center/applyFilter"
+            }),
 
+            runFilter: function(filters) {
+              this.applyFilter(filters);
             }
         }
     };
@@ -256,7 +273,7 @@
 <style scoped>
   #map {
     position: absolute;
-    top: 0;
+    top: 50px;
     bottom: 0;
     width: 100%;
   }
