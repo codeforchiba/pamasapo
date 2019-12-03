@@ -29,7 +29,7 @@ module.exports = {
       { hid: 'og:url', property: 'og:url', content: 'https://papamama.code4chiba.org/' },
       { hid: 'og:title', property: 'og:title', content: title },
       { hid: 'og:description', property: 'og:description', content: description },
-      { hid: 'og:image', property: 'og:image', content: 'https://www.tent-makuhari.com/ogp.jpg' },
+      { hid: 'og:image', property: 'og:image', content: 'https://papamama.code4chiba.org/ogp.jpg' },
       { hid: 'twitter:card', property: 'twitter:card', content: 'summary_large_image' },
       { hid: 'twitter:site', property: 'twitter:site', content: '@code4chiba' }
     ],
