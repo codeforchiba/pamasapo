@@ -29,12 +29,6 @@ export default {
     await store.dispatch("center/search");
   },
 
-  data() {
-    return {
-      Object
-    };
-  },
-
   computed: {
     ...mapGetters({
       centers: "center/filteredItems"

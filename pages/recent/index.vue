@@ -59,6 +59,12 @@ export default {
     await store.dispatch("center/search");
   },
 
+  data() {
+    return {
+      title: '閲覧履歴'
+    }
+  },
+
   computed: {
     ...mapGetters({
       recentCenters: "recent/items"
@@ -84,6 +90,12 @@ export default {
     clear() {
       this.clearHistory();
       this.notify({ type: 'info', message: '履歴を削除しました。' })
+    }
+  },
+
+  head() {
+    return {
+      title: this.title
     }
   }
 };
