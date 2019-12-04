@@ -16,13 +16,27 @@
       <span>履歴</span>
       <v-icon>history</v-icon>
     </v-btn>
+    <v-btn @click="openForm">
+      <span>フィードバック</span>
+      <v-icon>feedback</v-icon>
+    </v-btn>
   </v-bottom-navigation>
 </template>
 
 <script>
+const typeform = require('@typeform/embed')
+
+const FORM_URL = 'https://codeforchiba.typeform.com/to/ozCQwu'
+
 export default {
   props: {
     app: Boolean
+  },
+
+  methods: {
+    openForm() {
+      typeform.makePopup(FORM_URL, {autoOpen: true})
+    }
   }
 }
 </script>

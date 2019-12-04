@@ -53,6 +53,7 @@ module.exports = {
    */
   build: {
     extractCSS: true,
+    vendor: ['@typeform/embed'],
     plugins: [
       new webpack.ProvidePlugin({
         mapboxgl: "mapbox-gl"
