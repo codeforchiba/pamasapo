@@ -1,6 +1,6 @@
 const nurseryTypes = [
   { id: "A", name: "保育園" },
-  { id: "B", name: "こども園" },
+  { id: "B", name: "認定こども園" },
   { id: "C", name: "小規模保育事業" },
   { id: "D", name: "家庭的保育事業" },
   { id: "E", name: "事業所内保育事業" },
