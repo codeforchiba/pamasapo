@@ -75,12 +75,12 @@ import MapIcon2 from "~/assets/map_icons/2.png";
 import MapIcon3 from "~/assets/map_icons/3.png";
 import NurseryFilter from "~/components/nurseries/Filter";
 
-    export default {
-        components: {
-            Mapbox,
-            FavoriteButton,
-            NurseryFilter
-        },
+export default {
+  components: {
+    Mapbox,
+    FavoriteButton,
+    NurseryFilter
+  },
 
   async fetch({ store }) {
     await store.dispatch("center/search");
@@ -92,48 +92,48 @@ import NurseryFilter from "~/components/nurseries/Filter";
     };
   },
 
-    data() {
-        return {
-            displaySheet: false,
-            mapBoxOptions: {
-                style: "mapbox://styles/mapbox/streets-v10",
-                center: [140.13217, 35.590360000000004],
-                zoom: 10
-            },
-            navControl: {show: true, position: "top-right"},
-            dialogData: {
-                id: "",
-                title: "開発中の画面です。タイトル",
-                address: "千葉県松戸市五香1-1-1",
-                aki: "",
-                start_time: "00:00",
-                end_time: "00:00",
-                type: "type"
-            }
-        };
-    },    
-
-    computed: {
-        ...mapGetters({
-            centers: "center/items",
-            filteredCenters: "center/filteredItems"
-        })
-    },
-
-    watch: {
-      centers: function() {
-        console.log("watch");
+  data() {
+    return {
+      displaySheet: false,
+      mapBoxOptions: {
+        style: "mapbox://styles/mapbox/streets-v10",
+        center: [140.13217, 35.590360000000004],
+        zoom: 10
+      },
+      navControl: { show: true, position: "top-right" },
+      dialogData: {
+        id: "",
+        title: "開発中の画面です。タイトル",
+        address: "千葉県松戸市五香1-1-1",
+        aki: "",
+        start_time: "00:00",
+        end_time: "00:00",
+        type: "type"
       }
+    };
+  },    
+
+  computed: {
+    ...mapGetters({
+      centers: "center/items",
+      filteredCenters: "center/filteredItems"
+    })
+  },
+
+  watch: {
+    centers: function() {
+      console.log("watch");
+    }
+  },
+
+  methods: {
+    showDialog() {
+      this.displaySheet = true;
     },
 
-    methods: {
-        showDialog() {
-            this.displaySheet = true;
-        },
-
-        setDialog(key, value) {
-          this.dialogData[key] = value;
-        },
+    setDialog(key, value) {
+      this.dialogData[key] = value;
+    },
 
     mapLoaded(map) {
       // station
@@ -258,43 +258,43 @@ import NurseryFilter from "~/components/nurseries/Filter";
       });
     this.map = map;
     },
-        ...mapActions({
-          applyFilter: "center/applyFilter"
-        }),
+    ...mapActions({
+      applyFilter: "center/applyFilter"
+    }),
 
-        runFilter: function(filters) {
-          this.applyFilter(filters);
-          let centers = this.filteredCenters;
-          console.log(centers);
+    runFilter: function(filters) {
+      this.applyFilter(filters);
+      let centers = this.filteredCenters;
+      console.log(centers);
 
-          this.map.setFilter('clusters', 
-            ['all',
-              ['match',['get','id'],centers.map(function(center) {
-                return center.id;
-              }), true, false],
-              ["has", "point_count"]
-            ]
-          );
+      this.map.setFilter('clusters', 
+        ['all',
+          ['match',['get','id'],centers.map(function(center) {
+            return center.id;
+          }), true, false],
+          ["has", "point_count"]
+        ]
+      );
 
-          this.map.setFilter('cluster-count',
-            ['all', 
-              ['match',['get','id'],centers.map(function(center) {
-                return center.id;
-              }), true, false],
-              ["has", "point_count"]
-            ]
-          );
+      this.map.setFilter('cluster-count',
+        ['all', 
+          ['match',['get','id'],centers.map(function(center) {
+            return center.id;
+          }), true, false],
+          ["has", "point_count"]
+        ]
+      );
 
-          this.map.setFilter('nursery3', 
-            ['all',
-              ['match',['get', 'id'],centers.map(function(center) {
-                return center.id;
-              }), true, false],
-              ["!", ["has", "point_count"]]
-            ]
-          );
-        }
+      this.map.setFilter('nursery3', 
+        ['all',
+          ['match',['get', 'id'],centers.map(function(center) {
+            return center.id;
+          }), true, false],
+          ["!", ["has", "point_count"]]
+        ]
+      );
     }
+  }
 };
 </script>
 
