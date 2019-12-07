@@ -14,21 +14,22 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "@typeform/embed": "0.15.0",
     "aws-appsync": "3.0.2",
     "graphql-tag": "2.10.1",
     "lodash": "4.17.15",
-    "luxon": "1.21.2",
+    "luxon": "1.21.3",
     "mapbox-gl": "1.5.0",
     "mapbox-gl-vue": "2.0.3",
     "nuxt": "2.10.2",
     "serialize-error": "5.0.0",
-    "vuetify": "2.1.11",
+    "vuetify": "2.1.13",
     "vuex-persistedstate": "2.7.0"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "1.9.0",
+    "@nuxtjs/vuetify": "1.9.1",
     "babel-eslint": "10.0.3",
-    "eslint": "6.7.1",
+    "eslint": "6.7.2",
     "eslint-loader": "3.0.2",
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-node": "10.0.0",

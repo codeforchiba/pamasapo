@@ -82,15 +82,15 @@
             NurseryFilter
         },
 
-        async fetch({store}) {
-            await store.dispatch("center/search");
-        },
+  async fetch({ store }) {
+    await store.dispatch("center/search");
+  },
 
-        asyncData(context) {
-            return {
-                accessToken: context.env.mapbox.accessToken
-            };
-        },
+  asyncData(context) {
+    return {
+      accessToken: context.env.mapbox.accessToken
+    };
+  },
 
         data() {
             return {
@@ -130,127 +130,124 @@
                 this.displaySheet = true;
             },
 
-            setDialog(key, value) {
-                this.dialogData[key] = value;
-            },
+    setDialog(key, value) {
+      this.dialogData[key] = value;
+    },
 
-            mapLoaded(map) {
-                // station
-                map.addLayer({
-                    id: "station",
-                    type: "symbol",
-                    source: {
-                        type: "geojson",
-                        data:
-                            "https://raw.githubusercontent.com/codeforchiba/papamama/develop/data/station.geojson"
-                    },
-                    layout: {
-                        "icon-image": "rail-15",
-                        "text-field": "{station_name}",
-                        "text-anchor": "top",
-                        "text-offset": [0, 0.6]
-                    }
-                });
+    mapLoaded(map) {
+      // station
+      map.addLayer({
+        id: "station",
+        type: "symbol",
+        source: {
+          type: "geojson",
+          data:
+            "https://raw.githubusercontent.com/codeforchiba/papamama/develop/data/station.geojson"
+        },
+        layout: {
+          "icon-image": "rail-15",
+          "text-field": "{station_name}",
+          "text-anchor": "top",
+          "text-offset": [0, 0.6]
+        }
+      });
 
-                const self = this;
-                const features = this.centers.map(item => {
-                    return {
-                        type: "Feature",
-                        geometry: {
-                            type: "Point",
-                            coordinates: [item.long, item.lat]
-                        },
-                        properties: item
-                    };
-                });
-                const geojson = {
-                    type: "FeatureCollection",
-                    features: features
-                };
+      const self = this;
+      const features = this.centers.map(item => {
+        return {
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [item.long, item.lat]
+          },
+          properties: item
+        };
+      });
+      const geojson = {
+        type: "FeatureCollection",
+        features: features
+      };
 
-                // 幼稚園
-                map.loadImage(MapIcon1, function (error, image) {
-                        if (error) throw error;
-                        map.addImage('icon1', image, {width: 1, height: 1});
-                    }
-                );
+      // 幼稚園
+      map.loadImage(MapIcon1, function(error, image) {
+        if (error) throw error;
+        map.addImage("icon1", image, { width: 1, height: 1 });
+      });
 
-                // 認可外
-                map.loadImage(MapIcon2, function (error, image) {
-                        if (error) throw error;
-                        map.addImage('icon2', image, {width: 1, height: 1});
-                    }
-                );
+      // 認可外
+      map.loadImage(MapIcon2, function(error, image) {
+        if (error) throw error;
+        map.addImage("icon2", image, { width: 1, height: 1 });
+      });
 
-                // 保育園
-                map.loadImage(MapIcon3, function (error, image) {
-                        if (error) throw error;
-                        map.addImage('icon3', image, {width: 1, height: 1});
-                    }
-                );
+      // 保育園
+      map.loadImage(MapIcon3, function(error, image) {
+        if (error) throw error;
+        map.addImage("icon3", image, { width: 1, height: 1 });
+      });
 
-                // nurser
-                map.addSource('nursery', {
-                    type: "geojson",
-                    data: geojson,
-                    cluster: true,
-                    clusterMaxZoom: 14, // Max zoom to cluster points on
-                    clusterRadius: 50
-                });
+      // nurser
+      map.addSource("nursery", {
+        type: "geojson",
+        data: geojson,
+        cluster: true,
+        clusterMaxZoom: 14, // Max zoom to cluster points on
+        clusterRadius: 50
+      });
 
-                // cluster_count
-                map.addLayer({
-                    id: "clusters",
-                    type: "circle",
-                    source: "nursery",
-                    filter: ["has", "point_count"],
-                    paint: {
-                        "circle-color": "#fbb03b",
-                        "circle-radius": 20,
-                    }
-                });
+      // cluster_count
+      map.addLayer({
+        id: "clusters",
+        type: "circle",
+        source: "nursery",
+        filter: ["has", "point_count"],
+        paint: {
+          "circle-color": "#fbb03b",
+          "circle-radius": 20
+        }
+      });
 
-                map.addLayer({
-                    id: "cluster-count",
-                    type: "symbol",
-                    source: "nursery",
-                    filter: ["has", "point_count"],
-                    layout: {
-                        "text-field": "{point_count_abbreviated}",
-                        "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
-                        "text-size": 14
-                    }
-                });
+      map.addLayer({
+        id: "cluster-count",
+        type: "symbol",
+        source: "nursery",
+        filter: ["has", "point_count"],
+        layout: {
+          "text-field": "{point_count_abbreviated}",
+          "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+          "text-size": 14
+        }
+      });
 
-                // 保育園
-                map.addLayer({
-                    id: "nursery3",
-                    type: "symbol",
-                    minzoom: 0,
-                    maxzoom: 0,
-                    source: 'nursery',
-                    filter: ["!", ["has", "point_count"]],
-                    layout: {
-                        "icon-allow-overlap": true,
-                        "icon-image": 'icon3',
-                        "icon-size": 0.5,
-                    },
-                    // TODO: 色分け表示はデータを見直さないと無理
-                    //
-                    // filter: ['==', 'nursery.facility.nurseryType', "保育園"]
-                });
+      // 保育園
+      map.addLayer({
+        id: "nursery3",
+        type: "symbol",
+        minzoom: 0,
+        maxzoom: 0,
+        source: "nursery",
+        filter: ["!", ["has", "point_count"]],
+        layout: {
+          "icon-allow-overlap": true,
+          "icon-image": "icon3",
+          "icon-size": 0.5
+        }
+        // TODO: 色分け表示はデータを見直さないと無理
+        //
+        // filter: ['==', 'nursery.facility.nurseryType', "保育園"]
+      });
 
-                map.on("click", "nursery3", function (e) {
-                    const properties = e.features[0].properties;
-                    self.setDialog("id", properties.id);
-                    self.setDialog("title", properties.name);
-                    self.setDialog(
-                        "address",
-                        properties.prefecture +
-                        properties.city +
-                        properties.ward +
-                        properties.address
-                    );
+      map.on("click", "nursery3", function(e) {
+        const properties = e.features[0].properties;
+        self.setDialog("id", properties.id);
+        self.setDialog("title", properties.name);
+        self.setDialog(
+          "address",
+          properties.prefecture +
+            properties.city +
+            properties.ward +
+            properties.address
+        );
 
                     const nursery = JSON.parse(properties.nursery);
                     self.setDialog("start_time", nursery.facility.openingTime);
