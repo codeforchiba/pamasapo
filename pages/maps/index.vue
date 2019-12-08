@@ -131,7 +131,7 @@ export default {
         source: {
           type: "geojson",
           data:
-            "https://raw.githubusercontent.com/codeforchiba/papamama/develop/data/station.geojson"
+            "/station.geojson"
         },
         layout: {
           "icon-image": "rail-15",
