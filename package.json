@@ -1,5 +1,5 @@
 {
-  "name": "papamama2",
+  "name": "pamasapo",
   "version": "1.0.0",
   "description": "next papamama project",
   "author": "Code For Chiba",
@@ -10,26 +10,35 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "lintfix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"
   },
   "dependencies": {
-    "nuxt": "^1.0.0",
-    "vuetify": "^1.0.0"
+    "@nuxtjs/google-tag-manager": "2.3.1",
+    "@typeform/embed": "0.15.0",
+    "aws-appsync": "3.0.2",
+    "graphql-tag": "2.10.1",
+    "lodash": "4.17.15",
+    "luxon": "1.21.3",
+    "mapbox-gl": "1.6.0",
+    "mapbox-gl-vue": "2.0.3",
+    "nuxt": "2.10.2",
+    "serialize-error": "5.0.0",
+    "vuetify": "2.1.13",
+    "vuex-persistedstate": "2.7.0"
   },
   "devDependencies": {
-    "babel-eslint": "^8.2.1",
-    "eslint": "^4.15.0",
-    "eslint-friendly-formatter": "^3.0.0",
-    "eslint-loader": "^1.7.1",
-    "eslint-plugin-import": "^2.11.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.7.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "eslint-plugin-vue": "^4.0.0",
-    "node-sass": "^4.8.3",
-    "sass-loader": "^7.0.1",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2"
+    "@nuxtjs/vuetify": "1.9.1",
+    "babel-eslint": "10.0.3",
+    "eslint": "6.7.2",
+    "eslint-loader": "3.0.3",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-plugin-node": "10.0.0",
+    "eslint-plugin-promise": "4.2.1",
+    "eslint-plugin-standard": "4.0.1",
+    "eslint-plugin-vue": "6.0.1",
+    "sass": "1.23.7",
+    "sass-loader": "7.3.1"
   },
   "engines": {
     "node": "^10.0.0",

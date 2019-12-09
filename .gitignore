@@ -9,3 +9,9 @@ npm-debug.log
 
 # Nuxt generate
 dist
+
+# JetBrain
+.idea
+
+# direnvでAPPSYNC環境変数を管理する場合
+.envrc
