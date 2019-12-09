@@ -3,6 +3,8 @@ const webpack = require("webpack");
 const environment = process.env.NODE_ENV || "development";
 const envConfig = require(`./config/environments/${environment}.js`);
 
+const containerId = process.env.GTM_CONTAINER_ID;
+
 const title = "ちば保育園マップ powered by Code for Chiba";
 const description = "千葉市在住在勤の忙しいパパママの子育てを応援するため、" +
   "簡単にお好みの保育施設を探せるサービスです。";
@@ -44,9 +46,9 @@ module.exports = {
     "~/plugins/appsync",
     "~/plugins/localStorage.js"
   ],
-  /*
-   ** Customize the progress bar color
-   */
+  modules: [
+    ['@nuxtjs/google-tag-manager', { id: containerId, pageTracking: true, dev: false }]
+  ],
   loading: { color: "#3B8070" },
   /*
    ** Build configuration
