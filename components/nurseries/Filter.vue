@@ -1,7 +1,7 @@
 <template>
   <v-toolbar dense text flat>
     <v-toolbar-title>
-      <v-img :src="logoPath" width="220px" height="32px" contain />
+      <v-img :src="logoPath" width="240px" height="48px" contain />
     </v-toolbar-title>
     <div class="flex-grow-1" />
     <v-toolbar-items>
