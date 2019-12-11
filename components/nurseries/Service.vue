@@ -3,20 +3,17 @@
     <v-list-item>
       <v-list-item-content>
         <v-list-item-subtitle>給食</v-list-item-subtitle>
-        <v-list-item-title>{{ item.nursery.service.provideLunch | ariNashi }}</v-list-item-title>
+        <v-list-item-title>{{ item.nursery.service.provideLunch }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
     <template v-if="item.nursery.service.provideLunch">
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-subtitem>主食(3歳以上)</v-list-item-subtitem>
-          <v-list-item-title>{{ item.nursery.service.lunchWithStaple1 }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-subtitle>主食(3歳未満)</v-list-item-subtitle>
-          <v-list-item-title>{{ item.nursery.service.lunchWithStaple2 }}</v-list-item-title>
+          <v-list-item-subtitle>主食</v-list-item-subtitle>
+          <v-list-item-title>
+            3歳以上 {{ item.nursery.service.lunchWithStaple1 | ariNashi }}
+            / 3歳未満 {{ item.nursery.service.lunchWithStaple2 | ariNashi }}
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </template>
