@@ -3,7 +3,7 @@
     <v-list-item>
       <v-list-item-content>
         <v-list-item-subtitle>
-          空き状況({{ item.nursery.status.baseDate }}時点)
+          空き状況({{ availabilityBaseDate }}時点)
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -26,7 +26,7 @@
     <v-list-item>
       <v-list-item-content>
         <v-list-item-subtitle>
-          入所状況({{ item.nursery.status.baseDate }}時点)
+          入所状況({{ statusBaseDate }}時点)
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -51,6 +51,8 @@
 </template>
 
 <script>
+import { DateTime } from 'luxon';
+
 export default {
   props: {
     item: {
@@ -60,6 +62,18 @@ export default {
   },
 
   computed: {
+    baseDate() {
+      return DateTime.fromFormat(this.item.nursery.status.baseDate, 'yyyy-LL-dd');
+    },
+
+    availabilityBaseDate() {
+      return this.baseDate.toFormat('yyyy-LL-dd');
+    },
+
+    statusBaseDate() {
+      return this.baseDate.minus({ months: 1 }).toFormat('yyyy-LL-dd');
+    },
+
     availabilities() {
       const from = this.item.nursery.facility.ageFrom;
       const to = this.item.nursery.facility.ageTo;
