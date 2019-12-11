@@ -61,7 +61,7 @@ export default {
 
   data() {
     return {
-      title: this.item.name
+      title: this.item ? this.item.name : ''
     }
   },
 
