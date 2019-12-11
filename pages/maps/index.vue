@@ -1,5 +1,8 @@
 <template>
   <div>
+    <v-app-bar fixed flat>
+      <nursery-filter @applyFilter="runFilter" />
+    </v-app-bar>
     <client-only>
       <mapbox
         v-if="accessToken"
@@ -66,15 +69,17 @@
 <script>
 import Mapbox from "mapbox-gl-vue";
 import FavoriteButton from "~/components/FavoriteButton";
-import { mapGetters } from "vuex";
+import {mapGetters,mapActions} from "vuex";
 import MapIcon1 from "~/assets/map_icons/1.png";
 import MapIcon2 from "~/assets/map_icons/2.png";
 import MapIcon3 from "~/assets/map_icons/3.png";
+import NurseryFilter from "~/components/nurseries/Filter";
 
 export default {
   components: {
     Mapbox,
-    FavoriteButton
+    FavoriteButton,
+    NurseryFilter
   },
 
   async fetch({ store }) {
@@ -106,12 +111,19 @@ export default {
         type: "type"
       }
     };
-  },
+  },    
 
   computed: {
     ...mapGetters({
-      centers: "center/items"
+      centers: "center/items",
+      filteredCenters: "center/filteredItems"
     })
+  },
+
+  watch: {
+    centers: function() {
+      console.log("watch");
+    }
   },
 
   methods: {
@@ -244,16 +256,53 @@ export default {
         self.setDialog("type", nursery.facility.nurseryType);
         self.showDialog();
       });
+    this.map = map;
+    },
+    ...mapActions({
+      applyFilter: "center/applyFilter"
+    }),
+
+    runFilter: function(filters) {
+      this.applyFilter(filters);
+      let centers = this.filteredCenters;
+      console.log(centers);
+
+      this.map.setFilter('clusters', 
+        ['all',
+          ['match',['get','id'],centers.map(function(center) {
+            return center.id;
+          }), true, false],
+          ["has", "point_count"]
+        ]
+      );
+
+      this.map.setFilter('cluster-count',
+        ['all', 
+          ['match',['get','id'],centers.map(function(center) {
+            return center.id;
+          }), true, false],
+          ["has", "point_count"]
+        ]
+      );
+
+      this.map.setFilter('nursery3', 
+        ['all',
+          ['match',['get', 'id'],centers.map(function(center) {
+            return center.id;
+          }), true, false],
+          ["!", ["has", "point_count"]]
+        ]
+      );
     }
   }
 };
 </script>
 
 <style scoped>
-#map {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-}
+  #map {
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    width: 100%;
+  }
 </style>
