@@ -4,10 +4,10 @@
       <v-list-item-content>
         <v-list-item-subtitle>定員</v-list-item-subtitle>
         <v-list-item-title>
-          1号 {{ item.nursery.facility.capacity1 }}名 /
-          2号 {{ item.nursery.facility.capacity2 }}名
+          3歳未満児(3号) {{ item.nursery.facility.capacity1 }}名 /
+          3歳以上児(2号) {{ item.nursery.facility.capacity2 }}名
           <template v-if="item.nursery.facility.capacity3">
-            / 3号 {{ item.nursery.facility.capacity3 }}名
+            / 教育認定(1号) {{ item.nursery.facility.capacity3 }}名
           </template>
         </v-list-item-title>
       </v-list-item-content>
