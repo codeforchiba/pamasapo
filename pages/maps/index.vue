@@ -93,7 +93,8 @@ export default {
       mapBoxOptions: {
         style: "mapbox://styles/mapbox/streets-v10",
         center: [140.13217, 35.590360000000004],
-        zoom: 10
+        zoom: 10,
+        localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif"
       },
       navControl: { show: true, position: "top-right" },
       dialogData: {
