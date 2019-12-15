@@ -91,7 +91,7 @@ export default {
     return {
       displaySheet: false,
       mapBoxOptions: {
-        style: "mapbox://styles/mapbox/streets-v10",
+        style: "mapbox://styles/cfc-uramoto/ck46xhly413231cs0gk8k734l",
         center: [140.13217, 35.590360000000004],
         zoom: 10,
         localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif"
