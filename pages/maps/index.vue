@@ -65,8 +65,10 @@
 
 <script>
 import Mapbox from "mapbox-gl-vue";
-import FavoriteButton from "~/components/FavoriteButton";
 import { mapGetters } from "vuex";
+
+import FavoriteButton from "~/components/FavoriteButton";
+
 import MapIcon1 from "~/assets/map_icons/1.png";
 import MapIcon2 from "~/assets/map_icons/2.png";
 import MapIcon3 from "~/assets/map_icons/3.png";
@@ -91,7 +93,7 @@ export default {
     return {
       displaySheet: false,
       mapBoxOptions: {
-        style: "mapbox://styles/cfc-uramoto/ck46xhly413231cs0gk8k734l",
+        style: process.env.mapbox.style,
         center: [140.13217, 35.590360000000004],
         zoom: 10,
         localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif"
