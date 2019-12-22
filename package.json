@@ -15,12 +15,12 @@
   },
   "dependencies": {
     "@nuxtjs/google-tag-manager": "2.3.1",
-    "@typeform/embed": "0.15.0",
+    "@typeform/embed": "0.15.1",
     "aws-appsync": "3.0.2",
     "graphql-tag": "2.10.1",
     "lodash": "4.17.15",
     "luxon": "1.21.3",
-    "mapbox-gl": "1.6.0",
+    "mapbox-gl": "1.6.1",
     "mapbox-gl-vue": "2.0.4",
     "nuxt": "2.11.0",
     "serialize-error": "5.0.0",
@@ -30,14 +30,14 @@
   "devDependencies": {
     "@nuxtjs/vuetify": "1.9.1",
     "babel-eslint": "10.0.3",
-    "eslint": "6.7.2",
+    "eslint": "6.8.0",
     "eslint-loader": "3.0.3",
     "eslint-plugin-import": "2.19.1",
     "eslint-plugin-node": "10.0.0",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-standard": "4.0.1",
     "eslint-plugin-vue": "6.0.1",
-    "sass": "1.23.7",
+    "sass": "1.24.0",
     "sass-loader": "7.3.1"
   },
   "engines": {
