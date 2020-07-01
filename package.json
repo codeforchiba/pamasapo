@@ -23,7 +23,7 @@
     "mapbox-gl": "1.6.1",
     "mapbox-gl-vue": "2.0.4",
     "nuxt": "2.11.0",
-    "serialize-error": "5.0.0",
+    "serialize-error": "7.0.1",
     "vuetify": "2.1.15",
     "vuex-persistedstate": "2.7.0"
   },
