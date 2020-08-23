@@ -17,7 +17,7 @@
     "@nuxtjs/google-tag-manager": "2.3.1",
     "@typeform/embed": "0.15.1",
     "aws-appsync": "3.0.2",
-    "graphql-tag": "2.10.1",
+    "graphql-tag": "2.11.0",
     "lodash": "4.17.15",
     "luxon": "1.21.3",
     "mapbox-gl": "1.6.1",
