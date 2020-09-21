@@ -60,8 +60,16 @@ export default {
     const selectedClosingTime = calculateTime(state.filters.nursery.endTime);
 
     data = data.filter(row => {
-      const openingTime = calculateTime(row.nursery.facility.openingTime);
-      const closingTime = calculateTime(row.nursery.facility.closingTime);
+      let openingTime;
+      let closingTime;
+
+      if(row.nursery) {
+        openingTime = calculateTime(row.nursery.facility.openingTime);
+        closingTime = calculateTime(row.nursery.facility.closingTime);
+      } else {
+        openingTime = calculateTime(row.afterSchool.facility.openingTime);
+        closingTime = calculateTime(row.afterSchool.facility.closingTime);
+      }
 
       if (selectedOpeningTime != null && selectedOpeningTime < openingTime) {
         return false;
