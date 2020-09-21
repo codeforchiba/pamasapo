@@ -1,5 +1,5 @@
 <template>
-  <v-list dense>
+  <v-list v-if="item.nursery" dense>
     <v-list-item>
       <v-list-item-content>
         <v-list-item-subtitle>
