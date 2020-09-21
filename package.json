@@ -18,7 +18,7 @@
     "@typeform/embed": "0.15.1",
     "aws-appsync": "3.0.2",
     "graphql-tag": "2.10.1",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "luxon": "1.21.3",
     "mapbox-gl": "1.6.1",
     "mapbox-gl-vue": "2.0.4",
