@@ -13,17 +13,27 @@ const serviceProperties = [
 ];
 
 function generateTags(item) {
-  let tags = [
-    { type: "basic", value: item.nursery.facility.ownership },
-    { type: "basic", value: item.nursery.facility.nurseryType }
-  ];
-
-  serviceProperties.forEach(p => {
-    if (item.nursery.service[p.key]) {
-      tags.push({ type: "service", value: p.label });
-    }
-  });
-
+  let tags;
+  if(item.nursery) {
+    tags = [
+      { type: "basic", value: item.nursery.facility.ownership },
+      { type: "basic", value: item.nursery.facility.nurseryType }
+    ];
+    serviceProperties.forEach(p => {
+      if (item.nursery.service[p.key]) {
+        tags.push({ type: "service", value: p.label });
+      }
+    });
+  } else {
+    tags = [
+      { type: "basic", value: item.afterSchool.facility.ownership },
+    ];
+    serviceProperties.forEach(p => {
+      if (item.afterSchool.service[p.key]) {
+        tags.push({ type: "service", value: p.label });
+      }
+    });
+  }
   return tags;
 }
 

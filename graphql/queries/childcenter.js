@@ -84,6 +84,23 @@ export const get = gql`
           baseDate
         }
       }
+      afterSchool {
+        facility {
+          capacityAllGrade
+          capacityHighGrade
+          closingTime
+          openingTime
+          owner
+          ownership
+          remarks
+        }
+        service {
+          extendedCareService
+          holidayCareService
+          remarks
+          saturdayCareService
+        }
+      }
     }
   }
 `;
@@ -125,6 +142,23 @@ export const search = gql`
             extendedCareService
             nightCareService
             h24CareService
+          }
+        }
+        afterSchool {
+          facility {
+            capacityAllGrade
+            capacityHighGrade
+            closingTime
+            openingTime
+            owner
+            ownership
+            remarks
+          }
+          service {
+            saturdayCareService
+            remarks
+            holidayCareService
+            extendedCareService
           }
         }
       }
