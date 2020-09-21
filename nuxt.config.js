@@ -10,7 +10,7 @@ const description = "千葉市在住在勤の忙しいパパママの子育て�
   "簡単にお好みの保育施設を探せるサービスです。";
 
 module.exports = {
-  mode: "spa",
+  ssr: false,
 
   /*
    ** Headers of the page
@@ -54,6 +54,11 @@ module.exports = {
   build: {
     extractCSS: true,
     vendor: ['@typeform/embed'],
+    loaders: {
+      vue: {
+        prettify: false
+      }
+    },
     plugins: [
       new webpack.ProvidePlugin({
         mapboxgl: "mapbox-gl"
