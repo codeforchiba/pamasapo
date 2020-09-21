@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <v-content app>
+    <v-main app>
       <nuxt />
-    </v-content>
+    </v-main>
     <navigation app />
     <notification />
   </v-app>
