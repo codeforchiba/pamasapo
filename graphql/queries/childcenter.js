@@ -17,7 +17,7 @@ export const get = gql`
       fax
       email
       website
-      remarksBasic
+      remarks
       nursery {
         facility {
           owner
@@ -41,7 +41,7 @@ export const get = gql`
           hasPool
           hasParkingLot
           numberOfParkingLot
-          remarksFacility
+          remarks
         }
         service {
           supportMaturnityLeave
