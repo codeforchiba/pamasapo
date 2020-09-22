@@ -90,6 +90,8 @@ export default {
     };
   },
 
+  // TODO: センターとzoomをcookieで持っておいてそれでロードする
+  // 多分vuex経由
   data() {
     return {
       displaySheet: false,
