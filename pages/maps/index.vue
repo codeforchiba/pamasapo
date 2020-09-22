@@ -126,6 +126,12 @@ export default {
       this.dialogData[key] = value;
     },
 
+    clearDialog() {
+      for (const x in Object.keys(this.dialogData)) {
+        this.setDialog(x, '')
+      }
+    },
+
     mapLoaded(map) {
       // station
       map.addLayer({
@@ -231,6 +237,7 @@ export default {
 
       map.on("click", "nursery3", function(e) {
         const properties = e.features[0].properties;
+        self.clearDialog();
         self.setDialog("id", properties.id);
         self.setDialog("title", properties.name);
         self.setDialog(
@@ -242,9 +249,11 @@ export default {
         );
 
         const nursery = JSON.parse(properties.nursery);
-        self.setDialog("start_time", nursery.facility.openingTime);
-        self.setDialog("end_time", nursery.facility.closingTime);
-        self.setDialog("type", nursery.facility.nurseryType);
+        if(nursery !== null) {
+          self.setDialog("start_time", nursery.facility.openingTime);
+          self.setDialog("end_time", nursery.facility.closingTime);
+          self.setDialog("type", nursery.facility.nurseryType);
+        }
         self.showDialog();
       });
     }
