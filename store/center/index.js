@@ -3,11 +3,9 @@ export const state = () => ({
   items: [],
   filteredItems: [],
   filters: {
-    nursery: {
-      types: [],
-      ownerships: [],
-      services: []
-    },
+    types: [],
+    ownerships: [],
+    services: []
   },
   error: undefined,
   loading: false,

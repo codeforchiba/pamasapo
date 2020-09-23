@@ -1,33 +1,47 @@
 import _ from 'lodash'
 
-import nurseryTypes from "~/data/nurseryTypes";
-
-const ownershipFilter = (item, filters) => {
-  if (_.isEmpty(filters)) {
-    return true;
-  }
-
-  return (item.nursery.facility.ownership === "公立" && _.includes(filters, "public")) ||
-    (item.nursery.facility.ownership === "私立" && _.includes(filters, "private"));
-};
+import centerTypes from "~/data/centerTypes"
+import serviceTypes from "~/data/serviceTypes"
+import facilityTypes from "~/data/facilityTypes"
 
 const typeFilter = (item, filters) => {
   if (_.isEmpty(filters)) {
     return true;
   }
 
-  const strings = filters.map(f => _.find(nurseryTypes, { id: f } )).map(f => f.name);
+  const centerProperties = _.concat(centerTypes.nursery, centerTypes.afterSchool)
+  const strings = filters.map(f => _.find(centerProperties, { id: f } )).map(f => f.value);
 
-  return _.includes(strings, item.nursery.facility.nurseryType);
+  return _.includes(strings, item.type);
 };
 
-const calculateTime = (timeString) => {
-  if (_.isNil(timeString)) {
-    return null;
+const serviceFilter = (item, filters) => {
+  if (_.isEmpty(filters)) {
+    return true
   }
 
-  const list = timeString.split(":");
-  return parseInt(list[0]) * 60 + parseInt(list[1]);
+  const serviceProperties = _.concat(serviceTypes.common, serviceTypes.nursery)
+
+  return _.some(serviceProperties, p => {
+    return filters[p.key] && item.nursery.service[p.key]
+  });
+}
+
+const ownershipFilter = (item, filters) => {
+  if (_.isEmpty(filters)) {
+    return true;
+  }
+
+  const ownership = item.nursery ? item.nursery.facility.ownership : item.afterSchool.facility.ownership
+
+  if (_.isEmpty(ownership)) {
+    return true;
+  }
+
+  const ownershipTypes = facilityTypes.ownership
+  const strings = filters.map(f => _.find(ownershipTypes, { id: f } )).map(f => f.name);
+
+  return _.includes(strings, ownership);
 };
 
 export default {
@@ -40,69 +54,15 @@ export default {
   },
 
   filteredItems: state => {
-    let data = state.items;
-    const nurseryTypes = state.filters.nursery.types;
-    const ownershipFilters = state.filters.nursery.ownerships;
+    let data = state.items
 
-    data = data.filter(item => typeFilter(item, nurseryTypes));
-    data = data.filter(item => ownershipFilter(item, ownershipFilters));
+    const typeFilters = state.filters.types
+    const ownershipFilters = state.filters.ownerships
+    const serviceFilters = state.filters.services
 
-    //保育施設種別
-    //以下、未実装
-    //園庭:hasYard
-    //庭園広さ:areaOfYard
-    //プール:hasPool
-    //駐車場:hasParkingLot
-    //駐車場:numberOfParkingLot
-
-    //保育施設(開園時間と終園時間)
-    const selectedOpeningTime = calculateTime(state.filters.nursery.startTime);
-    const selectedClosingTime = calculateTime(state.filters.nursery.endTime);
-
-    data = data.filter(row => {
-      let openingTime;
-      let closingTime;
-
-      if(row.nursery) {
-        openingTime = calculateTime(row.nursery.facility.openingTime);
-        closingTime = calculateTime(row.nursery.facility.closingTime);
-      } else {
-        openingTime = calculateTime(row.afterSchool.facility.openingTime);
-        closingTime = calculateTime(row.afterSchool.facility.closingTime);
-      }
-
-      if (selectedOpeningTime != null && selectedOpeningTime < openingTime) {
-        return false;
-      }
-
-      return !(selectedClosingTime != null && selectedClosingTime > closingTime);
-    });
-
-    //保育施設(保育開始年齢と保育終了年齢)
-
-    //■保育サービス
-    const serviceProperties = [
-      { key: "supportMaternityLeave"},
-      { key: "saturdayCareService"},
-      { key: "holidayCareService"},
-      { key: "temporaryCareService"},
-      { key: "spotCareService"},
-      { key: "extendedCareService"},
-      { key: "nightCareService"},
-      { key: "h24CareService"}
-    ];
-
-    let hasServiceSelected = _.some(serviceProperties, s => {
-      return state.filters.nursery.services && state.filters.nursery.services[s.key]
-    });
-
-    if (hasServiceSelected) {
-      data = data.filter(row => {
-        return _.some(serviceProperties, p => {
-          return state.filters.nursery.services[p.key] && row.nursery.service[p.key]
-        });
-      });
-    }
+    data = data.filter(item => typeFilter(item, typeFilters))
+    data = data.filter(item => ownershipFilter(item, ownershipFilters))
+    data = data.filter(item => serviceFilter(item, serviceFilters))
 
     return data;
   },
