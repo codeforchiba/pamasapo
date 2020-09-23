@@ -174,9 +174,9 @@ export default {
         // かなり良くない実装なので種別を確実に判定できるカラムをを必ず追加すること
         item['nurseryType'] =  ""
         if (
-          typeof item.nursery !== 'undefined' &&
-          typeof item.nursery.facility !== 'undefined' &&
-          typeof item.nursery.facility.nurseryType !== 'undefined'
+          item.nursery !== null &&
+          item.nursery.facility !== null &&
+          item.nursery.facility.nurseryType !== null
         ) {
           item['nurseryType'] = item.nursery.facility.nurseryType
         } else if (typeof item['afterSchool'] !== 'undefined') {
