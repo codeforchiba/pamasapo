@@ -65,7 +65,7 @@
 
 <script>
 import Mapbox from "mapbox-gl-vue";
-import { mapGetters } from "vuex";
+import {mapGetters, mapMutations} from "vuex";
 
 import FavoriteButton from "~/components/FavoriteButton";
 
@@ -73,6 +73,7 @@ import MapIcon1 from "~/assets/map_icons/1.png";
 import MapIcon2 from "~/assets/map_icons/2.png";
 import MapIcon3 from "~/assets/map_icons/3.png";
 import MapIcon4 from "~/assets/map_icons/4.png";
+import {UPDATE_MAP_HISTORY_CENTER, UPDATE_MAP_HISTORY_ZOOM} from "../../store/mutation-types";
 
 export default {
   components: {
@@ -116,7 +117,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      centers: "center/items"
+      centers: "center/items",
+      mapHistory: 'center/mapHistory',
     })
   },
 
@@ -136,7 +138,20 @@ export default {
     },
 
     mapLoaded(map) {
-      // station
+      // zoom処理mapInitだとvuexからlocalstorageの値が取れない
+      const {zoom,center} = this.mapHistory
+
+      if (typeof zoom === 'undefined') {
+        map.setZoom(10)
+      } else {
+        map.setZoom(zoom)
+      }
+      if (typeof center === 'undefined') {
+        map.setCenter([140.13217, 35.590360000000004])
+      } else {
+        map.setCenter(center)
+      }
+
       map.addLayer({
         id: "station",
         type: "symbol",
@@ -172,7 +187,7 @@ export default {
           properties: item
         };
       });
-      console.log(this.centers);
+      // console.log(this.centers);
       const geojson = {
         type: "FeatureCollection",
         features: features
@@ -292,8 +307,18 @@ export default {
           }
           self.showDialog();
         });
+        map.on('zoom', function(){
+          self.updateMapHistoryZoom(map.getZoom())
+        })
+        map.on('dragend', function () {
+          self.updateMapHistoryCenter(map.getCenter())
+        })
       }
-    }
+    },
+    ...mapMutations({
+      updateMapHistoryCenter: UPDATE_MAP_HISTORY_CENTER,
+      updateMapHistoryZoom: UPDATE_MAP_HISTORY_ZOOM,
+    })
   }
 };
 </script>
