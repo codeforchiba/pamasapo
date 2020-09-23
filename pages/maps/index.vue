@@ -91,8 +91,6 @@ export default {
     };
   },
 
-  // TODO: センターとzoomをcookieで持っておいてそれでロードする
-  // 多分vuex経由
   data() {
     return {
       displaySheet: false,
@@ -173,10 +171,16 @@ export default {
       const self = this;
       const features = this.centers.map(item => {
         // TODO: 仕方ないのでデータ加工する
-        //  null チェックどうする?
+        // かなり良くない実装なので種別を確実に判定できるカラムをを必ず追加すること
         item['nurseryType'] =  ""
-        if(item.nursery !== null && item.nursery.facility !== null && item.nursery.facility.nurseryType !== null){
+        if (
+          typeof item.nursery !== 'undefined' &&
+          typeof item.nursery.facility !== 'undefined' &&
+          typeof item.nursery.facility.nurseryType !== 'undefined'
+        ) {
           item['nurseryType'] = item.nursery.facility.nurseryType
+        } else if (typeof item['afterSchool'] !== 'undefined') {
+          item['nurseryType'] = '学童'
         }
         return {
           type: "Feature",
