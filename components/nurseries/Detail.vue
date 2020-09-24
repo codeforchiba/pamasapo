@@ -30,10 +30,10 @@
         <v-list-item-title>{{ item.nursery.facility.numberOfParkingLot }}台</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.nursery.facility.remarksFacility">
+    <v-list-item v-if="item.nursery.facility.remarks">
       <v-list-item-content>
         <v-list-item-subtitle>備考</v-list-item-subtitle>
-        <v-list-item-title>{{ item.nursery.facility.remarksFacility }}</v-list-item-title>
+        <v-list-item-title>{{ item.nursery.facility.remarks }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
   </v-list>
