@@ -20,11 +20,19 @@ const serviceFilter = (item, filters) => {
     return true
   }
 
-  const serviceProperties = _.concat(serviceTypes.common, serviceTypes.nursery)
-
-  return _.some(serviceProperties, p => {
-    return filters[p.key] && item.nursery.service[p.key]
-  });
+  if (item.nursery) {
+    return _.some(_.concat(serviceTypes.common, serviceTypes.nursery), p => {
+      return _.includes(filters, p.id) && item.nursery.service[p.key]
+    });
+  } else {
+    if (_.some(serviceTypes.common, p => _.includes(filters, p.id))) {
+      return _.some(serviceTypes.common, p => {
+        return _.includes(filters, p.id) && item.afterSchool.service[p.key]
+      })
+    } else {
+      return true
+    }
+  }
 }
 
 const ownershipFilter = (item, filters) => {
