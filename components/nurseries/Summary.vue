@@ -12,44 +12,25 @@
         <v-list-item-title>{{ businessHours }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.nursery && item.nursery.phone">
+    <v-list-item v-if="item.phone">
       <v-list-item-content>
         <v-list-item-subtitle>電話番号</v-list-item-subtitle>
         <v-list-item-title>{{ item.phone }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.afterSchool && item.afterSchool.phone">
-      <v-list-item-content>
-        <v-list-item-subtitle>電話番号</v-list-item-subtitle>
-        <v-list-item-title>{{ item.afterSchool.phone }}</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-
-    <v-list-item v-if="item.nursery && item.nursery.fax">
+    <v-list-item v-if="item.fax">
       <v-list-item-content>
         <v-list-item-subtitle>FAX番号</v-list-item-subtitle>
         <v-list-item-title>{{ item.fax }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.afterSchool && item.afterSchool.fax">
-      <v-list-item-content>
-        <v-list-item-subtitle>FAX番号</v-list-item-subtitle>
-        <v-list-item-title>{{ item.afterSchool.fax }}</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-    <v-list-item v-if="item.nursery && item.nursery.email">
+    <v-list-item v-if="item.email">
       <v-list-item-content>
         <v-list-item-subtitle>メールアドレス</v-list-item-subtitle>
         <v-list-item-title>{{ item.email }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.afterSchool && item.afterSchool.email">
-      <v-list-item-content>
-        <v-list-item-subtitle>メールアドレス</v-list-item-subtitle>
-        <v-list-item-title>{{ item.afterSchool.email }}</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-    <v-list-item v-if="item.nursery && item.nursery.website">
+    <v-list-item v-if="item.website">
       <v-list-item-content>
         <v-list-item-subtitle>ウェブサイト</v-list-item-subtitle>
         <v-list-item-title>
@@ -59,17 +40,7 @@
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.afterSchool && item.afterSchool.website">
-      <v-list-item-content>
-        <v-list-item-subtitle>ウェブサイト</v-list-item-subtitle>
-        <v-list-item-title>
-          <router-link :to="item.afterSchool.website" target="_blank">
-            {{ item.afterSchool.website }}
-          </router-link>
-        </v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-    <v-list-item v-if="item.nursery">
+    <v-list-item v-if="item.nursery && (item.nursery.facility.ageFrom || item.nursery.facility.ageTo)">
       <v-list-item-content>
         <v-list-item-subtitle>対象年齢</v-list-item-subtitle>
         <v-list-item-title>{{ targetAge }}</v-list-item-title>
