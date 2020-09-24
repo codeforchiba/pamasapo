@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer v-model="drawer" app fixed
-                       bottom temporary right
+                       temporary right
                        width="400" @input="change"
   >
     <v-card flat>
@@ -11,8 +11,8 @@
           <v-icon>close</v-icon>
         </v-btn>
       </v-toolbar>
-      <v-card-text class="mt-4">
-        <h2 class="heading-6 mb-4">
+      <v-card-text>
+        <h2 class="heading-6 my-4">
           施設で絞り込む
         </h2>
         <v-chip-group v-model="selectedCenterTypes" column multiple active-class="green" @change="apply">

@@ -10,7 +10,7 @@ const typeFilter = (item, filters) => {
   }
 
   const centerProperties = _.concat(centerTypes.nursery, centerTypes.afterSchool)
-  const strings = filters.map(f => _.find(centerProperties, { id: f } )).map(f => f.value);
+  const strings = filters.map(f => _.find(centerProperties, { id: f } )).map(f => f.name);
 
   return _.includes(strings, item.type);
 };
