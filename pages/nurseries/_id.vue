@@ -25,7 +25,7 @@
       <v-col cols="12">
         <nursery-service :item="item" />
       </v-col>
-      <v-col cols="12">
+      <v-col v-if="item.nursery" cols="12">
         <nursery-status :item="item" />
       </v-col>
     </v-row>

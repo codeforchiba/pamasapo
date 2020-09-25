@@ -66,18 +66,16 @@ export default {
 
   computed: {
     businessHours() {
-      let openingTime;
-      let closingTime;
+      let openingTime
+      let closingTime
       
-      if(this.item.nursery)
-      {
-        openingTime = this.item.nursery.facility.openingTime;
-        closingTime = this.item.nursery.facility.closingTime;
+      if (this.item.nursery) {
+        openingTime = this.item.nursery.facility.openingTime
+        closingTime = this.item.nursery.facility.closingTime
       }
-      else if(this.item.afterSchool)
-      {
-        openingTime = this.item.afterSchool.facility.openingTime;
-        closingTime = this.item.afterSchool.facility.closingTime;
+      else if (this.item.afterSchool) {
+        openingTime = this.item.afterSchool.facility.openingTime
+        closingTime = this.item.afterSchool.facility.closingTime
       }
 
       return this.period(

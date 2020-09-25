@@ -34,16 +34,10 @@
         <v-list-item-title>{{ item.nursery.facility.numberOfParkingLot }}台</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.nursery && item.nursery.facility.remarks">
+    <v-list-item>
       <v-list-item-content>
         <v-list-item-subtitle>備考</v-list-item-subtitle>
-        <v-list-item-title>{{ item.nursery.facility.remarks }}</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-    <v-list-item v-if="item.afterSchool && item.afterSchool.facility.remarks">
-      <v-list-item-content>
-        <v-list-item-subtitle>備考</v-list-item-subtitle>
-        <v-list-item-title>{{ item.afterSchool.facility.remarks }}</v-list-item-title>
+        <v-list-item-title>{{ remarks }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
   </v-list>
@@ -65,7 +59,7 @@ export default {
     },
 
     facilityAge: function() {
-      const facility = this.item.nursery ? this.item.nursery.facility : "";
+      const facility = this.item.nursery.facility;
       if (facility.age_from === undefined || facility.age_to === undefined) {
         return "";
       }
@@ -85,6 +79,16 @@ export default {
       // すべてのitemsが×でなければ空きあり
       const is_available = !availabilities.every(item => item === "×");
       return is_available ? "あり" : "なし";
+    },
+
+    remarks() {
+      if (this.item.nursery) {
+        return this.item.nursery.facility.remarks
+      } else if (this.item.afterSchool) {
+        return this.item.afterSchool.facility.remarks
+      } else {
+        return null
+      }
     }
   },
 
