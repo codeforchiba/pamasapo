@@ -80,5 +80,12 @@ export default {
 
   APPLY_FILTER(state, filter) {
     state.filters = filter;
+  },
+
+  UPDATE_MAP_HISTORY_ZOOM(state, zoom){
+    state.mapHistory.zoom = zoom;
+  },
+  UPDATE_MAP_HISTORY_CENTER(state, center){
+    state.mapHistory.center = center;
   }
 };

@@ -65,13 +65,15 @@
 
 <script>
 import Mapbox from "mapbox-gl-vue";
-import { mapGetters } from "vuex";
+import {mapGetters, mapMutations} from "vuex";
 
 import FavoriteButton from "~/components/FavoriteButton";
 
 import MapIcon1 from "~/assets/map_icons/1.png";
 import MapIcon2 from "~/assets/map_icons/2.png";
 import MapIcon3 from "~/assets/map_icons/3.png";
+import MapIcon4 from "~/assets/map_icons/4.png";
+import {UPDATE_MAP_HISTORY_CENTER, UPDATE_MAP_HISTORY_ZOOM} from "../../store/mutation-types";
 
 export default {
   components: {
@@ -113,7 +115,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      centers: "center/items"
+      centers: "center/items",
+      mapHistory: 'center/mapHistory',
     })
   },
 
@@ -126,8 +129,27 @@ export default {
       this.dialogData[key] = value;
     },
 
+    clearDialog() {
+      for (const x in Object.keys(this.dialogData)) {
+        this.setDialog(x, '')
+      }
+    },
+
     mapLoaded(map) {
-      // station
+      // zoom処理mapInitだとvuexからlocalstorageの値が取れない
+      const {zoom,center} = this.mapHistory
+
+      if (typeof zoom === 'undefined') {
+        map.setZoom(10)
+      } else {
+        map.setZoom(zoom)
+      }
+      if (typeof center === 'undefined') {
+        map.setCenter([140.13217, 35.590360000000004])
+      } else {
+        map.setCenter(center)
+      }
+
       map.addLayer({
         id: "station",
         type: "symbol",
@@ -144,8 +166,22 @@ export default {
         }
       });
 
+      // mapboxのfilterではnestしたpropertyを読めないのでデータ加工する
+      // https://github.com/mapbox/feature-filter/issues/13
       const self = this;
       const features = this.centers.map(item => {
+        // TODO: 仕方ないのでデータ加工する
+        // かなり良くない実装なので種別を確実に判定できるカラムをを必ず追加すること
+        item['nurseryType'] =  ""
+        if (
+          item.nursery !== null &&
+          item.nursery.facility !== null &&
+          item.nursery.facility.nurseryType !== null
+        ) {
+          item['nurseryType'] = item.nursery.facility.nurseryType
+        } else if (typeof item['afterSchool'] !== 'undefined') {
+          item['nurseryType'] = '学童'
+        }
         return {
           type: "Feature",
           geometry: {
@@ -155,27 +191,34 @@ export default {
           properties: item
         };
       });
+      // console.log(this.centers);
       const geojson = {
         type: "FeatureCollection",
         features: features
       };
 
       // 幼稚園
-      map.loadImage(MapIcon1, function(error, image) {
+      map.loadImage(MapIcon1, (error, image) => {
         if (error) throw error;
         map.addImage("icon1", image, { width: 1, height: 1 });
       });
 
       // 認可外
-      map.loadImage(MapIcon2, function(error, image) {
+      map.loadImage(MapIcon2, (error, image) => {
         if (error) throw error;
         map.addImage("icon2", image, { width: 1, height: 1 });
       });
 
       // 保育園
-      map.loadImage(MapIcon3, function(error, image) {
+      map.loadImage(MapIcon3, (error, image) => {
         if (error) throw error;
         map.addImage("icon3", image, { width: 1, height: 1 });
+      });
+
+      // 学童
+      map.loadImage(MapIcon4, (error, image) => {
+        if (error) throw error;
+        map.addImage("icon4", image, { width: 1, height: 1 });
       });
 
       // nurser
@@ -211,43 +254,75 @@ export default {
         }
       });
 
-      // 保育園
-      map.addLayer({
-        id: "nursery3",
-        type: "symbol",
-        minzoom: 0,
-        maxzoom: 0,
-        source: "nursery",
-        filter: ["!", ["has", "point_count"]],
-        layout: {
-          "icon-allow-overlap": true,
-          "icon-image": "icon3",
-          "icon-size": 0.5
-        }
-        // TODO: 色分け表示はデータを見直さないと無理
-        //
-        // filter: ['==', 'nursery.facility.nurseryType', "保育園"]
-      });
+      const nurseryTypes = [
+        {id: 1, title: '幼稚園'},
+        {id: 2, title: '認可外'},
+        {id: 3, title: '保育園'},
+        {id: 4, title: '学童'},
+      ]
+      // console.log(nurseryTypes)
 
-      map.on("click", "nursery3", function(e) {
-        const properties = e.features[0].properties;
-        self.setDialog("id", properties.id);
-        self.setDialog("title", properties.name);
-        self.setDialog(
-          "address",
-          properties.prefecture +
+      // 種別でループする
+      for(const index in nurseryTypes){
+        // なぜかindexでしかとれない。。。
+        const item = nurseryTypes[index]
+        // console.log(item)
+        const nurseryTypeId = item['id']
+        const nurseryTypeTitle = item['title']
+        const layerId = `nursery${nurseryTypeId}`
+        // console.log(layerId)
+        // console.log(nurseryTypeTitle)
+
+        map.addLayer({
+          id: layerId,
+          type: "symbol",
+          minzoom: 0,
+          maxzoom: 0,
+          source: "nursery",
+          filter: ["all",
+            ["!has", "point_count"],
+            ['==', 'nurseryType', nurseryTypeTitle],
+          ],
+          layout: {
+            "icon-allow-overlap": true,
+            "icon-image": `icon${nurseryTypeId}`,
+            "icon-size": 0.5
+          }
+        });
+
+        map.on("click", layerId, function(e) {
+          const properties = e.features[0].properties;
+          self.clearDialog();
+          self.setDialog("id", properties.id);
+          self.setDialog("title", properties.name);
+          self.setDialog(
+            "address",
+            properties.prefecture +
             properties.city +
             properties.ward +
             properties.address
-        );
+          );
 
-        const nursery = JSON.parse(properties.nursery);
-        self.setDialog("start_time", nursery.facility.openingTime);
-        self.setDialog("end_time", nursery.facility.closingTime);
-        self.setDialog("type", nursery.facility.nurseryType);
-        self.showDialog();
-      });
-    }
+          const nursery = JSON.parse(properties.nursery);
+          if(nursery !== null) {
+            self.setDialog("start_time", nursery.facility.openingTime);
+            self.setDialog("end_time", nursery.facility.closingTime);
+            self.setDialog("type", nursery.facility.nurseryType);
+          }
+          self.showDialog();
+        });
+        map.on('zoom', function(){
+          self.updateMapHistoryZoom(map.getZoom())
+        })
+        map.on('dragend', function () {
+          self.updateMapHistoryCenter(map.getCenter())
+        })
+      }
+    },
+    ...mapMutations({
+      updateMapHistoryCenter: UPDATE_MAP_HISTORY_CENTER,
+      updateMapHistoryZoom: UPDATE_MAP_HISTORY_ZOOM,
+    })
   }
 };
 </script>
