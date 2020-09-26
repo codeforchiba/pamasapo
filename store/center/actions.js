@@ -2,13 +2,9 @@ import * as queries from "~/graphql/queries/childcenter";
 
 function convertFilter(filter) {
   return {
-    nursery: {
-      types: filter.nurseryTypes,
-      ownerships: filter.ownerships,
-      services: filter.services,
-      startTime: filter.startTime,
-      endTime: filter.endTime
-    }
+    types: filter.centerTypes,
+    ownerships: filter.ownerships,
+    services: filter.services
   };
 }
 

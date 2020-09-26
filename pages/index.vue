@@ -1,8 +1,5 @@
 <template>
-  <v-container fluid pa-0>
-    <v-row>
-      <nursery-filter @applyFilter="runFilter" />
-    </v-row>
+  <v-container fluid pa-0 class="grey lighten-5">
     <v-row>
       <v-col v-for="item in centers" :key="item.name" cols="12" md="6">
         <v-lazy :options="{ threshold: .5 }">
@@ -14,15 +11,13 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex"
 
-import NurseryCard from "~/components/nurseries/Card";
-import NurseryFilter from "~/components/nurseries/Filter";
+import NurseryCard from "~/components/nurseries/Card"
 
 export default {
   components: {
-    NurseryCard,
-    NurseryFilter
+    NurseryCard
   },
 
   async fetch({ store }) {
@@ -33,16 +28,6 @@ export default {
     ...mapGetters({
       centers: "center/filteredItems"
     })
-  },
-
-  methods: {
-    ...mapActions({
-      applyFilter: "center/applyFilter"
-    }),
-
-    runFilter: function(filters) {
-      this.applyFilter(filters);
-    }
   }
 };
 </script>
