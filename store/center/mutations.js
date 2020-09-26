@@ -27,6 +27,7 @@ function generateTags(item) {
   } else {
     tags = [
       { type: "basic", value: item.afterSchool.facility.ownership },
+      { type: "basic", value: "学童" },
     ];
     serviceProperties.forEach(p => {
       if (item.afterSchool.service[p.key]) {

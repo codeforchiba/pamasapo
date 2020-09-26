@@ -3,37 +3,41 @@
     <v-list-item>
       <v-list-item-content>
         <v-list-item-subtitle>定員</v-list-item-subtitle>
-        <v-list-item-title>
+        <v-list-item-title v-if="item.nursery">
           3歳未満児(3号) {{ item.nursery.facility.capacity1 }}名 /
           3歳以上児(2号) {{ item.nursery.facility.capacity2 }}名
           <template v-if="item.nursery.facility.capacity3">
             / 教育認定(1号) {{ item.nursery.facility.capacity3 }}名
           </template>
         </v-list-item-title>
+        <v-list-item-title v-if="item.afterSchool">
+          全(低)学年 {{ item.afterSchool.facility.capacityAllGrade }}名 /
+          高学年 {{ item.afterSchool.facility.capacityHighGrade }}名
+        </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.nursery.facility.areaOfNurseryRoom">
+    <v-list-item v-if="item.nursery && item.nursery.facility.areaOfNurseryRoom">
       <v-list-item-content>
         <v-list-item-subtitle>保育室の広さ</v-list-item-subtitle>
         <v-list-item-title>{{ item.nursery.facility.areaOfNurseryRoom }}㎡</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.nursery.facility.hasYard">
+    <v-list-item v-if="item.nursery && item.nursery.facility.hasYard">
       <v-list-item-content>
         <v-list-item-subtitle>園庭の広さ</v-list-item-subtitle>
         <v-list-item-title>{{ item.nursery.facility.areaOfYard }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.nursery.facility.hasParkingLot">
+    <v-list-item v-if="item.nursery && item.nursery.facility.hasParkingLot">
       <v-list-item-content>
         <v-list-item-subtitle>駐車場台数</v-list-item-subtitle>
         <v-list-item-title>{{ item.nursery.facility.numberOfParkingLot }}台</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.nursery.facility.remarks">
+    <v-list-item>
       <v-list-item-content>
         <v-list-item-subtitle>備考</v-list-item-subtitle>
-        <v-list-item-title>{{ item.nursery.facility.remarks }}</v-list-item-title>
+        <v-list-item-title>{{ remarks }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
   </v-list>
@@ -75,6 +79,16 @@ export default {
       // すべてのitemsが×でなければ空きあり
       const is_available = !availabilities.every(item => item === "×");
       return is_available ? "あり" : "なし";
+    },
+
+    remarks() {
+      if (this.item.nursery) {
+        return this.item.nursery.facility.remarks
+      } else if (this.item.afterSchool) {
+        return this.item.afterSchool.facility.remarks
+      } else {
+        return null
+      }
     }
   },
 
