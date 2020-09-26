@@ -34,7 +34,7 @@ export default {
   },
 
   computed: {
-    mapBoxOptions: function() {
+    mapBoxOptions() {
       return {
         style: "mapbox://styles/mapbox/streets-v10",
         center: [this.item.long, this.item.lat],
@@ -47,30 +47,9 @@ export default {
   methods: {
     mapLoaded(map) {
       const self = this;
-      const geojson = {
-        type: "FeatureCollection",
-        features: [
-          {
-            type: "Feature",
-            geometry: {
-              type: "Point",
-              coordinates: [self.item.long, self.item.lat]
-            },
-            properties: {
-              title: "保育園",
-              description: "保育園"
-            }
-          }
-        ]
-      };
-
-      geojson.features.forEach(marker => {
-        const el = document.createElement("div");
-        el.className = "marker";
-        new mapboxgl.Marker(el)
-          .setLngLat(marker.geometry.coordinates)
-          .addTo(map);
-      });
+      new mapboxgl.Marker()
+        .setLngLat([self.item.long, self.item.lat])
+        .addTo(map);
     }
   }
 };

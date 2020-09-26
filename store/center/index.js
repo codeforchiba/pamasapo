@@ -1,6 +1,10 @@
 export const state = () => ({
   current: undefined,
   items: [],
+  mapHistory:{
+    center: undefined,
+    zoom: undefined,
+  },
   filteredItems: [],
   filters: {
     types: [],

@@ -77,5 +77,8 @@ export default {
 
   filters: state => {
     return state.filters
+  },
+  mapHistory: state => {
+    return state.mapHistory
   }
 };
