@@ -51,11 +51,8 @@
             >
               詳細を見る...
             </v-btn>
-            <div class="flex-grow-1" />
+            <v-spacer />
             <favorite-button :id="dialogData.id" />
-            <v-btn @click="displaySheet = false">
-              閉じる
-            </v-btn>
           </v-card-actions>
         </v-card>
       </v-bottom-sheet>
