@@ -47,12 +47,6 @@
         </v-list-item-content>
       </v-list-item>
     </template>
-    <v-list-item>
-      <v-list-item-content>
-        <v-list-item-subtitle>備考</v-list-item-subtitle>
-        <v-list-item-title>{{ remarks }}</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
   </v-list>
 </template>
 
@@ -72,18 +66,6 @@ export default {
     item: {
       type: Object,
       required: true
-    }
-  },
-
-  computed: {
-    remarks() {
-      if (this.item.nursery) {
-        return this.item.nursery.service.remarks
-      } else if (this.item.afterSchool) {
-        return this.item.afterSchool.service.remarks
-      } else {
-        return null
-      }
     }
   }
 }

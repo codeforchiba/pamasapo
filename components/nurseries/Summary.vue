@@ -46,11 +46,11 @@
         <v-list-item-title>{{ targetAge }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.remarks">
-      <v-flex xs6 sm3>
-        <v-list-item-title>施設基本情報備考</v-list-item-title>
-      </v-flex>
-      <v-list-item-content>{{ item.remarks }}</v-list-item-content>
+    <v-list-item>
+      <v-list-item-content>
+        <v-list-item-subtitle>備考</v-list-item-subtitle>
+        <v-list-item-title>{{ remarks }}</v-list-item-title>
+      </v-list-item-content>
     </v-list-item>
   </v-list>
 </template>
@@ -87,6 +87,20 @@ export default {
     targetAge() {
       return `${this.item.nursery.facility.ageFrom} 〜 ${this.item.nursery.facility.ageTo}歳`;
     },
+    
+    remarks() {
+      let remarks;
+      if (this.item.nursery) {
+        remarks = this.item.remarks + 
+                  this.item.nursery.facility.remarks + 
+                  this.item.nursery.service.remarks;
+      } else if (this.item.afterSchool) {
+        remarks = this.item.remarks + 
+                  this.item.afterSchool.facility.remarks + 
+                  this.item.afterSchool.service.remarks;
+      }
+      return remarks ? remarks:"なし";
+    }
   },
 
   methods: {
