@@ -306,6 +306,13 @@ export default {
             self.setDialog("end_time", nursery.facility.closingTime);
             self.setDialog("type", nursery.facility.nurseryType);
           }
+
+          const afterSchool = JSON.parse(properties.afterSchool);
+          if (afterSchool !== null) {
+            self.setDialog("start_time", afterSchool.facility.openingTime);
+            self.setDialog("end_time", afterSchool.facility.closingTime);
+            self.setDialog("type", afterSchool.facility.ownership);
+          }
           self.showDialog();
         });
         map.on('zoom', function(){
