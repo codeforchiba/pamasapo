@@ -39,7 +39,7 @@ function generateType(item) {
     const type = _.find(centerTypes.nursery, { value: item.nursery.facility.nurseryType })
     return type.name
   } else {
-    return 'こどもルーム'
+    return _.first(centerTypes.afterSchool).name
   }
 }
 
