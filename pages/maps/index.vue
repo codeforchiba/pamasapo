@@ -51,11 +51,8 @@
             >
               詳細を見る...
             </v-btn>
-            <div class="flex-grow-1" />
+            <v-spacer />
             <favorite-button :id="dialogData.id" />
-            <v-btn @click="displaySheet = false">
-              閉じる
-            </v-btn>
           </v-card-actions>
         </v-card>
       </v-bottom-sheet>
@@ -308,6 +305,13 @@ export default {
             self.setDialog("start_time", nursery.facility.openingTime);
             self.setDialog("end_time", nursery.facility.closingTime);
             self.setDialog("type", nursery.facility.nurseryType);
+          }
+
+          const afterSchool = JSON.parse(properties.afterSchool);
+          if (afterSchool !== null) {
+            self.setDialog("start_time", afterSchool.facility.openingTime);
+            self.setDialog("end_time", afterSchool.facility.closingTime);
+            self.setDialog("type", afterSchool.facility.ownership);
           }
           self.showDialog();
         });

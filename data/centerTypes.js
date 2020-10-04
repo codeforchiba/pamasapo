@@ -11,7 +11,7 @@ const centerTypes = {
     { id: "NI", name: "認可外保育園", value: "認可外保育所" }
   ],
   afterSchool: [
-    { id: "AA", name: "こどもルーム", value: "こどもルーム" }
+    { id: "AA", name: "子どもルーム", value: "子どもルーム" }
   ]
 }
 
