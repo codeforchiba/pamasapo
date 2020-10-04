@@ -49,9 +49,11 @@
     <v-list-item>
       <v-list-item-content>
         <v-list-item-subtitle>備考</v-list-item-subtitle>
-        <v-list-item-title>{{ remarks }}</v-list-item-title>
-        <v-list-item-title>{{ facilityRemarks }}</v-list-item-title>
-        <v-list-item-title>{{ serviceRemarks }}</v-list-item-title>
+        <v-list-item-title>
+          <p>{{ remarks }}</p>
+          <p>{{ facilityRemarks }}</p>
+          <p>{{ serviceRemarks }}</p>
+        </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
   </v-list>
@@ -91,8 +93,7 @@ export default {
     },
     
     remarks() {
-      const remarks = this.item.remarks;
-      return remarks;
+      return this.item.remarks;
     },
 
     facilityRemarks() {
