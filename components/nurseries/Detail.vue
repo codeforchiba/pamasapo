@@ -1,18 +1,14 @@
 <template>
   <v-list dense>
     <v-list-item>
-      <v-list-item-content>
+      <v-list-item-content v-if="item.nursery">
         <v-list-item-subtitle>定員</v-list-item-subtitle>
-        <v-list-item-title v-if="item.nursery">
+        <v-list-item-title>
           3歳未満児(3号) {{ item.nursery.facility.capacity1 }}名 /
           3歳以上児(2号) {{ item.nursery.facility.capacity2 }}名
           <template v-if="item.nursery.facility.capacity3">
             / 教育認定(1号) {{ item.nursery.facility.capacity3 }}名
           </template>
-        </v-list-item-title>
-        <v-list-item-title v-if="item.afterSchool">
-          全(低)学年 {{ item.afterSchool.facility.capacityAllGrade }}名 /
-          高学年 {{ item.afterSchool.facility.capacityHighGrade }}名
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
