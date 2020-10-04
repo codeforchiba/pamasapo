@@ -34,9 +34,9 @@
       <v-list-item-content>
         <v-list-item-subtitle>ウェブサイト</v-list-item-subtitle>
         <v-list-item-title>
-          <router-link :to="item.website" target="_blank">
+          <a :href="item.website" target="_blank">
             {{ item.website }}
-          </router-link>
+          </a>
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
