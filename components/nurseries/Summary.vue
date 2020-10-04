@@ -50,9 +50,15 @@
       <v-list-item-content>
         <v-list-item-subtitle>備考</v-list-item-subtitle>
         <v-list-item-title>
-          <p>{{ remarks }}</p>
-          <p>{{ facilityRemarks }}</p>
-          <p>{{ serviceRemarks }}</p>
+          <p v-if="item.nursery">
+            {{ remarks }}
+          </p>
+          <p v-if="item.nursery">
+            {{ facilityRemarks }}
+          </p>
+          <p v-if="item.nursery">
+            {{ serviceRemarks }}
+          </p>
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
