@@ -50,6 +50,8 @@
       <v-list-item-content>
         <v-list-item-subtitle>備考</v-list-item-subtitle>
         <v-list-item-title>{{ remarks }}</v-list-item-title>
+        <v-list-item-title>{{ facilityRemarks }}</v-list-item-title>
+        <v-list-item-title>{{ serviceRemarks }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
   </v-list>
@@ -89,17 +91,28 @@ export default {
     },
     
     remarks() {
+      const remarks = this.item.remarks;
+      return remarks;
+    },
+
+    facilityRemarks() {
       let remarks;
       if (this.item.nursery) {
-        remarks = this.item.remarks + 
-                  this.item.nursery.facility.remarks + 
-                  this.item.nursery.service.remarks;
+        remarks = this.item.nursery.facility.remarks
       } else if (this.item.afterSchool) {
-        remarks = this.item.remarks + 
-                  this.item.afterSchool.facility.remarks + 
-                  this.item.afterSchool.service.remarks;
+        remarks = this.item.afterSchool.facility.remarks
       }
-      return remarks ? remarks:"なし";
+      return remarks;
+    },
+
+    serviceRemarks() {
+      let remarks;
+      if (this.item.nursery) {
+        remarks = this.item.nursery.service.remarks;
+      } else if (this.item.afterSchool) {
+        remarks = this.item.afterSchool.service.remarks;
+      }
+      return remarks;
     }
   },
 
