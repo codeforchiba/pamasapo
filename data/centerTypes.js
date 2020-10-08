@@ -8,7 +8,7 @@ const centerTypes = {
     { id: "NF", name: "居宅訪問型保育", value: "居宅訪問型保育" },
     { id: "NG", name: "千葉市認可保育園", value: "認可外保育所" },
     { id: "NH", name: "幼稚園", value: "幼稚園" },
-    { id: "NI", name: "認可外保育園", value: "認可外保育所" }
+    { id: "NI", name: "認可外保育園", value: "認可外保育施設" }
   ],
   afterSchool: [
     { id: "AA", name: "子どもルーム", value: "子どもルーム" }
