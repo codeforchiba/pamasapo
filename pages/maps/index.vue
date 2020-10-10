@@ -338,4 +338,8 @@ export default {
   bottom: 0;
   width: 100%;
 }
+
+.v-toolbar__title {
+  white-space: normal;
+}
 </style>
