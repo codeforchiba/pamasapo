@@ -5,12 +5,13 @@ const envConfig = require(`./config/environments/${environment}.js`);
 
 const containerId = process.env.GTM_CONTAINER_ID;
 
-const title = "ちば保育園マップ powered by Code for Chiba";
+const serviceName  = 'ちばこどもマップ'
+const title = `${serviceName} powered by Code for Chiba`;
 const description = "千葉市在住在勤の忙しいパパママの子育てを応援するため、" +
-  "簡単にお好みの保育施設を探せるサービスです。";
+  "簡単にお好みの保育施設や学童施設を探せるサービスです。";
 
 module.exports = {
-  mode: "spa",
+  ssr: false,
 
   /*
    ** Headers of the page
@@ -20,7 +21,7 @@ module.exports = {
       prefix: 'og: http://ogp.me/ns#'
     },
     titleTemplate: (titleChunk) => {
-      return titleChunk ?  `${titleChunk} - ちば保育園マップ` : "ちば保育園マップ powered by Code for Chiba"
+      return titleChunk ?  `${titleChunk} - ちばこどもマップ` : "ちばこどもマップ powered by Code for Chiba"
     },
     meta: [
       { charset: "utf-8" },
@@ -37,7 +38,7 @@ module.exports = {
     ],
     link: [
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-      { rel: "stylesheet", href: "https://api.tiles.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.css" }
+      { rel: "stylesheet", href: "https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" }
     ]
   },
   plugins: [
@@ -54,6 +55,11 @@ module.exports = {
   build: {
     extractCSS: true,
     vendor: ['@typeform/embed'],
+    loaders: {
+      vue: {
+        prettify: false
+      }
+    },
     plugins: [
       new webpack.ProvidePlugin({
         mapboxgl: "mapbox-gl"

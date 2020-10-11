@@ -12,45 +12,55 @@
         <v-list-item-title>{{ businessHours }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.nursery.phone">
+    <v-list-item v-if="item.phone">
       <v-list-item-content>
         <v-list-item-subtitle>電話番号</v-list-item-subtitle>
-        <v-list-item-title>{{ item.nursery.phone }}</v-list-item-title>
+        <v-list-item-title>{{ item.phone }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.nursery.fax">
+    <v-list-item v-if="item.fax">
       <v-list-item-content>
         <v-list-item-subtitle>FAX番号</v-list-item-subtitle>
-        <v-list-item-title>{{ item.nursery.fax }}</v-list-item-title>
+        <v-list-item-title>{{ item.fax }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.nursery.email">
+    <v-list-item v-if="item.email">
       <v-list-item-content>
         <v-list-item-subtitle>メールアドレス</v-list-item-subtitle>
-        <v-list-item-title>{{ item.nursery.email }}</v-list-item-title>
+        <v-list-item-title>{{ item.email }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.nursery.website">
+    <v-list-item v-if="item.website">
       <v-list-item-content>
         <v-list-item-subtitle>ウェブサイト</v-list-item-subtitle>
         <v-list-item-title>
-          <router-link :to="item.nursery.website" target="_blank">
-            {{ item.nursery.website }}
-          </router-link>
+          <a :href="item.website" target="_blank">
+            {{ item.website }}
+          </a>
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item>
+    <v-list-item v-if="item.nursery && (item.nursery.facility.ageFrom || item.nursery.facility.ageTo)">
       <v-list-item-content>
         <v-list-item-subtitle>対象年齢</v-list-item-subtitle>
         <v-list-item-title>{{ targetAge }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.nursery.remarks_basic">
-      <v-flex xs6 sm3>
-        <v-list-item-title>施設基本情報備考</v-list-item-title>
-      </v-flex>
-      <v-list-item-content>{{ item.nursery.remarks_basic }}</v-list-item-content>
+    <v-list-item>
+      <v-list-item-content>
+        <v-list-item-subtitle>備考</v-list-item-subtitle>
+        <v-list-item-title>
+          <p v-if="remarks">
+            {{ remarks }}
+          </p>
+          <p v-if="facilityRemarks">
+            {{ facilityRemarks }}
+          </p>
+          <p v-if="serviceRemarks">
+            {{ serviceRemarks }}
+          </p>
+        </v-list-item-title>
+      </v-list-item-content>
     </v-list-item>
   </v-list>
 </template>
@@ -66,15 +76,51 @@ export default {
 
   computed: {
     businessHours() {
+      let openingTime
+      let closingTime
+      
+      if (this.item.nursery) {
+        openingTime = this.item.nursery.facility.openingTime
+        closingTime = this.item.nursery.facility.closingTime
+      }
+      else if (this.item.afterSchool) {
+        openingTime = this.item.afterSchool.facility.openingTime
+        closingTime = this.item.afterSchool.facility.closingTime
+      }
+
       return this.period(
-        this.item.nursery.facility.openingTime,
-        this.item.nursery.facility.closingTime
+        openingTime,
+        closingTime
       );
     },
 
     targetAge() {
       return `${this.item.nursery.facility.ageFrom} 〜 ${this.item.nursery.facility.ageTo}歳`;
     },
+    
+    remarks() {
+      return this.item.remarks;
+    },
+
+    facilityRemarks() {
+      let remarks;
+      if (this.item.nursery) {
+        remarks = this.item.nursery.facility.remarks
+      } else if (this.item.afterSchool) {
+        remarks = this.item.afterSchool.facility.remarks
+      }
+      return remarks;
+    },
+
+    serviceRemarks() {
+      let remarks;
+      if (this.item.nursery) {
+        remarks = this.item.nursery.service.remarks;
+      } else if (this.item.afterSchool) {
+        remarks = this.item.afterSchool.service.remarks;
+      }
+      return remarks;
+    }
   },
 
   methods: {

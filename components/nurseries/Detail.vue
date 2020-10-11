@@ -1,7 +1,7 @@
 <template>
   <v-list dense>
     <v-list-item>
-      <v-list-item-content>
+      <v-list-item-content v-if="item.nursery">
         <v-list-item-subtitle>定員</v-list-item-subtitle>
         <v-list-item-title>
           3歳未満児(3号) {{ item.nursery.facility.capacity1 }}名 /
@@ -12,28 +12,22 @@
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.nursery.facility.areaOfNurseryRoom">
+    <v-list-item v-if="item.nursery && item.nursery.facility.areaOfNurseryRoom">
       <v-list-item-content>
         <v-list-item-subtitle>保育室の広さ</v-list-item-subtitle>
         <v-list-item-title>{{ item.nursery.facility.areaOfNurseryRoom }}㎡</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.nursery.facility.hasYard">
+    <v-list-item v-if="item.nursery && item.nursery.facility.hasYard">
       <v-list-item-content>
         <v-list-item-subtitle>園庭の広さ</v-list-item-subtitle>
         <v-list-item-title>{{ item.nursery.facility.areaOfYard }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item v-if="item.nursery.facility.hasParkingLot">
+    <v-list-item v-if="item.nursery && item.nursery.facility.hasParkingLot">
       <v-list-item-content>
         <v-list-item-subtitle>駐車場台数</v-list-item-subtitle>
         <v-list-item-title>{{ item.nursery.facility.numberOfParkingLot }}台</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-    <v-list-item v-if="item.nursery.facility.remarksFacility">
-      <v-list-item-content>
-        <v-list-item-subtitle>備考</v-list-item-subtitle>
-        <v-list-item-title>{{ item.nursery.facility.remarksFacility }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
   </v-list>

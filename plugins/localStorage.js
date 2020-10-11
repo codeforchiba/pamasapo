@@ -6,7 +6,9 @@ export default ({ store }) => {
       key: "vuex",
       paths: [
         "favorite.items",
-        "recent.histories"
+        "recent.histories",
+        "center.mapHistory.center",
+        "center.mapHistory.zoom",
       ]
     })(store);
   });
