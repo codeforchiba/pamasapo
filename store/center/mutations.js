@@ -44,7 +44,7 @@ function generateType(item) {
 }
 
 function fullAddress(item) {
-  return `${item.prefecture}${item.city}${item.ward}${item.address}`
+  return `${item.prefecture}${item.city}${item.ward !== null ? item.ward : ''}${item.address}`
 }
 
 function extendProps(item) {

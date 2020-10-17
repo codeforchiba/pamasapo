@@ -296,7 +296,7 @@ export default {
             "address",
             properties.prefecture +
             properties.city +
-            properties.ward +
+            (properties.ward !== 'null' ? properties.ward : '') +
             properties.address
           );
 
