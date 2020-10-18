@@ -35,7 +35,7 @@
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>時間</v-list-item-title>
+                <v-list-item-title>受入時間</v-list-item-title>
                 <v-list-item-subtitle>
                   {{ dialogData.start_time }}〜{{ dialogData.end_time }}
                 </v-list-item-subtitle>

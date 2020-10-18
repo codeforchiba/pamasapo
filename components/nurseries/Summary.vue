@@ -8,7 +8,7 @@
     </v-list-item>
     <v-list-item>
       <v-list-item-content>
-        <v-list-item-subtitle>開園時間</v-list-item-subtitle>
+        <v-list-item-subtitle>受入時間</v-list-item-subtitle>
         <v-list-item-title>{{ businessHours }}</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
