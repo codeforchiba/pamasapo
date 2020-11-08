@@ -35,7 +35,7 @@
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>時間</v-list-item-title>
+                <v-list-item-title>受入時間</v-list-item-title>
                 <v-list-item-subtitle>
                   {{ dialogData.start_time }}〜{{ dialogData.end_time }}
                 </v-list-item-subtitle>
@@ -296,7 +296,7 @@ export default {
             "address",
             properties.prefecture +
             properties.city +
-            properties.ward +
+            (properties.ward !== 'null' ? properties.ward : '') +
             properties.address
           );
 
@@ -337,5 +337,9 @@ export default {
   top: 0;
   bottom: 0;
   width: 100%;
+}
+
+.v-toolbar__title {
+  white-space: normal;
 }
 </style>
