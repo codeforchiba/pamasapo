@@ -14,45 +14,41 @@
     </client-only>
     <div>
       <v-bottom-sheet v-model="displaySheet">
-        <v-card>
+        <v-card v-if="selectedData">
           <v-toolbar dark color="primary">
             <v-btn icon dark @click="displaySheet = false">
               <v-icon>close</v-icon>
             </v-btn>
-            <v-toolbar-title>
-              {{ dialogData.title }} ({{ dialogData.type }})
-            </v-toolbar-title>
             <v-spacer />
+            <favorite-button :id="selectedDataId" />
           </v-toolbar>
-          <v-list three-line subheader>
+          <v-list two-line>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>住所</v-list-item-title>
+                <v-list-item-title>
+                  {{ selectedData.name }}
+                </v-list-item-title>
                 <v-list-item-subtitle>
-                  {{ dialogData.address }}
+                  {{ selectedData.address }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>受入時間</v-list-item-title>
-                <v-list-item-subtitle>
-                  {{ dialogData.start_time }}〜{{ dialogData.end_time }}
-                </v-list-item-subtitle>
+                <tag-bar :item="selectedData" :small="true" />
               </v-list-item-content>
             </v-list-item>
           </v-list>
           <v-card-actions>
+            <v-spacer />
             <v-btn
               text
               color="deep-purple accent-4"
-              :to="`/nurseries/${dialogData.id}`"
+              :to="`/nurseries/${selectedDataId}`"
               nuxt
             >
               詳細を見る...
             </v-btn>
-            <v-spacer />
-            <favorite-button :id="dialogData.id" />
           </v-card-actions>
         </v-card>
       </v-bottom-sheet>
@@ -61,21 +57,27 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import Mapbox from "mapbox-gl-vue";
 import {mapGetters, mapMutations} from "vuex";
 
 import FavoriteButton from "~/components/FavoriteButton";
+import TagBar from "~/components/nurseries/TagBar";
+
+import mapCategories from "~/data/mapCategories";
 
 import MapIcon1 from "~/assets/map_icons/1.png";
 import MapIcon2 from "~/assets/map_icons/2.png";
 import MapIcon3 from "~/assets/map_icons/3.png";
 import MapIcon4 from "~/assets/map_icons/4.png";
-import {UPDATE_MAP_HISTORY_CENTER, UPDATE_MAP_HISTORY_ZOOM} from "../../store/mutation-types";
+
+import { UPDATE_MAP_HISTORY_CENTER, UPDATE_MAP_HISTORY_ZOOM } from "@/store/mutation-types";
 
 export default {
   components: {
     Mapbox,
-    FavoriteButton
+    FavoriteButton,
+    TagBar
   },
 
   async fetch({ store }) {
@@ -90,7 +92,7 @@ export default {
 
   data() {
     return {
-      displaySheet: false,
+      defaultCenter: [140.13217, 35.590360000000004],
       mapBoxOptions: {
         style: process.env.mapbox.style,
         center: [140.13217, 35.590360000000004],
@@ -98,15 +100,8 @@ export default {
         localIdeographFontFamily: "'Noto Sans', 'Noto Sans CJK SC', sans-serif"
       },
       navControl: { show: true, position: "top-right" },
-      dialogData: {
-        id: "",
-        title: "開発中の画面です。タイトル",
-        address: "千葉県松戸市五香1-1-1",
-        aki: "",
-        start_time: "00:00",
-        end_time: "00:00",
-        type: "type"
-      }
+      displaySheet: false,
+      selectedData: undefined
     };
   },
 
@@ -114,38 +109,29 @@ export default {
     ...mapGetters({
       centers: "center/items",
       mapHistory: 'center/mapHistory',
-    })
+    }),
+
+    selectedDataId() {
+      return _.isNil(this.selectedData) ? null : this.selectedData.id
+    }
   },
 
   methods: {
+    ...mapMutations({
+      updateMapHistoryCenter: UPDATE_MAP_HISTORY_CENTER,
+      updateMapHistoryZoom: UPDATE_MAP_HISTORY_ZOOM,
+    }),
+
     showDialog() {
       this.displaySheet = true;
     },
 
-    setDialog(key, value) {
-      this.dialogData[key] = value;
-    },
-
-    clearDialog() {
-      for (const x in Object.keys(this.dialogData)) {
-        this.setDialog(x, '')
-      }
-    },
-
     mapLoaded(map) {
       // zoom処理mapInitだとvuexからlocalstorageの値が取れない
-      const {zoom,center} = this.mapHistory
+      const { zoom, center } = this.mapHistory
 
-      if (typeof zoom === 'undefined') {
-        map.setZoom(10)
-      } else {
-        map.setZoom(zoom)
-      }
-      if (typeof center === 'undefined') {
-        map.setCenter([140.13217, 35.590360000000004])
-      } else {
-        map.setCenter(center)
-      }
+      map.setZoom(_.isNil(zoom) ? 10 : zoom)
+      map.setCenter(_.isNil(center) ? this.defaultCenter : center)
 
       map.addLayer({
         id: "station",
@@ -162,37 +148,6 @@ export default {
           "text-offset": [0, 0.6]
         }
       });
-
-      // mapboxのfilterではnestしたpropertyを読めないのでデータ加工する
-      // https://github.com/mapbox/feature-filter/issues/13
-      const self = this;
-      const features = this.centers.map(item => {
-        // TODO: 仕方ないのでデータ加工する
-        // かなり良くない実装なので種別を確実に判定できるカラムをを必ず追加すること
-        item['nurseryType'] =  ""
-        if (
-          item.nursery !== null &&
-          item.nursery.facility !== null &&
-          item.nursery.facility.nurseryType !== null
-        ) {
-          item['nurseryType'] = item.nursery.facility.nurseryType
-        } else if (typeof item['afterSchool'] !== 'undefined') {
-          item['nurseryType'] = '学童'
-        }
-        return {
-          type: "Feature",
-          geometry: {
-            type: "Point",
-            coordinates: [item.long, item.lat]
-          },
-          properties: item
-        };
-      });
-      // console.log(this.centers);
-      const geojson = {
-        type: "FeatureCollection",
-        features: features
-      };
 
       // 幼稚園
       map.loadImage(MapIcon1, (error, image) => {
@@ -217,6 +172,23 @@ export default {
         if (error) throw error;
         map.addImage("icon4", image, { width: 1, height: 1 });
       });
+
+      const features = _.chain(this.centers)
+        .map(item => {
+          return {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: [ item.long, item.lat ]
+            },
+            properties: item
+          }
+        });
+
+      const geojson = {
+        type: "FeatureCollection",
+        features: features
+      };
 
       // nurser
       map.addSource("nursery", {
@@ -251,24 +223,10 @@ export default {
         }
       });
 
-      const nurseryTypes = [
-        {id: 1, title: '幼稚園'},
-        {id: 2, title: '認可外'},
-        {id: 3, title: '保育園'},
-        {id: 4, title: '学童'},
-      ]
-      // console.log(nurseryTypes)
-
       // 種別でループする
-      for(const index in nurseryTypes){
-        // なぜかindexでしかとれない。。。
-        const item = nurseryTypes[index]
-        // console.log(item)
-        const nurseryTypeId = item['id']
-        const nurseryTypeTitle = item['title']
-        const layerId = `nursery${nurseryTypeId}`
-        // console.log(layerId)
-        // console.log(nurseryTypeTitle)
+      _.forEach(mapCategories, (c) => {
+        const layerName = c.name
+        const layerId = `map${layerName}`
 
         map.addLayer({
           id: layerId,
@@ -278,55 +236,38 @@ export default {
           source: "nursery",
           filter: ["all",
             ["!has", "point_count"],
-            ['==', 'nurseryType', nurseryTypeTitle],
+            ['==', 'mapCategory', layerName],
           ],
           layout: {
             "icon-allow-overlap": true,
-            "icon-image": `icon${nurseryTypeId}`,
+            "icon-image": c.icon,
             "icon-size": 0.5
           }
         });
 
-        map.on("click", layerId, function(e) {
-          const properties = e.features[0].properties;
-          self.clearDialog();
-          self.setDialog("id", properties.id);
-          self.setDialog("title", properties.name);
-          self.setDialog(
-            "address",
-            properties.prefecture +
-            properties.city +
-            (properties.ward !== 'null' ? properties.ward : '') +
-            properties.address
-          );
-
-          const nursery = JSON.parse(properties.nursery);
-          if(nursery !== null) {
-            self.setDialog("start_time", nursery.facility.openingTime);
-            self.setDialog("end_time", nursery.facility.closingTime);
-            self.setDialog("type", nursery.facility.nurseryType);
+        map.on("click", layerId, (e) => {
+          const item = e.features[0].properties
+          this.selectedData = {
+            id: item.id,
+            name: item.name,
+            address: item.fullAddress,
+            // GeoJSON では、Value に Object を持てないため Stringify されているので復元する
+            tags: JSON.parse(item.tags),
+            mapCategory: item.mapCategory
           }
 
-          const afterSchool = JSON.parse(properties.afterSchool);
-          if (afterSchool !== null) {
-            self.setDialog("start_time", afterSchool.facility.openingTime);
-            self.setDialog("end_time", afterSchool.facility.closingTime);
-            self.setDialog("type", afterSchool.facility.ownership);
-          }
-          self.showDialog();
+          this.showDialog();
         });
-        map.on('zoom', function(){
-          self.updateMapHistoryZoom(map.getZoom())
+
+        map.on('zoom', () => {
+          this.updateMapHistoryZoom(map.getZoom())
         })
-        map.on('dragend', function () {
-          self.updateMapHistoryCenter(map.getCenter())
+
+        map.on('dragend', () => {
+          this.updateMapHistoryCenter(map.getCenter())
         })
-      }
-    },
-    ...mapMutations({
-      updateMapHistoryCenter: UPDATE_MAP_HISTORY_CENTER,
-      updateMapHistoryZoom: UPDATE_MAP_HISTORY_ZOOM,
-    })
+      })
+    }
   }
 };
 </script>
@@ -337,9 +278,5 @@ export default {
   top: 0;
   bottom: 0;
   width: 100%;
-}
-
-.v-toolbar__title {
-  white-space: normal;
 }
 </style>
