@@ -34,12 +34,11 @@ function generateTags(item) {
   return tags
 }
 
-function generateType(item) {
+function detectType(item) {
   if (item.nursery) {
-    const type = _.find(centerTypes.nursery, { value: item.nursery.facility.nurseryType })
-    return type.name
+    return _.find(centerTypes.nursery, { value: item.nursery.facility.nurseryType })
   } else {
-    return _.first(centerTypes.afterSchool).name
+    return _.first(centerTypes.afterSchool)
   }
 }
 
@@ -48,7 +47,9 @@ function fullAddress(item) {
 }
 
 function extendProps(item) {
-  item.type = generateType(item)
+  const type = detectType(item)
+  item.type = type.name
+  item.mapCategory = type.mapCategory
   item.tags = generateTags(item)
   item.fullAddress = fullAddress(item)
   return item
@@ -91,6 +92,7 @@ export default {
   UPDATE_MAP_HISTORY_ZOOM(state, zoom){
     state.mapHistory.zoom = zoom;
   },
+
   UPDATE_MAP_HISTORY_CENTER(state, center){
     state.mapHistory.center = center;
   }
