@@ -20,7 +20,7 @@
     "graphql-tag": "2.11.0",
     "lodash": "4.17.20",
     "luxon": "1.25.0",
-    "mapbox-gl": "1.13.0",
+    "mapbox-gl": "2.0.1",
     "mapbox-gl-vue": "2.0.4",
     "nuxt": "2.14.12",
     "serialize-error": "8.0.0",
