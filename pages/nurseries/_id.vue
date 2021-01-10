@@ -55,13 +55,19 @@ export default {
     "map-view": Map
   },
 
+  data() {
+    return {
+      title: this.item ? this.item.name : ''
+    }
+  },
+
   async fetch({ store, params }) {
     await store.dispatch("center/load", params.id);
   },
 
-  data() {
+  head() {
     return {
-      title: this.item ? this.item.name : ''
+      title: this.title
     }
   },
 
@@ -79,12 +85,6 @@ export default {
     ...mapMutations({
       addHistory: ADD_HISTORY
     })
-  },
-
-  head() {
-    return {
-      title: this.title
-    }
   }
 };
 </script>

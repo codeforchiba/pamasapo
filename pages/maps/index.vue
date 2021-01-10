@@ -80,10 +80,6 @@ export default {
     TagBar
   },
 
-  async fetch({ store }) {
-    await store.dispatch("center/search");
-  },
-
   asyncData(context) {
     return {
       accessToken: context.env.mapbox.accessToken
@@ -103,6 +99,10 @@ export default {
       displaySheet: false,
       selectedData: undefined
     };
+  },
+
+  async fetch({ store }) {
+    await store.dispatch("center/search");
   },
 
   computed: {

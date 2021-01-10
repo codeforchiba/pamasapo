@@ -44,13 +44,19 @@ export default {
     TagBar
   },
 
+  data() {
+    return {
+      title: 'お気に入り'
+    }
+  },
+
   async fetch({ store }) {
     await store.dispatch("center/search");
   },
 
-  data() {
+  head() {
     return {
-      title: 'お気に入り'
+      title: this.title
     }
   },
 
@@ -72,12 +78,6 @@ export default {
   methods: {
     open(item) {
       this.$router.push(`/nurseries/${item.id}`);
-    }
-  },
-
-  head() {
-    return {
-      title: this.title
     }
   }
 };
