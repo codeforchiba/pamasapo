@@ -19,7 +19,7 @@
     "aws-appsync": "4.0.1",
     "graphql-tag": "2.11.0",
     "lodash": "4.17.20",
-    "luxon": "1.25.0",
+    "luxon": "1.26.0",
     "mapbox-gl": "2.0.1",
     "mapbox-gl-vue": "2.0.4",
     "nuxt": "2.14.12",
