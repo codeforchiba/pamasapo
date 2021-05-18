@@ -55,13 +55,19 @@ export default {
     TagBar
   },
 
+  data() {
+    return {
+      title: '閲覧履歴'
+    }
+  },
+
   async fetch({ store }) {
     await store.dispatch("center/search");
   },
 
-  data() {
+  head() {
     return {
-      title: '閲覧履歴'
+      title: this.title
     }
   },
 
@@ -90,12 +96,6 @@ export default {
     clear() {
       this.clearHistory();
       this.notify({ type: 'info', message: '履歴を削除しました。' })
-    }
-  },
-
-  head() {
-    return {
-      title: this.title
     }
   }
 };
