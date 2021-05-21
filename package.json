@@ -15,32 +15,32 @@
   },
   "dependencies": {
     "@nuxtjs/google-tag-manager": "2.3.2",
-    "@typeform/embed": "0.25.0",
-    "aws-appsync": "4.0.1",
-    "graphql-tag": "2.11.0",
-    "lodash": "4.17.20",
-    "luxon": "1.25.0",
-    "mapbox-gl": "1.12.0",
+    "@typeform/embed": "0.25.4",
+    "aws-appsync": "4.0.3",
+    "graphql-tag": "2.12.4",
+    "lodash": "4.17.21",
+    "luxon": "1.27.0",
+    "mapbox-gl": "2.2.0",
     "mapbox-gl-vue": "2.0.4",
-    "nuxt": "2.14.5",
-    "serialize-error": "7.0.1",
-    "vuex-persistedstate": "3.1.0"
+    "nuxt": "2.15.6",
+    "serialize-error": "8.0.0",
+    "vuex-persistedstate": "3.2.0"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "1.11.2",
+    "@nuxtjs/vuetify": "1.11.3",
     "babel-eslint": "10.1.0",
-    "eslint": "7.9.0",
+    "eslint": "7.26.0",
     "eslint-loader": "4.0.2",
-    "eslint-plugin-import": "2.22.0",
+    "eslint-plugin-import": "2.23.2",
     "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "4.2.1",
-    "eslint-plugin-standard": "4.0.1",
-    "eslint-plugin-vue": "6.2.2",
-    "sass": "1.26.11",
-    "sass-loader": "10.0.2"
+    "eslint-plugin-promise": "5.1.0",
+    "eslint-plugin-standard": "5.0.0",
+    "eslint-plugin-vue": "7.9.0",
+    "sass": "1.32.13",
+    "sass-loader": "10.1.0"
   },
   "engines": {
-    "node": "^10.0.0",
-    "npm": "^6.0.0"
+    "node": "^14.0.0",
+    "npm": ">=6.0.0"
   }
 }
